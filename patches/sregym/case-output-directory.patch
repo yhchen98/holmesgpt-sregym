@@ -1,0 +1,11 @@
+--- a/main.py
++++ b/main.py
+@@ -274,7 +274,7 @@
+                     "Benchmark interrupted by user.", [{agent_to_run: all_results_for_agent}]
+                 )
+
+-        base_dir = Path("results") / get_current_datetime_formatted()
++        base_dir = Path(os.environ["SREGYM_RESULT_DIR"]) if "SREGYM_RESULT_DIR" in os.environ else Path("results") / get_current_datetime_formatted()
+         base_dir.mkdir(parents=True, exist_ok=True)
+         global _driver_base_dir
+         _driver_base_dir = base_dir

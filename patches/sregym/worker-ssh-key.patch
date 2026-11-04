@@ -1,0 +1,19 @@
+--- a/sregym/generators/fault/inject_remote_os.py
++++ b/sregym/generators/fault/inject_remote_os.py
+@@ -95,9 +95,14 @@
+     def _ssh_exec(self, host: str, user: str, command: str):
+         """Run a command on a remote host via SSH."""
+         ssh = paramiko.SSHClient()
+-        ssh.set_missing_host_key_policy(AutoAddPolicy())
++        key_file = os.environ.get("SREGYM_WORKER_SSH_KEY")
++        if key_file:
++            ssh.load_system_host_keys()
++            ssh.set_missing_host_key_policy(paramiko.RejectPolicy())
++        else:
++            ssh.set_missing_host_key_policy(AutoAddPolicy())
+         try:
+-            ssh.connect(host, username=user)
++            ssh.connect(host, username=user, key_filename=key_file)
+             stdin, stdout, stderr = ssh.exec_command(command)
+             stdout.channel.recv_exit_status()
+             return stdout.read().decode()

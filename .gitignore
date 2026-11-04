@@ -1,0 +1,17 @@
+.work/
+private/
+config.json
+.venv/
+__pycache__/
+*.py[cod]
+.env
+*.key
+*.pem
+*.anthropic_api_key
+*.log
+
+# Local implementation notes; keep them out of shared history.
+/AGENTS.md
+/PLAN.md
+/QA.md
+/TASK.md

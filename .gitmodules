@@ -1,0 +1,6 @@
+[submodule "upstream/SREGym"]
+	path = upstream/SREGym
+	url = https://github.com/SREGym/SREGym.git
+[submodule "upstream/holmesgpt"]
+	path = upstream/holmesgpt
+	url = https://github.com/HolmesGPT/holmesgpt.git

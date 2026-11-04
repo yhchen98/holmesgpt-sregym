@@ -1,0 +1,10 @@
+--- a/agents.yaml
++++ b/agents.yaml
+@@ -121,3 +121,7 @@
+       MINI_SRE_DIAGNOSIS_SHARE: "0.667"  # share of --agent-timeout diagnosis may use; mitigation has the rest
+     install_script: null
+     agent_version: null
++  - name: holmesgpt
++    kickoff_command: python3 -m runtime.agent
++    kickoff_workdir: /opt/sregym
++    container_isolation: true

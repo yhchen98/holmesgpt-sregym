@@ -1,0 +1,15 @@
+--- a/llm_backend/get_llm_backend.py
++++ b/llm_backend/get_llm_backend.py
+@@ -107,9 +107,10 @@
+             raise ValueError(f"messages must be either a string or a list of dicts, but got {type(messages)}")
+
+         model_config = {"model": self.model_name}
+-        if self.temperature is not None:
++        skip_sampling = "claude-sonnet-5-5" in self.model_name.lower()
++        if self.temperature is not None and not skip_sampling:
+             model_config["temperature"] = self.temperature
+-        if self.top_p is not None:
++        if self.top_p is not None and not skip_sampling:
+             model_config["top_p"] = self.top_p
+         if self.api_key is not None:
+             model_config["api_key"] = self.api_key

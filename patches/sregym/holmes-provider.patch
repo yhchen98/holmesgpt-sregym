@@ -1,0 +1,11 @@
+--- a/sregym/service/provider_endpoints.py
++++ b/sregym/service/provider_endpoints.py
+@@ -84,7 +84,7 @@
+         if provider == "local":
+             return _required_custom_base(environment, agent, model)
+         return _provider_rules(provider, environment)
+-    if agent in {"stratus", "mini-sre"}:
++    if agent in {"stratus", "mini-sre", "holmesgpt"}:
+         if _configured_url(environment, "AGENT_API_BASE"):
+             return _required_custom_base(environment, agent, model)
+         return _provider_rules(_provider_from_model(model), environment)

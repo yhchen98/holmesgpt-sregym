@@ -1,0 +1,42 @@
+--- a/holmes/plugins/toolsets/bash/common/bash.py
++++ b/holmes/plugins/toolsets/bash/common/bash.py
+@@ -1,3 +1,5 @@
++import os
++import signal
+ import subprocess
+ from dataclasses import dataclass
+ from typing import List, Optional
+@@ -38,6 +40,7 @@
+         stdout=subprocess.PIPE,
+         stderr=subprocess.STDOUT,
+         text=True,
++        start_new_session=True,
+     )
+
+     try:
+@@ -50,10 +53,21 @@
+             return_code=process.returncode,
+             timed_out=False,
+         )
+-    except subprocess.TimeoutExpired:
+-        process.kill()
+-        # Collect any partial output that was generated before timeout
+-        stdout, _ = process.communicate()
++    except subprocess.TimeoutExpired as expired:
++        # Kill only this shell's process group, including pipeline children.
++        try:
++            os.killpg(process.pid, signal.SIGKILL)
++        except ProcessLookupError:
++            pass
++        try:
++            stdout, _ = process.communicate(timeout=1)
++        except subprocess.TimeoutExpired:
++            # A detached descendant may still hold the pipe. Do not wait for it.
++            partial = expired.output or b""
++            stdout = partial.decode(errors="replace") if isinstance(partial, bytes) else partial
++            if process.stdout is not None:
++                process.stdout.close()
++            process.wait(timeout=1)
+         stdout = stdout.strip() if stdout else ""
+
+         return BashResult(

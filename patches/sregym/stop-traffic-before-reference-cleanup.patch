@@ -1,0 +1,23 @@
+--- a/sregym/conductor/conductor.py
++++ b/sregym/conductor/conductor.py
+@@ -509,6 +509,20 @@
+
+         if stop_late_cleanup():
+             return
++
++        # Evaluation is closed/drained before _cleanup_sync. Stop owned traffic
++        # before reference restoration so a retry storm cannot obstruct teardown.
++        if problem:
++            stop = getattr(problem, "stop_workload", None)
++            if not callable(stop):
++                stop = getattr(problem.app, "stop_workload", None)
++            if callable(stop):
++                try:
++                    stop()
++                    self.logger.info("[CLEANUP] Owned workload stopped")
++                except Exception as exc:
++                    self.logger.exception("[CLEANUP] Workload stop failed")
++                    cleanup_errors.append(f"stop_workload: {type(exc).__name__}: {exc}")
+
+         # Recover fault using the captured problem reference
+         if problem:
