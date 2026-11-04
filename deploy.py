@@ -302,6 +302,7 @@ def main():
     parser.add_argument("--model", default="anthropic/claude-sonnet-5-5")
     parser.add_argument("--judge-model")
     parser.add_argument("--ansible", default="ansible-playbook")
+    parser.add_argument("--example", action="store_true", help="After setup, start one unchanged incorrect_image example in tmux")
     parser.add_argument(
         "--yes", action="store_true", help="Use supplied/default values and proceed without prompts"
     )
@@ -562,6 +563,9 @@ def main():
         "Validate the private cluster and resource reserves",
     )
     print(f"\nDeployment preparation finished. Detailed log: {log}", flush=True)
+    example = args.example or (not args.yes and prompt("Start the paid incorrect_image example in tmux? yes/no", "no").lower() == "yes")
+    if example:
+        subprocess.run([sys.executable, str(ROOT / "run.py"), "--problem", "incorrect_image"], check=True)
 
 
 if __name__ == "__main__":
