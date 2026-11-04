@@ -1,0 +1,270 @@
+---
+- name: Prepare the three CloudLab hosts
+  hosts: all
+  become: true
+  gather_facts: true
+  tasks:
+    - name: Require the supported Ubuntu and CPU architecture
+      ansible.builtin.assert:
+        that:
+          - ansible_facts.distribution == 'Ubuntu'
+          - ansible_facts.distribution_version == '22.04'
+          - ansible_facts.architecture == 'x86_64'
+    - name: Wait for apt locks and install build and networking tools
+      ansible.builtin.apt:
+        name: [ca-certificates, curl, gnupg, git, tmux, socat, conntrack, libssl-dev, libelf-dev, build-essential, gcc-12, flex, bison, bc, python3-venv]
+        state: present
+        update_cache: true
+        lock_timeout: 600
+    - name: Install the frozen generic kernel and matching headers
+      ansible.builtin.apt:
+        name:
+          - "linux-image-{{ kernel_release }}={{ kernel_package }}"
+          - "linux-modules-extra-{{ kernel_release }}={{ kernel_package }}"
+          - "linux-headers-{{ kernel_release }}={{ kernel_package }}"
+        state: present
+        lock_timeout: 600
+    - name: Select the matching kernel while preserving the previous GRUB file
+      ansible.builtin.lineinfile:
+        path: /etc/default/grub
+        regexp: '^GRUB_DEFAULT='
+        line: 'GRUB_DEFAULT="Advanced options for Ubuntu>Ubuntu, with Linux {{ kernel_release }}"'
+        backup: true
+      register: grub
+    - name: Update the boot menu
+      ansible.builtin.command: update-grub
+      when: grub.changed
+      changed_when: true
+    - name: Reboot only when the running kernel differs
+      ansible.builtin.reboot:
+        reboot_timeout: 600
+        post_reboot_delay: 15
+      when: ansible_facts.kernel != kernel_release
+    - name: Verify the running kernel and headers
+      ansible.builtin.shell: 'test "$(uname -r)" = "{{ kernel_release }}" && test -d /lib/modules/$(uname -r)/build'
+      changed_when: false
+    - name: Disable fstab swap without removing the original configuration
+      ansible.builtin.replace:
+        path: /etc/fstab
+        regexp: '^([ \t]*(?!#)\S+[ \t]+\S+[ \t]+swap[ \t]+.*)$'
+        replace: '# \1'
+        backup: true
+    - name: Discover active swap
+      ansible.builtin.command: swapon --show --noheadings
+      register: active_swap
+      changed_when: false
+    - name: Disable active swap
+      ansible.builtin.command: swapoff -a
+      when: active_swap.stdout | trim | length > 0
+      changed_when: true
+    - name: Reload fstab-generated units
+      ansible.builtin.systemd_service:
+        daemon_reload: true
+    - name: Discover swap units that could be reactivated
+      ansible.builtin.command: systemctl list-unit-files --type=swap --no-legend --no-pager
+      register: swap_units
+      changed_when: false
+    - name: Mask the discovered swap units
+      ansible.builtin.systemd_service:
+        name: "{{ item.split()[0] }}"
+        masked: true
+        state: stopped
+      loop: "{{ swap_units.stdout_lines }}"
+    - name: Persist required modules
+      ansible.builtin.copy:
+        dest: /etc/modules-load.d/sregym.conf
+        content: "overlay\nbr_netfilter\n"
+        mode: '0644'
+    - name: Load required modules
+      ansible.builtin.command: "modprobe {{ item }}"
+      loop: [overlay, br_netfilter]
+      changed_when: false
+    - name: Configure forwarding and watcher capacity
+      ansible.builtin.copy:
+        dest: /etc/sysctl.d/99-sregym.conf
+        content: |
+          net.bridge.bridge-nf-call-iptables = 1
+          net.bridge.bridge-nf-call-ip6tables = 1
+          net.ipv4.ip_forward = 1
+          fs.inotify.max_user_instances = 1024
+          fs.inotify.max_user_watches = 1048576
+        mode: '0644'
+      register: sysctl_config
+    - name: Apply the dedicated sysctl file
+      ansible.builtin.command: sysctl -p /etc/sysctl.d/99-sregym.conf
+      when: sysctl_config.changed
+      changed_when: true
+    - name: Create package key storage
+      ansible.builtin.file:
+        path: /etc/apt/keyrings
+        state: directory
+        mode: '0755'
+    - name: Obtain Docker's signing key
+      ansible.builtin.get_url:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        dest: /etc/apt/keyrings/docker.asc
+        mode: '0644'
+    - name: Configure Docker's stable repository
+      ansible.builtin.copy:
+        dest: /etc/apt/sources.list.d/sregym-docker.list
+        content: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu jammy stable\n"
+        mode: '0644'
+    - name: Obtain the Kubernetes signing key
+      ansible.builtin.get_url:
+        url: 'https://pkgs.k8s.io/core:/stable:/v{{ kubernetes.rsplit(".", 1)[0] }}/deb/Release.key'
+        dest: /etc/apt/keyrings/kubernetes.asc
+        mode: '0644'
+    - name: Configure the frozen Kubernetes minor repository
+      ansible.builtin.copy:
+        dest: /etc/apt/sources.list.d/sregym-kubernetes.list
+        content: 'deb [signed-by=/etc/apt/keyrings/kubernetes.asc] https://pkgs.k8s.io/core:/stable:/v{{ kubernetes.rsplit(".", 1)[0] }}/deb/ /'
+        mode: '0644'
+    - name: Install the exact Docker and Kubernetes packages
+      ansible.builtin.apt:
+        name:
+          - 'docker-ce={{ docker_package }}'
+          - 'docker-ce-cli={{ docker_package }}'
+          - 'containerd.io={{ containerd_package }}'
+          - 'docker-buildx-plugin={{ buildx_package }}'
+          - 'kubeadm={{ kubernetes }}-1.1'
+          - 'kubelet={{ kubernetes }}-1.1'
+          - 'kubectl={{ kubernetes }}-1.1'
+        update_cache: true
+        state: present
+        lock_timeout: 600
+    - name: Hold the selected runtime packages
+      ansible.builtin.command: apt-mark hold docker-ce docker-ce-cli containerd.io docker-buildx-plugin kubeadm kubelet kubectl
+      changed_when: false
+    - name: Create Docker configuration storage
+      ansible.builtin.file:
+        path: /etc/docker
+        state: directory
+        mode: '0755'
+    - name: Select the systemd cgroup driver on this fresh runtime
+      ansible.builtin.copy:
+        dest: /etc/docker/daemon.json
+        content: '{"exec-opts": ["native.cgroupdriver=systemd"]}'
+        mode: '0644'
+        force: false
+      register: docker_configuration
+    - name: Enable Docker
+      ansible.builtin.systemd_service:
+        name: docker
+        enabled: true
+        state: '{{ "restarted" if docker_configuration.changed else "started" }}'
+    - name: Allow the selected login user to access Docker
+      ansible.builtin.user:
+        name: '{{ login_user }}'
+        groups: docker
+        append: true
+    - name: Download the versioned CRI-Dockerd package
+      ansible.builtin.get_url:
+        url: 'https://github.com/Mirantis/cri-dockerd/releases/download/v{{ cri_dockerd }}/cri-dockerd_{{ cri_dockerd }}.3-0.ubuntu-jammy_amd64.deb'
+        dest: '/var/tmp/sregym-cri-dockerd-{{ cri_dockerd }}.deb'
+        mode: '0644'
+    - name: Install CRI-Dockerd
+      ansible.builtin.apt:
+        deb: '/var/tmp/sregym-cri-dockerd-{{ cri_dockerd }}.deb'
+        lock_timeout: 600
+    - name: Enable the Docker CRI service
+      ansible.builtin.systemd_service:
+        name: cri-docker
+        enabled: true
+        state: started
+    - name: Bind kubelet to the private experiment address
+      ansible.builtin.copy:
+        dest: /etc/default/kubelet
+        content: 'KUBELET_EXTRA_ARGS=--node-ip={{ private_ip }}'
+        mode: '0644'
+    - name: Enable kubelet
+      ansible.builtin.systemd_service:
+        name: kubelet
+        enabled: true
+        state: started
+
+- name: Initialize the control plane
+  hosts: control_nodes
+  become: true
+  gather_facts: false
+  tasks:
+    - name: Initialize Kubernetes on the private network (bootstrap output is secret)
+      ansible.builtin.command:
+        argv: [kubeadm, init, '--node-name=node0', '--kubernetes-version=v{{ kubernetes }}', '--pod-network-cidr=10.244.0.0/16', '--cri-socket=unix:///var/run/cri-dockerd.sock', '--apiserver-advertise-address={{ private_ip }}']
+        creates: /etc/kubernetes/admin.conf
+      no_log: true
+    - name: Read the protected kubeconfig for the selected users
+      ansible.builtin.slurp:
+        src: /etc/kubernetes/admin.conf
+      register: admin_config
+      no_log: true
+    - name: Generate a short-lived worker join command
+      ansible.builtin.command: kubeadm token create --ttl=30m --print-join-command
+      register: join_command
+      no_log: true
+      changed_when: false
+
+- name: Join the two workers
+  hosts: worker_nodes
+  become: true
+  gather_facts: false
+  tasks:
+    - name: Join the private control plane (bootstrap credentials are hidden)
+      ansible.builtin.command: '{{ hostvars["node0"].join_command.stdout }} --node-name={{ inventory_hostname }} --cri-socket=unix:///var/run/cri-dockerd.sock'
+      args:
+        creates: /etc/kubernetes/kubelet.conf
+      no_log: true
+
+- name: Install per-user cluster access without overwriting kubeconfigs
+  hosts: all
+  become: true
+  gather_facts: false
+  tasks:
+    - name: Create the user's kubeconfig directory
+      ansible.builtin.file:
+        path: '{{ remote_home }}/.kube'
+        state: directory
+        owner: '{{ login_user }}'
+        mode: '0700'
+    - name: Create a kubeconfig only if none exists
+      ansible.builtin.copy:
+        dest: '{{ remote_home }}/.kube/config'
+        content: '{{ hostvars["node0"].admin_config.content | b64decode }}'
+        owner: '{{ login_user }}'
+        mode: '0600'
+        force: false
+      no_log: true
+
+- name: Configure the private Calico network
+  hosts: control_nodes
+  become: true
+  gather_facts: false
+  environment:
+    KUBECONFIG: /etc/kubernetes/admin.conf
+  tasks:
+    - name: Download the versioned Calico manifest
+      ansible.builtin.get_url:
+        url: 'https://raw.githubusercontent.com/projectcalico/calico/v{{ calico }}/manifests/calico.yaml'
+        dest: '/var/tmp/sregym-calico-{{ calico }}.yaml'
+        mode: '0644'
+    - name: Set Calico's initial experiment-network detection before applying it
+      ansible.builtin.replace:
+        path: '/var/tmp/sregym-calico-{{ calico }}.yaml'
+        regexp: '(- name: IP\n\s+value: "autodetect")(?!\n\s+- name: IP_AUTODETECTION_METHOD)'
+        replace: '\1\n            - name: IP_AUTODETECTION_METHOD\n              value: "cidr={{ private_cidr }}"'
+    - name: Set the matching pod address pool
+      ansible.builtin.replace:
+        path: '/var/tmp/sregym-calico-{{ calico }}.yaml'
+        regexp: '# - name: CALICO_IPV4POOL_CIDR\n\s+#   value: "192.168.0.0/16"'
+        replace: '- name: CALICO_IPV4POOL_CIDR\n              value: "10.244.0.0/16"'
+    - name: Apply Calico
+      ansible.builtin.command: 'kubectl apply -f /var/tmp/sregym-calico-{{ calico }}.yaml'
+      register: calico_apply
+      changed_when: "'configured' in calico_apply.stdout or 'created' in calico_apply.stdout"
+    - name: Permit normal workloads on the control node as in the native setup
+      ansible.builtin.shell: 'kubectl taint nodes node0 node-role.kubernetes.io/control-plane:NoSchedule- 2>&1'
+      register: untaint
+      changed_when: "'untainted' in untaint.stdout"
+      failed_when: untaint.rc != 0 and 'not found' not in (untaint.stderr + untaint.stdout)
+    - name: Require all three nodes Ready
+      ansible.builtin.command: kubectl wait --for=condition=Ready nodes --all --timeout=300s
+      changed_when: false
