@@ -1,0 +1,1488 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HolmesGPT / SREGym</title><meta name="generator" content="dot - graphviz version 16.1.0 (20260904.0139)">
+<style>
+:root{color-scheme:light;font:15px/1.55 system-ui,sans-serif;color:#1e293b;background:#f6f8fb}
+*{box-sizing:border-box}body{margin:0}main{max-width:1380px;margin:auto;padding:28px 32px 48px}
+h1{font-size:27px;line-height:1.25;margin:0 0 8px}h2{font-size:21px}h3{font-size:16px}
+p{margin:8px 0 14px}a{color:#285b9a;text-underline-offset:3px}
+.legend{display:flex;flex-wrap:wrap;gap:18px;font-size:11px;letter-spacing:.04em;margin:20px 0 12px}
+.legend span{display:flex;align-items:center;gap:6px}.legend i{width:12px;height:12px;border:1px solid;border-radius:3px}
+figure{margin:0;padding:20px;background:white;border:1px solid #dce3ed;border-radius:12px}
+svg{display:block;width:100%;height:auto}svg a:focus-visible polygon,svg a:focus-visible path{stroke:#c45a12;stroke-width:3}
+
+.edge [data-link-line],.feedback [data-link-line],.edge polygon,.feedback polygon,.edge text,.feedback text{transition:stroke .12s,fill .12s,stroke-width .12s}
+.edge:hover [data-link-line],.feedback:hover [data-link-line],.edge:focus-visible [data-link-line],.feedback:focus-visible [data-link-line]{stroke:#c45a12;stroke-width:2.5}
+.edge:hover polygon,.feedback:hover polygon,.edge:focus-visible polygon,.feedback:focus-visible polygon{stroke:#c45a12;fill:#c45a12}
+.edge:hover text,.feedback:hover text,.edge:focus-visible text,.feedback:focus-visible text{fill:#a3480e}
+.edge:focus-visible,.feedback:focus-visible{outline:none}
+@media(prefers-reduced-motion:reduce){.edge *,.feedback *{transition:none!important}}
+.owner{font-size:11px;letter-spacing:.08em;color:#63738a}
+dl{margin:12px 0}dt{font-size:13px;font-weight:700;margin-top:13px}dd{margin:3px 0 0}dd ul{margin:4px 0;padding-left:20px}li{margin:5px 0;overflow-wrap:anywhere}
+.source-path{display:block;color:#586577;font-size:11px;overflow-wrap:anywhere}.source-note{font-size:12px;color:#586577}
+.sources{padding-left:20px}.sources li{margin:10px 0}
+.tool-definition{border-top:1px solid #dce3ed;padding:9px 0}.tool-definition summary{cursor:pointer;font-size:13px;font-weight:600}
+pre{font:12px/1.5 ui-monospace,monospace;max-height:360px;overflow:auto;padding:12px;background:#f6f8fb;border:1px solid #dce3ed;border-radius:6px}
+dialog{border:1px solid #cbd5e1;border-radius:12px;padding:0;max-width:640px;width:calc(100% - 40px);max-height:85vh;overflow:auto;color:#1e293b;background:white}
+dialog::backdrop{background:#14213666}.card-header{position:sticky;top:0;display:flex;align-items:flex-start;gap:16px;padding:18px 24px 12px;background:white;border-bottom:1px solid #e3e8ef;z-index:1}.card-header h2{flex:1;margin:0}.card-header form{margin:0}#card-body{padding:8px 24px 24px}
+button{font:inherit;border:1px solid #cbd5e1;border-radius:6px;background:#f3f6fa;padding:5px 11px;cursor:pointer}:focus-visible{outline:3px solid #598fca;outline-offset:3px}
+@media(max-width:700px){main{padding:20px 12px}figure{padding:10px}h1{font-size:23px}}
+@media print{dialog{display:none}main{padding:0}}
+</style></head><body><main>
+<h1>HolmesGPT / SREGym</h1>
+<div class="legend" aria-label="Implementation ownership"><span><i style="background:#fff3e6;border-color:#a6540c"></i>OUR INTEGRATION</span><span><i style="background:#edf4ff;border-color:#2c5eaa"></i>HOLMESGPT</span><span><i style="background:#eaf6ee;border-color:#28734c"></i>SREGYM</span><span><i style="background:#f2f4f7;border-color:#536071"></i>MODEL / CLUSTER BACKEND</span></div>
+<figure><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1157pt" height="1159pt" viewBox="0.00 0.00 1157.00 1159.00" role="group" aria-label="HolmesGPT / SREGym">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(43.2 1123.02)">
+<title>runtime</title>
+
+
+<g id="edge18" class="edge" tabindex="0" role="group" aria-label="Conductor to Stage adapter (setup): Stage + application details">
+<title>stage-&gt;adapter</title>
+<path d="M165.01,-1022.89C165.01,-1022.89 165.01,-963.72 165.01,-963.72" fill="none" stroke="white" stroke-width="4" pointer-events="none" data-route-underlay="" /><path d="M165.01,-1022.89C165.01,-1022.89 165.01,-963.72 165.01,-963.72" fill="none" stroke="transparent" stroke-width="8" pointer-events="stroke" aria-hidden="true" /><path fill="none" stroke="#68778a" d="M165.01,-1022.89C165.01,-1022.89 165.01,-963.72 165.01,-963.72" data-link-line="" />
+<polygon fill="#68778a" stroke="#68778a" points="167.29,-963.72 165.01,-957.22 162.74,-963.72 167.29,-963.72" />
+<text xml:space="preserve" text-anchor="middle" x="107.26" y="-995.81" font-family="Arial" font-size="10.00">Stage + application details</text>
+</g>
+
+
+<g id="edge19" class="edge" tabindex="0" role="group" aria-label="Stage adapter (setup) to ToolCallingLLM / DefaultLLM: Stage instructions + tool settings">
+<title>adapter-&gt;request</title>
+<path d="M222.15,-891.11C222.15,-891.11 222.15,-831.94 222.15,-831.94" fill="none" stroke="white" stroke-width="4" pointer-events="none" data-route-underlay="" /><path d="M222.15,-891.11C222.15,-891.11 222.15,-831.94 222.15,-831.94" fill="none" stroke="transparent" stroke-width="8" pointer-events="stroke" aria-hidden="true" /><path fill="none" stroke="#68778a" d="M222.15,-891.11C222.15,-891.11 222.15,-831.94 222.15,-831.94" data-link-line="" />
+<polygon fill="#68778a" stroke="#68778a" points="224.42,-831.94 222.15,-825.44 219.87,-831.94 224.42,-831.94" />
+<text xml:space="preserve" text-anchor="middle" x="150.15" y="-864.03" font-family="Arial" font-size="10.00">Stage instructions + tool settings</text>
+</g>
+
+
+<g id="edge20" class="edge" tabindex="0" role="group" aria-label="ToolCallingLLM / DefaultLLM to LLM: Conversation + tool definitions">
+<title>request-&gt;model</title>
+<path d="M162.64,-759.31C162.64,-759.31 162.64,-699.82 162.64,-699.82" fill="none" stroke="white" stroke-width="4" pointer-events="none" data-route-underlay="" /><path d="M162.64,-759.31C162.64,-759.31 162.64,-699.82 162.64,-699.82" fill="none" stroke="transparent" stroke-width="8" pointer-events="stroke" aria-hidden="true" /><path fill="none" stroke="#68778a" d="M162.64,-759.31C162.64,-759.31 162.64,-699.82 162.64,-699.82" data-link-line="" />
+<polygon fill="#68778a" stroke="#68778a" points="164.91,-699.82 162.64,-693.32 160.36,-699.82 164.91,-699.82" />
+<text xml:space="preserve" text-anchor="middle" x="96.26" y="-732.06" font-family="Arial" font-size="10.00">Conversation + tool definitions</text>
+</g>
+
+
+<g id="edge21" class="edge" tabindex="0" role="group" aria-label="LLM to ToolCallingLLM / ToolExecutor: Tool calls: names + arguments">
+<title>model-&gt;dispatch</title>
+<path d="M190.33,-643.04C190.33,-643.04 190.33,-575.98 190.33,-575.98" fill="none" stroke="white" stroke-width="4" pointer-events="none" data-route-underlay="" /><path d="M190.33,-643.04C190.33,-643.04 190.33,-575.98 190.33,-575.98" fill="none" stroke="transparent" stroke-width="8" pointer-events="stroke" aria-hidden="true" /><path fill="none" stroke="#68778a" d="M190.33,-643.04C190.33,-643.04 190.33,-575.98 190.33,-575.98" data-link-line="" />
+<polygon fill="#68778a" stroke="#68778a" points="192.61,-575.98 190.33,-569.48 188.06,-575.98 192.61,-575.98" />
+<text xml:space="preserve" text-anchor="middle" x="123.21" y="-612.01" font-family="Arial" font-size="10.00">Tool calls: names + arguments</text>
+</g>
+
+<g id="edge22" class="edge" tabindex="0" role="group" aria-label="LLM to Stage adapter (submission): Final answer (no tool calls)">
+<title>model-&gt;submit</title>
+<path d="M231.87,-642.94C231.87,-614.63 231.87,-572 231.87,-572 231.87,-572 322.8,-572 322.8,-572" fill="none" stroke="white" stroke-width="4" pointer-events="none" data-route-underlay="" /><path d="M231.87,-642.94C231.87,-614.63 231.87,-572 231.87,-572 231.87,-572 322.8,-572 322.8,-572" fill="none" stroke="transparent" stroke-width="8" pointer-events="stroke" aria-hidden="true" /><path fill="none" stroke="#68778a" d="M231.87,-642.94C231.87,-614.63 231.87,-572 231.87,-572 231.87,-572 322.8,-572 322.8,-572" data-link-line="" />
+<polygon fill="#68778a" stroke="#68778a" points="322.8,-574.28 329.3,-572 322.8,-569.73 322.8,-574.28" />
+<text xml:space="preserve" text-anchor="middle" x="255.36" y="-574.5" font-family="Arial" font-size="10.00">Final answer (no tool calls)</text>
+</g>
+
+
+<g id="edge23" class="edge" tabindex="0" role="group" aria-label="ToolCallingLLM / ToolExecutor to YAMLTool: Query tool + arguments">
+<title>dispatch-&gt;yaml</title>
+<path d="M164.01,-519.03C164.01,-519.03 164.01,-452.05 164.01,-452.05" fill="none" stroke="white" stroke-width="4" pointer-events="none" data-route-underlay="" /><path d="M164.01,-519.03C164.01,-519.03 164.01,-452.05 164.01,-452.05" fill="none" stroke="transparent" stroke-width="8" pointer-events="stroke" aria-hidden="true" /><path fill="none" stroke="#68778a" d="M164.01,-519.03C164.01,-519.03 164.01,-452.05 164.01,-452.05" data-link-line="" />
+<polygon fill="#68778a" stroke="#68778a" points="166.29,-452.05 164.01,-445.55 161.74,-452.05 166.29,-452.05" />
+<text xml:space="preserve" text-anchor="middle" x="112.64" y="-488.04" font-family="Arial" font-size="10.00">Query tool + arguments</text>
+</g>
+
+<g id="edge24" class="edge" tabindex="0" role="group" aria-label="ToolCallingLLM / ToolExecutor to RunBashCommand: Command + timeout">
+<title>dispatch-&gt;bash</title>
+<path d="M299.27,-535C309.56,-535 316.25,-535 316.25,-535 316.25,-535 316.25,-452.13 316.25,-452.13" fill="none" stroke="white" stroke-width="4" pointer-events="none" data-route-underlay="" /><path d="M299.27,-535C309.56,-535 316.25,-535 316.25,-535 316.25,-535 316.25,-452.13 316.25,-452.13" fill="none" stroke="transparent" stroke-width="8" pointer-events="stroke" aria-hidden="true" /><path fill="none" stroke="#68778a" d="M299.27,-535C309.56,-535 316.25,-535 316.25,-535 316.25,-535 316.25,-452.13 316.25,-452.13" data-link-line="" />
+<polygon fill="#68778a" stroke="#68778a" points="318.53,-452.13 316.25,-445.63 313.98,-452.13 318.53,-452.13" />
+<text xml:space="preserve" text-anchor="middle" x="339.63" y="-496.56" font-family="Arial" font-size="10.00">Command + timeout</text>
+</g>
+
+<g id="edge25" class="edge" tabindex="0" role="group" aria-label="ToolCallingLLM / ToolExecutor to Python Tool classes: Python tool + arguments">
+<title>dispatch-&gt;logs</title>
+<path d="M281.91,-518.99C281.91,-496.28 281.91,-466 281.91,-466 281.91,-466 504.64,-466 504.64,-466 504.64,-466 504.64,-451.94 504.64,-451.94" fill="none" stroke="white" stroke-width="4" pointer-events="none" data-route-underlay="" /><path d="M281.91,-518.99C281.91,-496.28 281.91,-466 281.91,-466 281.91,-466 504.64,-466 504.64,-466 504.64,-466 504.64,-451.94 504.64,-451.94" fill="none" stroke="transparent" stroke-width="8" pointer-events="stroke" aria-hidden="true" /><path fill="none" stroke="#68778a" d="M281.91,-518.99C281.91,-496.28 281.91,-466 281.91,-466 281.91,-466 504.64,-466 504.64,-466 504.64,-466 504.64,-451.94 504.64,-451.94" data-link-line="" />
+<polygon fill="#68778a" stroke="#68778a" points="506.92,-451.94 504.64,-445.44 502.37,-451.94 506.92,-451.94" />
+<text xml:space="preserve" text-anchor="middle" x="376.19" y="-468.5" font-family="Arial" font-size="10.00">Python tool + arguments</text>
+</g>
+
+<g id="edge26" class="edge" tabindex="0" role="group" aria-label="ToolCallingLLM / ToolExecutor to RemoteMCPTool: Remote tool + arguments">
+<title>dispatch-&gt;mcp</title>
+<path d="M290.41,-519.12C290.41,-504.61 290.41,-489 290.41,-489 290.41,-489 726.33,-489 726.33,-489 726.33,-489 726.33,-452.07 726.33,-452.07" fill="none" stroke="white" stroke-width="4" pointer-events="none" data-route-underlay="" /><path d="M290.41,-519.12C290.41,-504.61 290.41,-489 290.41,-489 290.41,-489 726.33,-489 726.33,-489 726.33,-489 726.33,-452.07 726.33,-452.07" fill="none" stroke="transparent" stroke-width="8" pointer-events="stroke" aria-hidden="true" /><path fill="none" stroke="#68778a" d="M290.41,-519.12C290.41,-504.61 290.41,-489 290.41,-489 290.41,-489 726.33,-489 726.33,-489 726.33,-489 726.33,-452.07 726.33,-452.07" data-link-line="" />
+<polygon fill="#68778a" stroke="#68778a" points="728.61,-452.07 726.33,-445.57 724.06,-452.07 728.61,-452.07" />
+<text xml:space="preserve" text-anchor="middle" x="456.27" y="-491.5" font-family="Arial" font-size="10.00">Remote tool + arguments</text>
+</g>
+
+
+
+
+<g id="edge27" class="edge" tabindex="0" role="group" aria-label="YAMLTool to KubernetesAPIProxy: kubectl query ↔ API data">
+<title>yaml-&gt;filter</title>
+<path d="M190.33,-371.48C190.33,-371.48 190.33,-320.32 190.33,-320.32" fill="none" stroke="white" stroke-width="4" pointer-events="none" data-route-underlay="" /><path d="M190.33,-371.48C190.33,-371.48 190.33,-320.32 190.33,-320.32" fill="none" stroke="transparent" stroke-width="8" pointer-events="stroke" aria-hidden="true" /><path fill="none" stroke="#68778a" d="M190.33,-371.48C190.33,-371.48 190.33,-320.32 190.33,-320.32" data-link-line="" />
+<polygon fill="#68778a" stroke="#68778a" points="188.06,-371.48 190.33,-377.98 192.61,-371.48 188.06,-371.48" />
+<polygon fill="#68778a" stroke="#68778a" points="192.61,-320.32 190.33,-313.82 188.06,-320.32 192.61,-320.32" />
+<text xml:space="preserve" text-anchor="middle" x="156.46" y="-348.4" font-family="Arial" font-size="10.00">kubectl query ↔ API data</text>
+</g>
+
+<g id="edge36" class="edge" tabindex="0" role="group" aria-label="YAMLTool to ToolCallResult: Data / counts / usage">
+<title>yaml-&gt;observations</title>
+<path d="M111.19,-412C101.26,-412 94.5,-412 94.5,-412 94.5,-412 94.5,-24 94.5,-24 94.5,-24 124.36,-24 124.36,-24" fill="none" stroke="white" stroke-width="4" pointer-events="none" data-route-underlay="" /><path d="M111.19,-412C101.26,-412 94.5,-412 94.5,-412 94.5,-412 94.5,-24 94.5,-24 94.5,-24 124.36,-24 124.36,-24" fill="none" stroke="transparent" stroke-width="8" pointer-events="stroke" aria-hidden="true" /><path fill="none" stroke="#2c5eaa" d="M111.19,-412C101.26,-412 94.5,-412 94.5,-412 94.5,-412 94.5,-24 94.5,-24 94.5,-24 124.36,-24 124.36,-24" data-link-line="" />
+<polygon fill="#2c5eaa" stroke="#2c5eaa" points="124.36,-26.28 130.86,-24 124.36,-21.73 124.36,-26.28" />
+<text xml:space="preserve" text-anchor="middle" x="57.25" y="-215.92" font-family="Arial" font-size="10.00">Data / counts / usage</text>
+</g>
+
+
+<g id="edge28" class="edge" tabindex="0" role="group" aria-label="RunBashCommand to KubernetesAPIProxy: Allowed kubectl ↔ status">
+<title>bash-&gt;filter</title>
+<path d="M346.67,-371.36C346.67,-371.36 346.67,-291 346.67,-291 346.67,-291 276.97,-291 276.97,-291" fill="none" stroke="white" stroke-width="4" pointer-events="none" data-route-underlay="" /><path d="M346.67,-371.36C346.67,-371.36 346.67,-291 346.67,-291 346.67,-291 276.97,-291 276.97,-291" fill="none" stroke="transparent" stroke-width="8" pointer-events="stroke" aria-hidden="true" /><path fill="none" stroke="#68778a" d="M346.67,-371.36C346.67,-371.36 346.67,-291 346.67,-291 346.67,-291 276.97,-291 276.97,-291" data-link-line="" />
+<polygon fill="#68778a" stroke="#68778a" points="344.39,-371.36 346.67,-377.86 348.94,-371.36 344.39,-371.36" />
+<polygon fill="#68778a" stroke="#68778a" points="276.97,-288.73 270.47,-291 276.97,-293.28 276.97,-288.73" />
+<text xml:space="preserve" text-anchor="middle" x="330.6" y="-286.83" font-family="Arial" font-size="10.00">Allowed kubectl ↔ status</text>
+</g>
+
+<g id="edge37" class="edge" tabindex="0" role="group" aria-label="RunBashCommand to ToolCallResult: Command result / error">
+<title>bash-&gt;observations</title>
+<path d="M391.96,-379.37C391.96,-288.23 391.96,-36 391.96,-36 391.96,-36 256.39,-36 256.39,-36" fill="none" stroke="white" stroke-width="4" pointer-events="none" data-route-underlay="" /><path d="M391.96,-379.37C391.96,-288.23 391.96,-36 391.96,-36 391.96,-36 256.39,-36 256.39,-36" fill="none" stroke="transparent" stroke-width="8" pointer-events="stroke" aria-hidden="true" /><path fill="none" stroke="#2c5eaa" d="M391.96,-379.37C391.96,-288.23 391.96,-36 391.96,-36 391.96,-36 256.39,-36 256.39,-36" data-link-line="" />
+<polygon fill="#2c5eaa" stroke="#2c5eaa" points="256.39,-33.73 249.89,-36 256.39,-38.28 256.39,-33.73" />
+<text xml:space="preserve" text-anchor="middle" x="341.71" y="-146.4" font-family="Arial" font-size="10.00">Command result / error</text>
+</g>
+
+
+<g id="edge29" class="edge" tabindex="0" role="group" aria-label="Python Tool classes to KubernetesAPIProxy: Log request ↔ log text">
+<title>logs-&gt;filter</title>
+<path d="M520.97,-371.62C520.97,-371.62 520.97,-346 520.97,-346 520.97,-346 229.43,-346 229.43,-346 229.43,-346 229.43,-320.21 229.43,-320.21" fill="none" stroke="white" stroke-width="4" pointer-events="none" data-route-underlay="" /><path d="M520.97,-371.62C520.97,-371.62 520.97,-346 520.97,-346 520.97,-346 229.43,-346 229.43,-346 229.43,-346 229.43,-320.21 229.43,-320.21" fill="none" stroke="transparent" stroke-width="8" pointer-events="stroke" aria-hidden="true" /><path fill="none" stroke="#68778a" d="M520.97,-371.62C520.97,-371.62 520.97,-346 520.97,-346 520.97,-346 229.43,-346 229.43,-346 229.43,-346 229.43,-320.21 229.43,-320.21" data-link-line="" />
+<polygon fill="#68778a" stroke="#68778a" points="518.7,-371.62 520.97,-378.12 523.25,-371.62 518.7,-371.62" />
+<polygon fill="#68778a" stroke="#68778a" points="231.71,-320.21 229.43,-313.71 227.16,-320.21 231.71,-320.21" />
+<text xml:space="preserve" text-anchor="middle" x="291.62" y="-348.5" font-family="Arial" font-size="10.00">Log request ↔ log text</text>
+</g>
+
+<g id="edge40" class="edge" tabindex="0" role="group" aria-label="Python Tool classes to HTTP / TCP endpoints: HTTP GET / TCP connect ↔ reply">
+<title>logs-&gt;endpoints</title>
+<path d="M562.19,-371.48C562.19,-371.48 562.19,-320.32 562.19,-320.32" fill="none" stroke="white" stroke-width="4" pointer-events="none" data-route-underlay="" /><path d="M562.19,-371.48C562.19,-371.48 562.19,-320.32 562.19,-320.32" fill="none" stroke="transparent" stroke-width="8" pointer-events="stroke" aria-hidden="true" /><path fill="none" stroke="#68778a" d="M562.19,-371.48C562.19,-371.48 562.19,-320.32 562.19,-320.32" data-link-line="" />
+<polygon fill="#68778a" stroke="#68778a" points="559.92,-371.48 562.19,-377.98 564.47,-371.48 559.92,-371.48" />
+<polygon fill="#68778a" stroke="#68778a" points="564.47,-320.32 562.19,-313.82 559.92,-320.32 564.47,-320.32" />
+<text xml:space="preserve" text-anchor="middle" x="486.07" y="-332.4" font-family="Arial" font-size="10.00">HTTP GET / TCP connect ↔ reply</text>
+</g>
+
+<g id="edge38" class="edge" tabindex="0" role="group" aria-label="Python Tool classes to ToolCallResult: Text / images / errors">
+<title>logs-&gt;observations</title>
+<path d="M617.16,-379.67C617.16,-286.78 617.16,-24 617.16,-24 617.16,-24 256.35,-24 256.35,-24" fill="none" stroke="white" stroke-width="4" pointer-events="none" data-route-underlay="" /><path d="M617.16,-379.67C617.16,-286.78 617.16,-24 617.16,-24 617.16,-24 256.35,-24 256.35,-24" fill="none" stroke="transparent" stroke-width="8" pointer-events="stroke" aria-hidden="true" /><path fill="none" stroke="#2c5eaa" d="M617.16,-379.67C617.16,-286.78 617.16,-24 617.16,-24 617.16,-24 256.35,-24 256.35,-24" data-link-line="" />
+<polygon fill="#2c5eaa" stroke="#2c5eaa" points="256.35,-21.73 249.85,-24 256.35,-26.28 256.35,-21.73" />
+<text xml:space="preserve" text-anchor="middle" x="568.09" y="-26.5" font-family="Arial" font-size="10.00">Text / images / errors</text>
+</g>
+
+<g id="edge31" class="edge" tabindex="0" role="group" aria-label="RemoteMCPTool to Prometheus MCP server: Metric / alert call ↔ text">
+<title>mcp-&gt;prom_handler</title>
+<path d="M726.33,-371.48C726.33,-371.48 726.33,-320.32 726.33,-320.32" fill="none" stroke="white" stroke-width="4" pointer-events="none" data-route-underlay="" /><path d="M726.33,-371.48C726.33,-371.48 726.33,-320.32 726.33,-320.32" fill="none" stroke="transparent" stroke-width="8" pointer-events="stroke" aria-hidden="true" /><path fill="none" stroke="#68778a" d="M726.33,-371.48C726.33,-371.48 726.33,-320.32 726.33,-320.32" data-link-line="" />
+<polygon fill="#68778a" stroke="#68778a" points="724.06,-371.48 726.33,-377.98 728.61,-371.48 724.06,-371.48" />
+<polygon fill="#68778a" stroke="#68778a" points="728.61,-320.32 726.33,-313.82 724.06,-320.32 728.61,-320.32" />
+<text xml:space="preserve" text-anchor="middle" x="673.83" y="-348.4" font-family="Arial" font-size="10.00">Metric / alert call ↔ text</text>
+</g>
+
+<g id="edge32" class="edge" tabindex="0" role="group" aria-label="RemoteMCPTool to Jaeger MCP server: Trace call ↔ text">
+<title>mcp-&gt;jaeger_handler</title>
+<path d="M798.19,-422C798.19,-422 987.33,-422 987.33,-422 987.33,-422 987.33,-320.2 987.33,-320.2" fill="none" stroke="white" stroke-width="4" pointer-events="none" data-route-underlay="" /><path d="M798.19,-422C798.19,-422 987.33,-422 987.33,-422 987.33,-422 987.33,-320.2 987.33,-320.2" fill="none" stroke="transparent" stroke-width="8" pointer-events="stroke" aria-hidden="true" /><path fill="none" stroke="#68778a" d="M798.19,-422C798.19,-422 987.33,-422 987.33,-422 987.33,-422 987.33,-320.2 987.33,-320.2" data-link-line="" />
+<polygon fill="#68778a" stroke="#68778a" points="798.19,-419.73 791.69,-422 798.19,-424.28 798.19,-419.73" />
+<polygon fill="#68778a" stroke="#68778a" points="989.61,-320.2 987.33,-313.7 985.06,-320.2 989.61,-320.2" />
+<text xml:space="preserve" text-anchor="middle" x="906.16" y="-424.5" font-family="Arial" font-size="10.00">Trace call ↔ text</text>
+</g>
+
+<g id="edge39" class="edge" tabindex="0" role="group" aria-label="RemoteMCPTool to ToolCallResult: Remote tool result">
+<title>mcp-&gt;observations</title>
+<path d="M790.12,-401C823.61,-401 857.77,-401 857.77,-401 857.77,-401 857.77,-12 857.77,-12 857.77,-12 256.41,-12 256.41,-12" fill="none" stroke="white" stroke-width="4" pointer-events="none" data-route-underlay="" /><path d="M790.12,-401C823.61,-401 857.77,-401 857.77,-401 857.77,-401 857.77,-12 857.77,-12 857.77,-12 256.41,-12 256.41,-12" fill="none" stroke="transparent" stroke-width="8" pointer-events="stroke" aria-hidden="true" /><path fill="none" stroke="#2c5eaa" d="M790.12,-401C823.61,-401 857.77,-401 857.77,-401 857.77,-401 857.77,-12 857.77,-12 857.77,-12 256.41,-12 256.41,-12" data-link-line="" />
+<polygon fill="#2c5eaa" stroke="#2c5eaa" points="256.41,-9.73 249.91,-12 256.41,-14.28 256.41,-9.73" />
+<text xml:space="preserve" text-anchor="middle" x="745.28" y="-14.5" font-family="Arial" font-size="10.00">Remote tool result</text>
+</g>
+
+
+
+<g id="edge30" class="edge" tabindex="0" role="group" aria-label="KubernetesAPIProxy to Kubernetes API server: API request ↔ resource data">
+<title>filter-&gt;kubernetes</title>
+<path d="M216.4,-239.7C216.4,-239.7 216.4,-180.65 216.4,-180.65" fill="none" stroke="white" stroke-width="4" pointer-events="none" data-route-underlay="" /><path d="M216.4,-239.7C216.4,-239.7 216.4,-180.65 216.4,-180.65" fill="none" stroke="transparent" stroke-width="8" pointer-events="stroke" aria-hidden="true" /><path fill="none" stroke="#68778a" d="M216.4,-239.7C216.4,-239.7 216.4,-180.65 216.4,-180.65" data-link-line="" />
+<polygon fill="#68778a" stroke="#68778a" points="214.12,-239.7 216.4,-246.2 218.67,-239.7 214.12,-239.7" />
+<polygon fill="#68778a" stroke="#68778a" points="218.67,-180.65 216.4,-174.15 214.12,-180.65 218.67,-180.65" />
+<text xml:space="preserve" text-anchor="middle" x="163.02" y="-200.68" font-family="Arial" font-size="10.00">API request ↔ resource data</text>
+</g>
+
+
+
+<g id="edge33" class="edge" tabindex="0" role="group" aria-label="Prometheus MCP server to Prometheus: HTTP query / alerts ↔ JSON">
+<title>prom_handler-&gt;prometheus</title>
+<path d="M723.33,-239.7C723.33,-239.7 723.33,-188.54 723.33,-188.54" fill="none" stroke="white" stroke-width="4" pointer-events="none" data-route-underlay="" /><path d="M723.33,-239.7C723.33,-239.7 723.33,-188.54 723.33,-188.54" fill="none" stroke="transparent" stroke-width="8" pointer-events="stroke" aria-hidden="true" /><path fill="none" stroke="#68778a" d="M723.33,-239.7C723.33,-239.7 723.33,-188.54 723.33,-188.54" data-link-line="" />
+<polygon fill="#68778a" stroke="#68778a" points="721.06,-239.7 723.33,-246.2 725.61,-239.7 721.06,-239.7" />
+<polygon fill="#68778a" stroke="#68778a" points="725.61,-188.54 723.33,-182.04 721.06,-188.54 725.61,-188.54" />
+<text xml:space="preserve" text-anchor="middle" x="686.83" y="-216.62" font-family="Arial" font-size="10.00">HTTP query / alerts ↔ JSON</text>
+</g>
+
+<g id="edge34" class="edge" tabindex="0" role="group" aria-label="Jaeger MCP server to Jaeger: HTTP search ↔ JSON">
+<title>jaeger_handler-&gt;jaeger</title>
+<path d="M987.33,-239.7C987.33,-239.7 987.33,-188.54 987.33,-188.54" fill="none" stroke="white" stroke-width="4" pointer-events="none" data-route-underlay="" /><path d="M987.33,-239.7C987.33,-239.7 987.33,-188.54 987.33,-188.54" fill="none" stroke="transparent" stroke-width="8" pointer-events="stroke" aria-hidden="true" /><path fill="none" stroke="#68778a" d="M987.33,-239.7C987.33,-239.7 987.33,-188.54 987.33,-188.54" data-link-line="" />
+<polygon fill="#68778a" stroke="#68778a" points="985.06,-239.7 987.33,-246.2 989.61,-239.7 985.06,-239.7" />
+<polygon fill="#68778a" stroke="#68778a" points="989.61,-188.54 987.33,-182.04 985.06,-188.54 989.61,-188.54" />
+<text xml:space="preserve" text-anchor="middle" x="936.71" y="-216.62" font-family="Arial" font-size="10.00">HTTP search ↔ JSON</text>
+</g>
+
+
+<g id="edge35" class="edge" tabindex="0" role="group" aria-label="Kubernetes API server to Prometheus: If allowed: service proxy&#10;/targets ↔ JSON">
+<title>kubernetes-&gt;prometheus</title>
+<path d="M281.92,-140C281.92,-140 631.84,-140 631.84,-140" fill="none" stroke="white" stroke-width="4" pointer-events="none" data-route-underlay="" /><path d="M281.92,-140C281.92,-140 631.84,-140 631.84,-140" fill="none" stroke="transparent" stroke-width="8" pointer-events="stroke" aria-hidden="true" /><path fill="none" stroke="#68778a" d="M281.92,-140C281.92,-140 631.84,-140 631.84,-140" data-link-line="" />
+<polygon fill="#68778a" stroke="#68778a" points="281.92,-137.73 275.42,-140 281.92,-142.28 281.92,-137.73" />
+<polygon fill="#68778a" stroke="#68778a" points="631.84,-142.28 638.34,-140 631.84,-137.73 631.84,-142.28" />
+<text xml:space="preserve" text-anchor="middle" x="510.13" y="-154.5" font-family="Arial" font-size="10.00">If allowed: service proxy</text>
+<text xml:space="preserve" text-anchor="middle" x="510.13" y="-142.5" font-family="Arial" font-size="10.00">/targets ↔ JSON</text>
+</g>
+
+
+
+<g id="node-stage" class="node">
+<title>stage</title>
+<g id="a_node-stage"><a xlink:href="#detail-stage" xlink:title="Prepare a test case and report its current stage.">
+<polygon fill="#eaf6ee" stroke="#28734c" points="266.29,-1087.02 114.38,-1087.02 114.38,-1023.24 266.29,-1023.24 266.29,-1087.02" />
+<text xml:space="preserve" text-anchor="start" x="168.58" y="-1067.63" font-family="Arial" font-size="10.00" fill="#28734c">SREGYM</text>
+<text xml:space="preserve" text-anchor="start" x="156.21" y="-1052.03" font-family="Arial" font-weight="bold" font-size="13.00">Conductor</text>
+<text xml:space="preserve" text-anchor="start" x="125.46" y="-1035.88" font-family="Arial" font-size="11.00" fill="#586577">Test case setup and stages</text>
+</a>
+</g>
+</g>
+
+<g id="node-adapter" class="node">
+<title>adapter</title>
+<g id="a_node-adapter"><a xlink:href="#detail-adapter" xlink:title="Configure HolmesGPT for the current stage.">
+<polygon fill="#fff3e6" stroke="#a6540c" points="285.79,-955.24 94.88,-955.24 94.88,-891.46 285.79,-891.46 285.79,-955.24" />
+<text xml:space="preserve" text-anchor="start" x="143.46" y="-935.85" font-family="Arial" font-size="10.00" fill="#a6540c">OUR INTEGRATION</text>
+<text xml:space="preserve" text-anchor="start" x="121.33" y="-920.25" font-family="Arial" font-weight="bold" font-size="13.00">Stage adapter (setup)</text>
+<text xml:space="preserve" text-anchor="start" x="105.96" y="-904.1" font-family="Arial" font-size="11.00" fill="#586577">Stage permissions · history handoff</text>
+</a>
+</g>
+</g>
+
+<g id="node-request" class="node">
+<title>request</title>
+<g id="a_node-request"><a xlink:href="#detail-request" xlink:title="Prepare conversation context and send the model request.">
+<polygon fill="#edf4ff" stroke="#2c5eaa" points="292.91,-823.46 87.75,-823.46 87.75,-759.68 292.91,-759.68 292.91,-823.46" />
+<text xml:space="preserve" text-anchor="start" x="159.21" y="-804.07" font-family="Arial" font-size="10.00" fill="#2c5eaa">HOLMESGPT</text>
+<text xml:space="preserve" text-anchor="start" x="98.83" y="-788.47" font-family="Arial" font-weight="bold" font-size="13.00">ToolCallingLLM / DefaultLLM</text>
+<text xml:space="preserve" text-anchor="start" x="171.21" y="-772.32" font-family="Arial" font-size="11.00" fill="#586577">LiteLLM</text>
+</a>
+</g>
+</g>
+
+<g id="node-model" class="node">
+<title>model</title>
+<g id="a_node-model"><a xlink:href="#detail-model" xlink:title="Choose tool calls or return a final answer.">
+<polygon fill="#f2f4f7" stroke="#536071" points="273.41,-691.68 107.25,-691.68 107.25,-643.4 273.41,-643.4 273.41,-691.68" />
+<text xml:space="preserve" text-anchor="start" x="118.33" y="-672.29" font-family="Arial" font-size="10.00" fill="#536071">MODEL / CLUSTER BACKEND</text>
+<text xml:space="preserve" text-anchor="start" x="176.83" y="-656.69" font-family="Arial" font-weight="bold" font-size="13.00">LLM</text>
+</a>
+</g>
+</g>
+
+<g id="node-dispatch" class="node">
+<title>dispatch</title>
+<g id="a_node-dispatch"><a xlink:href="#detail-dispatch" xlink:title="Send each requested call to its tool implementation.">
+<polygon fill="#edf4ff" stroke="#2c5eaa" points="298.91,-567.65 81.75,-567.65 81.75,-519.37 298.91,-519.37 298.91,-567.65" />
+<text xml:space="preserve" text-anchor="start" x="159.21" y="-548.26" font-family="Arial" font-size="10.00" fill="#2c5eaa">HOLMESGPT</text>
+<text xml:space="preserve" text-anchor="start" x="92.83" y="-532.66" font-family="Arial" font-weight="bold" font-size="13.00">ToolCallingLLM / ToolExecutor</text>
+</a>
+</g>
+</g>
+
+<g id="node-yaml" class="node">
+<title>yaml</title>
+<g id="a_node-yaml"><a xlink:href="#detail-yaml" xlink:title="Run Kubernetes queries, resource counts and usage checks.">
+<polygon fill="#edf4ff" stroke="#2c5eaa" points="269.29,-443.62 111.38,-443.62 111.38,-379.84 269.29,-379.84 269.29,-443.62" />
+<text xml:space="preserve" text-anchor="start" x="159.21" y="-424.23" font-family="Arial" font-size="10.00" fill="#2c5eaa">HOLMESGPT</text>
+<text xml:space="preserve" text-anchor="start" x="159.58" y="-408.63" font-family="Arial" font-weight="bold" font-size="13.00">YAMLTool</text>
+<text xml:space="preserve" text-anchor="start" x="122.46" y="-392.48" font-family="Arial" font-size="11.00" fill="#586577">Bash templates · kubectl · jq</text>
+</a>
+</g>
+</g>
+
+<g id="node-bash" class="node">
+<title>bash</title>
+<g id="a_node-bash"><a xlink:href="#detail-bash" xlink:title="Run an allowed shell command.">
+<polygon fill="#edf4ff" stroke="#2c5eaa" points="447.29,-443.62 301.38,-443.62 301.38,-379.84 447.29,-379.84 447.29,-443.62" />
+<text xml:space="preserve" text-anchor="start" x="343.21" y="-424.23" font-family="Arial" font-size="10.00" fill="#2c5eaa">HOLMESGPT</text>
+<text xml:space="preserve" text-anchor="start" x="312.46" y="-408.63" font-family="Arial" font-weight="bold" font-size="13.00">RunBashCommand</text>
+<text xml:space="preserve" text-anchor="start" x="333.08" y="-392.48" font-family="Arial" font-size="11.00" fill="#586577">Bash subprocess</text>
+</a>
+</g>
+</g>
+
+<g id="node-logs" class="node">
+<title>logs</title>
+<g id="a_node-logs"><a xlink:href="#detail-logs" xlink:title="Run log, network, task, skill and image tools.">
+<polygon fill="#edf4ff" stroke="#2c5eaa" points="630.91,-443.62 479.75,-443.62 479.75,-379.84 630.91,-379.84 630.91,-443.62" />
+<text xml:space="preserve" text-anchor="start" x="524.21" y="-424.23" font-family="Arial" font-size="10.00" fill="#2c5eaa">HOLMESGPT</text>
+<text xml:space="preserve" text-anchor="start" x="490.83" y="-408.63" font-family="Arial" font-weight="bold" font-size="13.00">Python Tool classes</text>
+<text xml:space="preserve" text-anchor="start" x="491.58" y="-392.48" font-family="Arial" font-size="11.00" fill="#586577">kubectl logs · HTTP · TCP</text>
+</a>
+</g>
+</g>
+
+<g id="node-mcp" class="node">
+<title>mcp</title>
+<g id="a_node-mcp"><a xlink:href="#detail-mcp" xlink:title="Call tools provided by the SREGym tool servers.">
+<polygon fill="#edf4ff" stroke="#2c5eaa" points="789.91,-443.62 662.75,-443.62 662.75,-379.84 789.91,-379.84 789.91,-443.62" />
+<text xml:space="preserve" text-anchor="start" x="695.21" y="-424.23" font-family="Arial" font-size="10.00" fill="#2c5eaa">HOLMESGPT</text>
+<text xml:space="preserve" text-anchor="start" x="673.83" y="-408.63" font-family="Arial" font-weight="bold" font-size="13.00">RemoteMCPTool</text>
+<text xml:space="preserve" text-anchor="start" x="700.08" y="-392.48" font-family="Arial" font-size="11.00" fill="#586577">MCP client</text>
+</a>
+</g>
+</g>
+
+<g id="node-filter" class="node">
+<title>filter</title>
+<g id="a_node-filter"><a xlink:href="#detail-filter" xlink:title="Forward allowed requests to the Kubernetes API.">
+<polygon fill="#eaf6ee" stroke="#28734c" points="268.54,-311.84 112.13,-311.84 112.13,-248.06 268.54,-248.06 268.54,-311.84" />
+<text xml:space="preserve" text-anchor="start" x="168.58" y="-292.45" font-family="Arial" font-size="10.00" fill="#28734c">SREGYM</text>
+<text xml:space="preserve" text-anchor="start" x="123.21" y="-276.85" font-family="Arial" font-weight="bold" font-size="13.00">KubernetesAPIProxy</text>
+<text xml:space="preserve" text-anchor="start" x="148.33" y="-260.7" font-family="Arial" font-size="11.00" fill="#586577">Resource filtering</text>
+</a>
+</g>
+</g>
+
+<g id="node-endpoints" class="node">
+<title>endpoints</title>
+<g id="a_node-endpoints"><a xlink:href="#detail-endpoints" xlink:title="Receive web requests and TCP connection checks.">
+<polygon fill="#f2f4f7" stroke="#536071" points="603.41,-311.84 437.25,-311.84 437.25,-248.06 603.41,-248.06 603.41,-311.84" />
+<text xml:space="preserve" text-anchor="start" x="448.33" y="-292.45" font-family="Arial" font-size="10.00" fill="#536071">MODEL / CLUSTER BACKEND</text>
+<text xml:space="preserve" text-anchor="start" x="450.21" y="-276.85" font-family="Arial" font-weight="bold" font-size="13.00">HTTP / TCP endpoints</text>
+<text xml:space="preserve" text-anchor="start" x="452.46" y="-260.7" font-family="Arial" font-size="11.00" fill="#586577">Requested URL or host:port</text>
+</a>
+</g>
+</g>
+
+<g id="node-prom_handler" class="node">
+<title>prom_handler</title>
+<g id="a_node-prom_handler"><a xlink:href="#detail-prom_handler" xlink:title="Query metrics and firing alerts.">
+<polygon fill="#eaf6ee" stroke="#28734c" points="811.29,-311.84 635.38,-311.84 635.38,-248.06 811.29,-248.06 811.29,-311.84" />
+<text xml:space="preserve" text-anchor="start" x="701.58" y="-292.45" font-family="Arial" font-size="10.00" fill="#28734c">SREGYM</text>
+<text xml:space="preserve" text-anchor="start" x="646.46" y="-276.85" font-family="Arial" font-weight="bold" font-size="13.00">Prometheus MCP server</text>
+<text xml:space="preserve" text-anchor="start" x="684.33" y="-260.7" font-family="Arial" font-size="11.00" fill="#586577">Python handlers</text>
+</a>
+</g>
+</g>
+
+<g id="node-jaeger_handler" class="node">
+<title>jaeger_handler</title>
+<g id="a_node-jaeger_handler"><a xlink:href="#detail-jaeger_handler" xlink:title="Search application traces.">
+<polygon fill="#eaf6ee" stroke="#28734c" points="1058.41,-311.84 916.25,-311.84 916.25,-248.06 1058.41,-248.06 1058.41,-311.84" />
+<text xml:space="preserve" text-anchor="start" x="965.58" y="-292.45" font-family="Arial" font-size="10.00" fill="#28734c">SREGYM</text>
+<text xml:space="preserve" text-anchor="start" x="927.33" y="-276.85" font-family="Arial" font-weight="bold" font-size="13.00">Jaeger MCP server</text>
+<text xml:space="preserve" text-anchor="start" x="948.33" y="-260.7" font-family="Arial" font-size="11.00" fill="#586577">Python handlers</text>
+</a>
+</g>
+</g>
+
+<g id="node-kubernetes" class="node">
+<title>kubernetes</title>
+<g id="a_node-kubernetes"><a xlink:href="#detail-kubernetes" xlink:title="Serve Kubernetes data and accept permitted resource changes.">
+<polygon fill="#f2f4f7" stroke="#536071" points="273.41,-172.31 107.25,-172.31 107.25,-124.03 273.41,-124.03 273.41,-172.31" />
+<text xml:space="preserve" text-anchor="start" x="118.33" y="-152.92" font-family="Arial" font-size="10.00" fill="#536071">MODEL / CLUSTER BACKEND</text>
+<text xml:space="preserve" text-anchor="start" x="118.33" y="-137.32" font-family="Arial" font-weight="bold" font-size="13.00">Kubernetes API server</text>
+</a>
+</g>
+</g>
+
+<g id="node-prometheus" class="node">
+<title>prometheus</title>
+<g id="a_node-prometheus"><a xlink:href="#detail-prometheus" xlink:title="Evaluate metric queries and provide monitoring data.">
+<polygon fill="#f2f4f7" stroke="#536071" points="806.41,-180.06 640.25,-180.06 640.25,-116.28 806.41,-116.28 806.41,-180.06" />
+<text xml:space="preserve" text-anchor="start" x="651.33" y="-160.67" font-family="Arial" font-size="10.00" fill="#536071">MODEL / CLUSTER BACKEND</text>
+<text xml:space="preserve" text-anchor="start" x="684.71" y="-145.07" font-family="Arial" font-weight="bold" font-size="13.00">Prometheus</text>
+<text xml:space="preserve" text-anchor="start" x="678.71" y="-128.92" font-family="Arial" font-size="11.00" fill="#586577">PromQL execution</text>
+</a>
+</g>
+</g>
+
+<g id="node-jaeger" class="node">
+<title>jaeger</title>
+<g id="a_node-jaeger"><a xlink:href="#detail-jaeger" xlink:title="Find application request traces.">
+<polygon fill="#f2f4f7" stroke="#536071" points="1070.41,-180.06 904.25,-180.06 904.25,-116.28 1070.41,-116.28 1070.41,-180.06" />
+<text xml:space="preserve" text-anchor="start" x="915.33" y="-160.67" font-family="Arial" font-size="10.00" fill="#536071">MODEL / CLUSTER BACKEND</text>
+<text xml:space="preserve" text-anchor="start" x="965.58" y="-145.07" font-family="Arial" font-weight="bold" font-size="13.00">Jaeger</text>
+<text xml:space="preserve" text-anchor="start" x="925.46" y="-128.92" font-family="Arial" font-size="11.00" fill="#586577">Application request traces</text>
+</a>
+</g>
+</g>
+
+<g id="node-observations" class="node">
+<title>observations</title>
+<g id="a_node-observations"><a xlink:href="#detail-observations" xlink:title="Format each tool result for the conversation.">
+<polygon fill="#edf4ff" stroke="#2c5eaa" points="247.91,-48.28 132.75,-48.28 132.75,0 247.91,0 247.91,-48.28" />
+<text xml:space="preserve" text-anchor="start" x="159.21" y="-28.89" font-family="Arial" font-size="10.00" fill="#2c5eaa">HOLMESGPT</text>
+<text xml:space="preserve" text-anchor="start" x="143.83" y="-13.29" font-family="Arial" font-weight="bold" font-size="13.00">ToolCallResult</text>
+</a>
+</g>
+</g>
+
+<g id="node-submit" class="node">
+<title>submit</title>
+<g id="a_node-submit"><a xlink:href="#detail-submit" xlink:title="Submit the answer for evaluation.">
+<polygon fill="#fff3e6" stroke="#a6540c" points="529.54,-575.4 331.13,-575.4 331.13,-511.62 529.54,-511.62 529.54,-575.4" />
+<text xml:space="preserve" text-anchor="start" x="383.46" y="-556.01" font-family="Arial" font-size="10.00" fill="#a6540c">OUR INTEGRATION</text>
+<text xml:space="preserve" text-anchor="start" x="342.21" y="-540.41" font-family="Arial" font-weight="bold" font-size="13.00">Stage adapter (submission)</text>
+<text xml:space="preserve" text-anchor="start" x="355.33" y="-524.26" font-family="Arial" font-size="11.00" fill="#586577">Submit for SREGym evaluation</text>
+</a>
+</g>
+</g>
+<g class="feedback" tabindex="0" role="group" aria-label="ToolCallResult to ToolCallingLLM / DefaultLLM: After all calls: updated conversation"><path d="M 190.32999999999998 0.0 V 22.0 H -19.200000000000003 V -791.5699999999999 H 80.75" fill="none" stroke="transparent" stroke-width="8" pointer-events="stroke" aria-hidden="true" /><path data-link-line="" d="M 190.32999999999998 0.0 V 22.0 H -19.200000000000003 V -791.5699999999999 H 80.75" fill="none" stroke="#2c5eaa" stroke-width="1.5" /><polygon points="87.75,-791.5699999999999 80.75,-794.5699999999999 80.75,-788.5699999999999" fill="#2c5eaa" /><text x="-27.200000000000003" y="-384.78499999999997" text-anchor="middle" transform="rotate(-90 -27.200000000000003 -384.78499999999997)" font-family="Arial" font-size="11" fill="#2c5eaa">After all calls: updated conversation</text></g></g>
+</svg></figure>
+<template id="detail-stage" data-title="Conductor"><div class="detail-body"><p class="owner">SREGYM</p><p>Prepare a test case and report its current stage.</p><dl><dt>Input</dt><dd><ul><li>Problem: a SREGym test case, with its deployment, fault and evaluation rules.</li><li>Requests for the current stage and application details.</li></ul></dd><dt>Output</dt><dd><ul><li>Current stage: diagnosis (find the cause) or mitigation (repair the failure).</li><li>Application description, relevant namespaces and enabled stages.</li></ul></dd><dt>Behavior</dt><dd><ul><li>Deploy the application: the services under test, including any supporting databases.</li><li>Apply the fault: the change that causes the failure being tested.</li><li>Expose stage and application details through GET /status and GET /get_app.</li><li>Evaluate diagnosis with the case’s diagnosis oracle, which can use an LLM judge. Evaluate mitigation against the system/application state, then advance stages or restore the environment.</li></ul></dd></dl><h3>Related Sources</h3><ul class="sources"><li><a href="https://github.com/SREGym/SREGym/blob/0d8e7b73214c44e99c97ca1af2934290aa3b826b/sregym/conductor/conductor.py#L652-L758" target="_blank" rel="noopener noreferrer">Conductor.start_problem</a><small class="source-path">SREGym: sregym/conductor/conductor.py:L652-L758</small></li><li><a href="https://github.com/SREGym/SREGym/blob/0d8e7b73214c44e99c97ca1af2934290aa3b826b/sregym/conductor/conductor.py#L1384-L1513" target="_blank" rel="noopener noreferrer">Conductor.deploy_app</a><small class="source-path">SREGym: sregym/conductor/conductor.py:L1384-L1513</small></li><li><a href="https://github.com/SREGym/SREGym/blob/0d8e7b73214c44e99c97ca1af2934290aa3b826b/sregym/conductor/conductor.py#L320-L345" target="_blank" rel="noopener noreferrer">Conductor._inject_fault</a><small class="source-path">SREGym: sregym/conductor/conductor.py:L320-L345</small></li><li><a href="https://github.com/SREGym/SREGym/blob/0d8e7b73214c44e99c97ca1af2934290aa3b826b/sregym/conductor/conductor.py#L420-L473" target="_blank" rel="noopener noreferrer">Conductor._advance_to_next_stage</a><small class="source-path">SREGym: sregym/conductor/conductor.py:L420-L473</small></li><li><a href="https://github.com/SREGym/SREGym/blob/0d8e7b73214c44e99c97ca1af2934290aa3b826b/sregym/conductor/conductor_api.py#L233-L248" target="_blank" rel="noopener noreferrer">get_status</a><small class="source-path">SREGym: sregym/conductor/conductor_api.py:L233-L248</small></li><li><a href="https://github.com/SREGym/SREGym/blob/0d8e7b73214c44e99c97ca1af2934290aa3b826b/sregym/conductor/conductor_api.py#L251-L267" target="_blank" rel="noopener noreferrer">get_app</a><small class="source-path">SREGym: sregym/conductor/conductor_api.py:L251-L267</small></li><li><a href="https://github.com/SREGym/SREGym/blob/0d8e7b73214c44e99c97ca1af2934290aa3b826b/sregym/conductor/conductor.py#L760-L882" target="_blank" rel="noopener noreferrer">Conductor._submit_evaluate_and_advance</a><small class="source-path">SREGym: sregym/conductor/conductor.py:L760-L882</small></li><li><a href="https://github.com/SREGym/SREGym/blob/0d8e7b73214c44e99c97ca1af2934290aa3b826b/sregym/conductor/conductor.py#L475-L568" target="_blank" rel="noopener noreferrer">Conductor._cleanup_sync</a><small class="source-path">SREGym: sregym/conductor/conductor.py:L475-L568</small></li></ul></div></template>
+<template id="detail-adapter" data-title="Stage adapter (setup)"><div class="detail-body"><p class="owner">OUR INTEGRATION</p><p>Configure HolmesGPT for the current stage.</p><dl><dt>Input</dt><dd><ul><li>Current stage and application details from SREGym.</li><li>Conversation from the previous stage, when available.</li></ul></dd><dt>Output</dt><dd><ul><li>Initial conversation built with the HolmesGPT prompt builder.</li><li>Configured HolmesGPT agent, started through ai.call(messages).</li></ul></dd><dt>Behavior</dt><dd><ul><li>Load HolmesGPT toolsets tagged CORE or CLI and check their configuration and prerequisites. Configure the Bash policy and SREGym Prometheus/Jaeger MCP servers.</li><li>Use HolmesGPT’s prompt builder for the system and user messages. Add stage-permission guidance and the configured MCP toolset instructions to the system prompt.</li><li>Supply the user task: diagnosis or mitigation, application description, relevant namespaces and investigation scope.</li><li>Keep diagnosis read-only. Permit the selected Kubernetes write commands during mitigation under the Bash allow/deny rules.</li><li>Select the model and allow 100 agent iterations per stage. One iteration can request several tools. For Sonnet 5.5, omit the rejected temperature setting.</li><li>For the next stage, create an agent instance with new system instructions. Retain previous non-system messages and the shared tool-result directory.</li></ul></dd></dl><h3>Related Sources</h3><ul class="sources"><li><a href="../../../runtime/agent.py" target="_blank" rel="noopener noreferrer">runtime/agent.py</a><small class="source-path">parent: runtime/agent.py</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/core/prompt.py#L335-L364" target="_blank" rel="noopener noreferrer">holmes/core/prompt.py</a><small class="source-path">holmesgpt: holmes/core/prompt.py:L335-L364</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/core/prompt.py#L206-L254" target="_blank" rel="noopener noreferrer">build_system_prompt</a><small class="source-path">holmesgpt: holmes/core/prompt.py:L206-L254</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/prompts/generic_ask.jinja2#L1-L132" target="_blank" rel="noopener noreferrer">System prompt template</a><small class="source-path">holmesgpt: holmes/plugins/prompts/generic_ask.jinja2:L1-L132</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/prompts/base_user_prompt.jinja2#L1-L46" target="_blank" rel="noopener noreferrer">User prompt template</a><small class="source-path">holmesgpt: holmes/plugins/prompts/base_user_prompt.jinja2:L1-L46</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/config.py#L443-L454" target="_blank" rel="noopener noreferrer">Toolset tag selection and prerequisite controls</a><small class="source-path">holmesgpt: holmes/config.py:L443-L454</small></li></ul></div></template>
+<template id="detail-request" data-title="ToolCallingLLM / DefaultLLM"><div class="detail-body"><p class="owner">HOLMESGPT</p><p>Prepare conversation context and send the model request.</p><dl><dt>Input</dt><dd><ul><li>Stage instructions, earlier model replies and tool messages.</li><li>Available tool definitions and model settings.</li></ul></dd><dt>Output</dt><dd><ul><li>Model request containing the current conversation and callable tools.</li></ul></dd><dt>Behavior</dt><dd><ul><li>ToolCallingLLM manages the conversation and context budget. When compaction is needed, summarize older messages through the configured model client.</li><li>DefaultLLM sends a model request through LiteLLM and returns the response to ToolCallingLLM.</li><li>On the last allowed iteration, omit tools to request a final answer. Provider errors or cancellation can end the call earlier.</li></ul></dd></dl><h3>Related Sources</h3><ul class="sources"><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/core/tool_calling_llm.py#L1220-L1308" target="_blank" rel="noopener noreferrer">ToolCallingLLM.call_stream: prepare context and call the model</a><small class="source-path">holmesgpt: holmes/core/tool_calling_llm.py:L1220-L1308</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/core/llm.py#L712-L843" target="_blank" rel="noopener noreferrer">DefaultLLM.completion</a><small class="source-path">holmesgpt: holmes/core/llm.py:L712-L843</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/core/truncation/input_context_window_limiter.py#L82-L205" target="_blank" rel="noopener noreferrer">compact_if_necessary</a><small class="source-path">holmesgpt: holmes/core/truncation/input_context_window_limiter.py:L82-L205</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/core/truncation/compaction.py#L352-L517" target="_blank" rel="noopener noreferrer">compact_conversation_history</a><small class="source-path">holmesgpt: holmes/core/truncation/compaction.py:L352-L517</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/core/tools_utils/tool_executor.py#L178-L189" target="_blank" rel="noopener noreferrer">ToolExecutor.get_all_tools_openai_format</a><small class="source-path">holmesgpt: holmes/core/tools_utils/tool_executor.py:L178-L189</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/core/tool_calling_llm.py#L284-L299" target="_blank" rel="noopener noreferrer">ToolCallingLLM: model-client reference</a><small class="source-path">holmesgpt: holmes/core/tool_calling_llm.py:L284-L299</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/config.py#L754-L769" target="_blank" rel="noopener noreferrer">Create the model client and agent loop</a><small class="source-path">holmesgpt: holmes/config.py:L754-L769</small></li></ul></div></template>
+<template id="detail-model" data-title="LLM"><div class="detail-body"><p class="owner">MODEL / CLUSTER BACKEND</p><p>Choose tool calls or return a final answer.</p><dl><dt>Input</dt><dd><ul><li>Current conversation and available tool definitions.</li></ul></dd><dt>Output</dt><dd><ul><li>Model reply, optionally containing several tool calls with names, arguments and call IDs.</li><li>Final answer when the reply contains no tool calls.</li></ul></dd><dt>Behavior</dt><dd><ul><li>Use the conversation and tool descriptions to choose actions.</li><li>Supply query expressions or shell commands when the selected tool requires them.</li><li>Return tool calls for HolmesGPT to execute. Text alongside a tool call does not end the agent loop.</li></ul></dd></dl><h3>Related Sources</h3><p class="source-note">Caller code for these backend requests.</p><ul class="sources"><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/core/tool_calling_llm.py#L1295-L1467" target="_blank" rel="noopener noreferrer">holmes/core/tool_calling_llm.py</a><small class="source-path">holmesgpt: holmes/core/tool_calling_llm.py:L1295-L1467</small></li></ul></div></template>
+<template id="detail-dispatch" data-title="ToolCallingLLM / ToolExecutor"><div class="detail-body"><p class="owner">HOLMESGPT</p><p>Send each requested call to its tool implementation.</p><dl><dt>Input</dt><dd><ul><li>Tool calls from one model reply, including names, arguments and call IDs.</li></ul></dd><dt>Output</dt><dd><ul><li>Calls to the selected tool implementations.</li><li>Error results for invalid calls or denied actions.</li></ul></dd><dt>Behavior</dt><dd><ul><li>Append the model reply and its requested calls to the conversation before execution.</li><li>Parse call arguments and resolve each name through ToolExecutor. Apply the SDK’s repeated-call check, parameter conversion and approval rules.</li><li>Execute the requested batch with up to 16 workers. Tool errors and denied actions become results for the model.</li><li>Keep each result associated with its call ID. Calls can finish in a different order from their requests.</li></ul></dd></dl><h3>Tools by implementation</h3><ul><li><b>YAMLTool</b>: <code>kubernetes_jq_query</code>, <code>kubernetes_tabular_query</code>, <code>kubernetes_count</code>, <code>kubectl_top_pods</code>, <code>kubectl_top_nodes</code>, <code>get_prometheus_target</code></li><li><b>RunBashCommand</b>: <code>bash</code></li><li><b>Python Tool classes</b>: <code>fetch_pod_logs</code>, <code>TodoWrite</code>, <code>fetch_webpage</code>, <code>tcp_check</code>, <code>read_image_file</code>, <code>fetch_skill</code></li><li><b>Prometheus MCP server</b>: <code>get_metrics</code>, <code>get_alerts</code></li><li><b>Jaeger MCP server</b>: <code>get_services</code>, <code>get_operations</code>, <code>get_traces</code>, <code>get_dependency_graph</code></li></ul><h3>Related Sources</h3><ul class="sources"><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/core/tool_calling_llm.py#L1405-L1595" target="_blank" rel="noopener noreferrer">ToolCallingLLM.call_stream: tool batches and results</a><small class="source-path">holmesgpt: holmes/core/tool_calling_llm.py:L1405-L1595</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/core/tool_calling_llm.py#L987-L1113" target="_blank" rel="noopener noreferrer">ToolCallingLLM._invoke_llm_tool_call</a><small class="source-path">holmesgpt: holmes/core/tool_calling_llm.py:L987-L1113</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/core/tool_calling_llm.py#L864-L924" target="_blank" rel="noopener noreferrer">ToolCallingLLM._directly_invoke_tool_call</a><small class="source-path">holmesgpt: holmes/core/tool_calling_llm.py:L864-L924</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/core/tools_utils/tool_executor.py#L100-L108" target="_blank" rel="noopener noreferrer">ToolExecutor.get_tool_by_name</a><small class="source-path">holmesgpt: holmes/core/tools_utils/tool_executor.py:L100-L108</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/core/tools.py#L392-L437" target="_blank" rel="noopener noreferrer">Tool.invoke</a><small class="source-path">holmesgpt: holmes/core/tools.py:L392-L437</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/core/tools.py#L377-L383" target="_blank" rel="noopener noreferrer">Tool._coerce_params</a><small class="source-path">holmesgpt: holmes/core/tools.py:L377-L383</small></li></ul></div></template>
+<template id="detail-yaml" data-title="YAMLTool"><div class="detail-body"><p class="owner">HOLMESGPT</p><p>Run Kubernetes queries, resource counts and usage checks.</p><dl><dt>Input</dt><dd><ul><li>kubernetes_jq_query and kubernetes_count: resource kind, namespace, selectors and a jq expression (a JSON filter).</li><li>kubernetes_tabular_query: resource kind, namespace, selectors, columns and a row filter.</li><li>kubectl_top_pods and kubectl_top_nodes: no arguments.</li><li>get_prometheus_target: Prometheus service, namespace and target name.</li></ul></dd><dt>Output</dt><dd><ul><li>Selected resource JSON, counts/previews, table rows, CPU/memory usage or target details.</li><li>Tool status, the executed command and any errors.</li></ul></dd><dt>Behavior</dt><dd><ul><li>Render a fixed command or a parameterized Bash script from the YAML definition. Template variables supply any inferred parameters.</li><li>Run kubectl inside the agent container through SREGym’s Kubernetes access proxy.</li><li>For JSON queries and counts, discover resources and retrieve pages as needed. Run jq locally to select or count the results.</li><li>For table queries, request custom columns and filter rows locally.</li><li>For CPU/memory snapshots, run kubectl top against the Kubernetes Metrics API.</li><li>For target lookup, request Prometheus /api/v1/targets through the Kubernetes service proxy, then select the target locally. Access rules can reject the request.</li><li>Apply configured output summarization when a fast model is available and output exceeds its threshold.</li></ul></dd></dl><h3>Tool definitions</h3><details class="tool-definition"><summary>kubernetes_jq_query</summary><dl class="tool-info"><dt>Toolset</dt><dd>kubernetes/core</dd><dt>Execution</dt><dd>YAMLTool script → kubectl discovery/paginated reads → local jq</dd><dt>Returns</dt><dd>Selected JSON, scope, counts and errors</dd></dl><p><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/kubernetes.yaml#L17-L261" target="_blank" rel="noopener noreferrer">kubernetes_jq_query</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/kubernetes.yaml:L17-L261</small></p><pre><code>      - name: &quot;kubernetes_jq_query&quot;
+        user_description: &quot;jq query: kubectl get {{kind}} | jq &#x27;{{jq_expr}}&#x27; (namespace={{namespace if namespace is string}}, label_selector={{label_selector}}, field_selector={{field_selector}})&quot;
+        description: &gt;
+          Use kubectl to get json for all resources of a specific kind and filter with jq.
+          Prefer over bash for large queries - paginates via the Kubernetes API so large
+          clusters don&#x27;t overflow context.
+          If you know the namespace or labels of the resources you need, pass namespace,
+          label_selector and/or field_selector so filtering happens server-side; unscoped
+          queries can be slow on large clusters.
+          Returns a JSON object with keys: &quot;total_items_processed&quot;, &quot;matches_found&quot;,
+          &quot;results&quot; (array of matching resources), &quot;stderr&quot; (error output or null),
+          &quot;scope&quot; (the resource, namespace and selectors actually queried), and
+          &quot;notes&quot; (e.g. a namespace ignored for a cluster-scoped kind).
+          The &#x27;kind&#x27; parameter must be the plural form of the resource type
+          (e.g., &quot;pods&quot; not &quot;pod&quot;, &quot;jobs&quot; not &quot;job&quot;).
+          Do not worry about escaping the jq_expr - it will be done by the system.
+          Example: .items[] | .spec.containers[].image | select(test(&quot;^gcr.io/&quot;) | not)
+        parameters:
+          namespace:
+            type: string
+            required: false
+            description: &quot;Only query resources in this namespace. Ignored for cluster-scoped kinds such as nodes.&quot;
+          label_selector:
+            type: string
+            required: false
+            description: &quot;Kubernetes label selector applied server-side, e.g. &#x27;app=web,tier!=db&#x27; or &#x27;env in (prod,staging)&#x27;.&quot;
+          field_selector:
+            type: string
+            required: false
+            description: &quot;Kubernetes field selector applied server-side. All kinds support metadata.name and metadata.namespace; pods also support status.phase and spec.nodeName, e.g. &#x27;status.phase!=Running&#x27;.&quot;
+        script: |
+          #!/bin/bash
+
+          # SECURITY: assign sanitized params to shell variables in an unquoted
+          # assignment slot, then reference them only as &quot;$VAR&quot;. Never interpolate
+          # {{ param }} inside a quoted context - sanitize() (shlex.quote) wraps
+          # dangerous values in single quotes, which are literal (and command
+          # substitution stays active) inside a double-quoted or single-quoted slot.
+          KIND={{ kind }}
+          # &#x27;namespace&#x27; is also a Jinja global (namespace()), so it is defined even when omitted
+          SEL_NAMESPACE={{ namespace if namespace is string else &quot;&quot; }}
+          SEL_LABELS={{ label_selector }}
+          SEL_FIELDS={{ field_selector }}
+          # Strict tool calls send null for unset optional params, which renders as &#x27;None&#x27;
+          [ &quot;$SEL_NAMESPACE&quot; = &quot;None&quot; ] &amp;&amp; SEL_NAMESPACE=&quot;&quot;
+          [ &quot;$SEL_LABELS&quot; = &quot;None&quot; ] &amp;&amp; SEL_LABELS=&quot;&quot;
+          [ &quot;$SEL_FIELDS&quot; = &quot;None&quot; ] &amp;&amp; SEL_FIELDS=&quot;&quot;
+
+          # Collapse multi-line jq expressions (LLMs sometimes write multi-line jq)
+          # Note: use $&#x27;\n&#x27; syntax instead of &#x27;\n&#x27; because Jinja2 interprets \n as literal newlines
+          JQ_FILTER={{ jq_expr }}
+          JQ_FILTER=$(printf &#x27;%s&#x27; &quot;$JQ_FILTER&quot; | tr $&#x27;\n\r&#x27; &#x27;  &#x27;)
+
+          err_file=$(mktemp)
+          PROCESSED=0
+          NOTES=&#x27;[]&#x27;
+          SCOPE=&#x27;null&#x27;
+
+          add_note() {
+            NOTES=$(jq -c --arg note &quot;$1&quot; &#x27;. + [$note]&#x27; &lt;&lt;&lt; &quot;$NOTES&quot;)
+          }
+
+          uri_encode() {
+            jq -rn --arg v &quot;$1&quot; &#x27;$v|@uri&#x27;
+          }
+
+          fail() {
+            err_content=$(cat &quot;$err_file&quot; 2&gt;/dev/null)
+            rm -f &quot;$err_file&quot;
+            jq -n --arg stderr &quot;$1 $err_content&quot; --argjson total &quot;$PROCESSED&quot; --argjson notes &quot;$NOTES&quot; --argjson scope &quot;$SCOPE&quot; \
+              &#x27;{total_items_processed: $total, matches_found: 0, results: [], stderr: $stderr, scope: $scope, notes: $notes}&#x27;
+            exit 0
+          }
+
+          # The namespace becomes part of the raw API path, so anything other than a valid
+          # namespace name (e.g. &#x27;default/services/x:80/proxy/?&#x27;) could reach other API endpoints
+          if [ -n &quot;$SEL_NAMESPACE&quot; ] &amp;&amp; ! [[ &quot;$SEL_NAMESPACE&quot; =~ ^[a-z0-9]([-a-z0-9]{0,61}[a-z0-9])?$ ]]; then
+            fail &quot;Invalid namespace &#x27;${SEL_NAMESPACE}&#x27;: must be a Kubernetes namespace name (lowercase letters, digits and &#x27;-&#x27;).&quot;
+          fi
+
+          # Get the API path for the resource kind using kubectl
+          # Match the resource name (first column) as an EXACT string, not a
+          # grep regex - otherwise a kind like &#x27;.*&#x27; or &#x27;a|b&#x27; would match the
+          # wrong resource.
+          CANDIDATES=$(kubectl api-resources --no-headers 2&gt;&gt;&quot;$err_file&quot; | awk -v kind=&quot;$KIND&quot; &#x27;$1 == kind&#x27;)
+          API_INFO=$(printf &#x27;%s\n&#x27; &quot;$CANDIDATES&quot; | head -1)
+          # `kubectl api-resources` sorts by group name, so a CRD reusing a built-in
+          # plural (e.g. Calico&#x27;s crd.projectcalico.org networkpolicies) can be listed
+          # before networking.k8s.io. Pick what `kubectl get` picks: the core group,
+          # then the first group in server discovery order (/apis).
+          if [ &quot;$(printf &#x27;%s\n&#x27; &quot;$CANDIDATES&quot; | grep -c .)&quot; -gt 1 ] &amp;&amp; [[ &quot;$API_INFO&quot; != *&quot; v1 &quot;* ]]; then
+            API_GROUPS=$(kubectl get --raw /apis 2&gt;/dev/null | jq -r &#x27;.groups[].name&#x27; 2&gt;/dev/null)
+            if [ -z &quot;$API_GROUPS&quot; ]; then
+              add_note &quot;Several API groups serve &#x27;${KIND}&#x27; and server discovery (/apis) failed, so the first group listed by kubectl api-resources was used.&quot;
+            fi
+            for group in $API_GROUPS; do
+              match=$(printf &#x27;%s\n&#x27; &quot;$CANDIDATES&quot; | grep -F &quot; $group/&quot; | head -1)
+              if [ -n &quot;$match&quot; ]; then
+                API_INFO=&quot;$match&quot;
+                break
+              fi
+            done
+          fi
+
+          if [ -z &quot;$API_INFO&quot; ]; then
+            fail &quot;Unable to find resource kind &#x27;${KIND}&#x27;.&quot;
+          fi
+
+          # Extract NAMESPACED value
+          if [[ &quot;$API_INFO&quot; == *&quot; true &quot;* ]]; then
+            NAMESPACED=true
+            PREFIX=$(echo &quot;$API_INFO&quot; | sed &#x27;s/ true .*//&#x27;)
+          elif [[ &quot;$API_INFO&quot; == *&quot; false &quot;* ]]; then
+            NAMESPACED=false
+            PREFIX=$(echo &quot;$API_INFO&quot; | sed &#x27;s/ false .*//&#x27;)
+          else
+            fail &quot;Could not parse API info for &#x27;${KIND}&#x27;.&quot;
+          fi
+
+          # Trim trailing spaces from prefix and collapse internal spaces
+          PREFIX=$(echo &quot;$PREFIX&quot; | sed &#x27;s/  *$//&#x27; | sed &#x27;s/  */ /g&#x27;)
+
+          IFS=&#x27; &#x27; read -ra PREFIX_FIELDS &lt;&lt;&lt; &quot;$PREFIX&quot;
+          FIELD_COUNT=0
+          for field in &quot;${PREFIX_FIELDS[@]}&quot;; do
+            ((FIELD_COUNT++))
+          done
+
+          RESOURCE_NAME=&quot;${PREFIX_FIELDS[0]}&quot;
+          if [ $FIELD_COUNT -ge 2 ]; then
+            API_VERSION=&quot;${PREFIX_FIELDS[$((FIELD_COUNT - 1))]}&quot;
+          else
+            API_VERSION=&quot;&quot;
+          fi
+
+          if [ -z &quot;$API_VERSION&quot; ] || [ -z &quot;$RESOURCE_NAME&quot; ]; then
+            fail &quot;Unable to parse API info for resource kind &#x27;${KIND}&#x27;.&quot;
+          fi
+
+          # Build API path: namespaced kinds can be listed within one namespace;
+          # cluster-scoped kinds ignore the namespace (as kubectl does)
+          if [[ &quot;$API_VERSION&quot; == &quot;v1&quot; ]]; then
+            API_BASE=&quot;/api/v1&quot;
+          else
+            API_BASE=&quot;/apis/${API_VERSION}&quot;
+          fi
+          if [ -n &quot;$SEL_NAMESPACE&quot; ] &amp;&amp; [ &quot;$NAMESPACED&quot; = &quot;true&quot; ]; then
+            API_PATH=&quot;${API_BASE}/namespaces/${SEL_NAMESPACE}/${RESOURCE_NAME}&quot;
+          else
+            if [ -n &quot;$SEL_NAMESPACE&quot; ]; then
+              add_note &quot;namespace &#x27;${SEL_NAMESPACE}&#x27; ignored: ${RESOURCE_NAME} is cluster-scoped.&quot;
+              SEL_NAMESPACE=&quot;&quot;
+            fi
+            API_PATH=&quot;${API_BASE}/${RESOURCE_NAME}&quot;
+          fi
+
+          SELECTOR_QUERY=&quot;&quot;
+          if [ -n &quot;$SEL_LABELS&quot; ]; then
+            SELECTOR_QUERY=&quot;${SELECTOR_QUERY}&amp;labelSelector=$(uri_encode &quot;$SEL_LABELS&quot;)&quot;
+          fi
+          if [ -n &quot;$SEL_FIELDS&quot; ]; then
+            SELECTOR_QUERY=&quot;${SELECTOR_QUERY}&amp;fieldSelector=$(uri_encode &quot;$SEL_FIELDS&quot;)&quot;
+          fi
+
+          SCOPE=$(jq -nc --arg resource &quot;$RESOURCE_NAME&quot; --arg api_version &quot;$API_VERSION&quot; \
+            --arg namespace &quot;$SEL_NAMESPACE&quot; --arg labels &quot;$SEL_LABELS&quot; --arg fields &quot;$SEL_FIELDS&quot; \
+            &#x27;{resource: $resource, api_version: $api_version,
+              namespace: (if $namespace == &quot;&quot; then null else $namespace end),
+              label_selector: (if $labels == &quot;&quot; then null else $labels end),
+              field_selector: (if $fields == &quot;&quot; then null else $fields end)}&#x27;)
+
+          # Process resources in chunks using API pagination
+          LIMIT=500
+          CONTINUE=&quot;&quot;
+          TOTAL_MATCHES=0
+          ALL_MATCHES=&quot;&quot;
+
+          while true; do
+            QUERY=&quot;${API_PATH}?limit=${LIMIT}${SELECTOR_QUERY}&quot;
+            if [ -n &quot;$CONTINUE&quot; ]; then
+              # continue tokens are base64 and may contain &#x27;+&#x27;, &#x27;/&#x27; or &#x27;=&#x27;
+              QUERY=&quot;${QUERY}&amp;continue=$(uri_encode &quot;$CONTINUE&quot;)&quot;
+            fi
+
+            OUTPUT=$(kubectl get --raw &quot;$QUERY&quot; 2&gt;&gt;&quot;$err_file&quot;)
+            exit_code=$?
+
+            if [ $exit_code -ne 0 ]; then
+              fail &quot;kubectl get --raw failed for $QUERY.&quot;
+            fi
+
+            ITEMS_COUNT=$(echo &quot;$OUTPUT&quot; | jq &#x27;.items | length&#x27;)
+
+            MATCHES=$(echo &quot;$OUTPUT&quot; | jq -c &quot;$JQ_FILTER&quot; 2&gt;&gt;&quot;$err_file&quot;)
+            jq_exit=$?
+            if [ $jq_exit -ne 0 ]; then
+              fail &quot;jq expression failed.&quot;
+            fi
+
+            if [ &quot;$ITEMS_COUNT&quot; -gt 0 ]; then
+              if [ -n &quot;$MATCHES&quot; ]; then
+                if [ -z &quot;$ALL_MATCHES&quot; ]; then
+                  ALL_MATCHES=&quot;$MATCHES&quot;
+                else
+                  ALL_MATCHES=&quot;$ALL_MATCHES&quot;$&#x27;\n&#x27;&quot;$MATCHES&quot;
+                fi
+                MATCH_COUNT=$(echo &quot;$MATCHES&quot; | grep -c . || true)
+                TOTAL_MATCHES=$((TOTAL_MATCHES + MATCH_COUNT))
+              fi
+              PROCESSED=$((PROCESSED + ITEMS_COUNT))
+            fi
+
+            CONTINUE=$(echo &quot;$OUTPUT&quot; | jq -r &#x27;.metadata.continue // empty&#x27;)
+
+            if [ -z &quot;$CONTINUE&quot; ]; then
+              break
+            fi
+          done
+
+          err_content=$(cat &quot;$err_file&quot; 2&gt;/dev/null)
+          rm -f &quot;$err_file&quot;
+
+          # Output results as a JSON object with metadata. Results go through stdin, not --argjson:
+          # Linux caps a single argument at 128KB, so larger results failed with &quot;Argument list too long&quot;.
+          printf &#x27;%s\n&#x27; &quot;$ALL_MATCHES&quot; | jq -s \
+            --argjson total_items_processed &quot;$PROCESSED&quot; \
+            --argjson matches_found &quot;$TOTAL_MATCHES&quot; \
+            --arg stderr &quot;$err_content&quot; \
+            --argjson scope &quot;$SCOPE&quot; \
+            --argjson notes &quot;$NOTES&quot; \
+            &#x27;{total_items_processed: $total_items_processed, matches_found: $matches_found, results: ., stderr: (if $stderr == &quot;&quot; then null else $stderr end), scope: $scope, notes: $notes}&#x27;
+        transformers:
+          - name: llm_summarize
+            config:
+              input_threshold: 10000
+              prompt: |
+                Summarize this jq query output focusing on:
+                - Key patterns and commonalities in the data
+                - Notable outliers, anomalies, or items that need attention
+                - Group similar results into aggregate descriptions when possible
+                - Highlight any empty results, null values, or missing data
+                - When applicable, mention specific resource names, namespaces, or values that stand out
+                - Organize findings in a structured way that helps with troubleshooting
+                - Be concise: aim for ≤ 50% of the original text; prioritize aggregates and actionable outliers
+                - Include grep-ready keys/values; avoid repeating entire objects or unchanged defaults</code></pre></details><details class="tool-definition"><summary>kubernetes_tabular_query</summary><dl class="tool-info"><dt>Toolset</dt><dd>kubernetes/core</dd><dt>Execution</dt><dd>YAMLTool script → kubectl custom columns → local row filtering</dd><dt>Returns</dt><dd>Table rows, headers, count and errors</dd></dl><p><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/kubernetes.yaml#L263-L417" target="_blank" rel="noopener noreferrer">kubernetes_tabular_query</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/kubernetes.yaml:L263-L417</small></p><pre><code>      - name: &quot;kubernetes_tabular_query&quot;
+        user_description: &quot;filter: kubectl get {{kind}} columns=&#x27;{{columns}}&#x27; (namespace={{namespace if namespace is string}}, label_selector={{label_selector}}, field_selector={{field_selector}}, filter={{filter_pattern}})&quot;
+        description: &gt;
+          Extract specific fields from Kubernetes resources in tabular format with optional filtering.
+          Returns a JSON object with keys: &quot;count&quot; (number of rows), &quot;header&quot; (column header line),
+          &quot;rows&quot; (array of data rows), &quot;stderr&quot; (error output or null), &quot;scope&quot;
+          (the namespace and selectors actually queried), and &quot;notes&quot; (e.g. a namespace
+          ignored for a cluster-scoped kind).
+          Only requested fields are transmitted, so it works well on large clusters.
+          If you know the namespace or labels of the resources you need, pass namespace,
+          label_selector and/or field_selector so filtering happens server-side; unscoped
+          queries can be slow on large clusters.
+          Column specification format: HEADER:FIELD_PATH,HEADER2:FIELD_PATH2,...
+          e.g. NAME:.metadata.name,STATUS:.status.phase,IMAGE:.spec.containers[0].image
+          Optional filter_pattern matches any column (grep regex), e.g. filter_pattern=&quot;Running&quot;.
+
+          LIMITATIONS - not allowed characters in columns: &#x27; / ; and newline.
+          Label keys containing dots or slashes (e.g. kubernetes.io/arch, app.kubernetes.io/name)
+          CANNOT be queried with this tool because dots are path separators in JSONPath and
+          slashes are forbidden characters. Use kubernetes_jq_query instead for labels with
+          special characters, e.g.: .items[] | {name: .metadata.name, arch: .metadata.labels[&quot;kubernetes.io/arch&quot;]}
+          Similarly, use .status.nodeInfo.architecture instead of .metadata.labels[&quot;kubernetes.io/arch&quot;] when possible.
+        parameters:
+          namespace:
+            type: string
+            required: false
+            description: &quot;Only query resources in this namespace. Ignored for cluster-scoped kinds such as nodes.&quot;
+          label_selector:
+            type: string
+            required: false
+            description: &quot;Kubernetes label selector applied server-side, e.g. &#x27;app=web,tier!=db&#x27; or &#x27;env in (prod,staging)&#x27;. Unlike columns, label keys with dots or slashes work here.&quot;
+          field_selector:
+            type: string
+            required: false
+            description: &quot;Kubernetes field selector applied server-side. All kinds support metadata.name and metadata.namespace; pods also support status.phase and spec.nodeName, e.g. &#x27;status.phase!=Running&#x27;.&quot;
+          filter_pattern:
+            type: string
+            required: false
+            description: &quot;grep -E regex matched against each output row, e.g. &#x27;Running&#x27;.&quot;
+        script: |
+          #!/bin/bash
+          # SECURITY: assign sanitized params to shell variables (unquoted slot),
+          # then reference them only as &quot;$VAR&quot; - never interpolate {{ param }}
+          # inside a quoted context. See kubernetes_jq_query for the rationale.
+          KIND={{ kind }}
+          CUSTOM_COLUMNS={{ columns }}
+          # &#x27;namespace&#x27; is also a Jinja global (namespace()), so it is defined even when omitted
+          SEL_NAMESPACE={{ namespace if namespace is string else &quot;&quot; }}
+          SEL_LABELS={{ label_selector }}
+          SEL_FIELDS={{ field_selector }}
+          FILTER_PATTERN={{ filter_pattern }}
+          # Strict tool calls send null for unset optional params, which renders as &#x27;None&#x27;
+          [ &quot;$SEL_NAMESPACE&quot; = &quot;None&quot; ] &amp;&amp; SEL_NAMESPACE=&quot;&quot;
+          [ &quot;$SEL_LABELS&quot; = &quot;None&quot; ] &amp;&amp; SEL_LABELS=&quot;&quot;
+          [ &quot;$SEL_FIELDS&quot; = &quot;None&quot; ] &amp;&amp; SEL_FIELDS=&quot;&quot;
+          [ &quot;$FILTER_PATTERN&quot; = &quot;None&quot; ] &amp;&amp; FILTER_PATTERN=&quot;&quot;
+
+          # kubectl ignores -n for cluster-scoped kinds; say so instead of reporting a namespace that wasn&#x27;t applied
+          NOTES=&#x27;[]&#x27;
+          if [ -n &quot;$SEL_NAMESPACE&quot; ]; then
+            is_kind() { awk -v kind=&quot;$KIND&quot; &#x27;$1 == kind || index($1, kind &quot;.&quot;) == 1 {found = 1} END {exit !found}&#x27;; }
+            if kubectl api-resources --namespaced=false -o name 2&gt;/dev/null | is_kind \
+              &amp;&amp; ! kubectl api-resources --namespaced=true -o name 2&gt;/dev/null | is_kind; then
+              NOTES=$(jq -nc --arg note &quot;namespace &#x27;${SEL_NAMESPACE}&#x27; ignored: ${KIND} is cluster-scoped.&quot; &#x27;[$note]&#x27;)
+              SEL_NAMESPACE=&quot;&quot;
+            fi
+          fi
+
+          SCOPE_ARGS=()
+          if [ -n &quot;$SEL_NAMESPACE&quot; ]; then
+            SCOPE_ARGS+=(-n &quot;$SEL_NAMESPACE&quot;)
+          else
+            SCOPE_ARGS+=(--all-namespaces)
+          fi
+          if [ -n &quot;$SEL_LABELS&quot; ]; then
+            SCOPE_ARGS+=(-l &quot;$SEL_LABELS&quot;)
+          fi
+          if [ -n &quot;$SEL_FIELDS&quot; ]; then
+            SCOPE_ARGS+=(--field-selector &quot;$SEL_FIELDS&quot;)
+          fi
+
+          err_file=$(mktemp)
+          output=$(kubectl get &quot;$KIND&quot; &quot;${SCOPE_ARGS[@]}&quot; -o custom-columns=&quot;$CUSTOM_COLUMNS&quot; 2&gt;&quot;$err_file&quot;)
+          kubectl_exit=$?
+          err_content=$(cat &quot;$err_file&quot; 2&gt;/dev/null)
+          rm -f &quot;$err_file&quot;
+
+          SCOPE=&#x27;null&#x27;
+          if command -v jq &amp;&gt;/dev/null; then
+            SCOPE=$(jq -nc --arg namespace &quot;$SEL_NAMESPACE&quot; --arg labels &quot;$SEL_LABELS&quot; --arg fields &quot;$SEL_FIELDS&quot; \
+              &#x27;{namespace: (if $namespace == &quot;&quot; then null else $namespace end),
+                label_selector: (if $labels == &quot;&quot; then null else $labels end),
+                field_selector: (if $fields == &quot;&quot; then null else $fields end)}&#x27;)
+          fi
+
+          if [ $kubectl_exit -ne 0 ] || [ -z &quot;$output&quot; ]; then
+            if command -v jq &amp;&gt;/dev/null; then
+              jq -n --arg stderr &quot;$err_content&quot; --argjson scope &quot;$SCOPE&quot; --argjson notes &quot;$NOTES&quot; \
+                &#x27;{count: 0, header: null, rows: [], stderr: $stderr, scope: $scope, notes: $notes}&#x27;
+            else
+              echo &quot;=== STDERR ===&quot;
+              echo &quot;$err_content&quot;
+              echo &quot;=== ROWS ===&quot;
+              echo &quot;=== COUNT ===&quot;
+              echo 0
+            fi
+            exit 0
+          fi
+
+          # Split header and data rows
+          header=$(echo &quot;$output&quot; | head -1)
+          if [ -n &quot;$FILTER_PATTERN&quot; ]; then
+            data=$(echo &quot;$output&quot; | tail -n +2 | grep -E -- &quot;$FILTER_PATTERN&quot; || true)
+          else
+            data=$(echo &quot;$output&quot; | tail -n +2)
+          fi
+
+          if command -v jq &amp;&gt;/dev/null; then
+            if [ -n &quot;$data&quot; ]; then
+              count=$(echo &quot;$data&quot; | wc -l)
+            else
+              count=0
+            fi
+            # Rows go through stdin, not --argjson, so large tables don&#x27;t hit &quot;Argument list too long&quot;
+            printf &#x27;%s&#x27; &quot;$data&quot; | jq -R . | jq -s \
+              --argjson count &quot;$count&quot; \
+              --arg header &quot;$header&quot; \
+              --arg stderr &quot;$err_content&quot; \
+              --argjson scope &quot;$SCOPE&quot; \
+              --argjson notes &quot;$NOTES&quot; \
+              &#x27;{count: $count, header: $header, rows: ., stderr: (if $stderr == &quot;&quot; then null else $stderr end), scope: $scope, notes: $notes}&#x27;
+          else
+            echo &quot;=== STDERR ===&quot;
+            echo &quot;$err_content&quot;
+            echo &quot;=== HEADER ===&quot;
+            echo &quot;$header&quot;
+            echo &quot;=== ROWS ===&quot;
+            echo &quot;$data&quot;
+            echo &quot;=== COUNT ===&quot;
+            if [ -n &quot;$data&quot; ]; then echo &quot;$data&quot; | wc -l; else echo 0; fi
+          fi
+        transformers:
+          - name: llm_summarize
+            config:
+              input_threshold: 10000
+              prompt: |
+                Summarize this tabular output focusing on:
+                - Key patterns and trends in the data
+                - Resources that need attention (errors, pending, failures)
+                - Group similar items into aggregate descriptions
+                - Highlight outliers or unusual values
+                - Mention specific resource names only for problematic items
+                - Provide counts and distributions where relevant
+                - Be concise: aim for ≤ 50% of the original size
+                - Keep output actionable and focused on anomalies</code></pre></details><details class="tool-definition"><summary>kubernetes_count</summary><dl class="tool-info"><dt>Toolset</dt><dd>kubernetes/core</dd><dt>Execution</dt><dd>YAMLTool script → paginated kubectl reads → local jq count</dd><dt>Returns</dt><dd>Match count, preview, scope and errors</dd></dl><p><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/kubernetes.yaml#L419-L641" target="_blank" rel="noopener noreferrer">kubernetes_count</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/kubernetes.yaml:L419-L641</small></p><pre><code>      - name: &quot;kubernetes_count&quot;
+        user_description: &quot;count: kubectl get {{kind}} | jq &#x27;{{jq_expr}}&#x27; (namespace={{namespace if namespace is string}}, label_selector={{label_selector}}, field_selector={{field_selector}})&quot;
+        description: &gt;
+          Use kubectl to apply a jq filter and then count the results.
+          Use this whenever asked to count kubernetes resources.
+          Prefer over bash for large queries - paginates via the Kubernetes API so large
+          clusters don&#x27;t overflow context.
+          If you know the namespace or labels of the resources you need, pass namespace,
+          label_selector and/or field_selector so filtering happens server-side; unscoped
+          queries can be slow on large clusters.
+          Returns a JSON object with keys: &quot;total_items_processed&quot;, &quot;matches_found&quot; (number of matches),
+          &quot;preview&quot; (first 10 results truncated to 200 chars), &quot;stderr&quot; (error output or null),
+          &quot;scope&quot; (the resource, namespace and selectors actually queried), and
+          &quot;notes&quot; (e.g. a namespace ignored for a cluster-scoped kind).
+          The &#x27;kind&#x27; parameter must be the plural form of the resource type (&quot;pods&quot; not &quot;pod&quot;).
+          Use select() to filter objects before extracting properties; do not worry about escaping
+          the jq_expr - it will be done by the system.
+          e.g. .items[] | select(.spec.containers[].image | test(&quot;^gcr.io/&quot;) | not) | .metadata.name
+        parameters:
+          namespace:
+            type: string
+            required: false
+            description: &quot;Only count resources in this namespace. Ignored for cluster-scoped kinds such as nodes.&quot;
+          label_selector:
+            type: string
+            required: false
+            description: &quot;Kubernetes label selector applied server-side, e.g. &#x27;app=web,tier!=db&#x27; or &#x27;env in (prod,staging)&#x27;.&quot;
+          field_selector:
+            type: string
+            required: false
+            description: &quot;Kubernetes field selector applied server-side. All kinds support metadata.name and metadata.namespace; pods also support status.phase and spec.nodeName, e.g. &#x27;status.phase!=Running&#x27;.&quot;
+        script: |
+          #!/bin/bash
+
+          # SECURITY: assign sanitized params to shell variables (unquoted slot),
+          # then reference them only as &quot;$VAR&quot; - never interpolate {{ param }}
+          # inside a quoted context. See kubernetes_jq_query for the rationale.
+          KIND={{ kind }}
+          # &#x27;namespace&#x27; is also a Jinja global (namespace()), so it is defined even when omitted
+          SEL_NAMESPACE={{ namespace if namespace is string else &quot;&quot; }}
+          SEL_LABELS={{ label_selector }}
+          SEL_FIELDS={{ field_selector }}
+          # Strict tool calls send null for unset optional params, which renders as &#x27;None&#x27;
+          [ &quot;$SEL_NAMESPACE&quot; = &quot;None&quot; ] &amp;&amp; SEL_NAMESPACE=&quot;&quot;
+          [ &quot;$SEL_LABELS&quot; = &quot;None&quot; ] &amp;&amp; SEL_LABELS=&quot;&quot;
+          [ &quot;$SEL_FIELDS&quot; = &quot;None&quot; ] &amp;&amp; SEL_FIELDS=&quot;&quot;
+
+          err_file=$(mktemp)
+          TOTAL_PROCESSED=0
+          NOTES=&#x27;[]&#x27;
+          SCOPE=&#x27;null&#x27;
+
+          add_note() {
+            NOTES=$(jq -c --arg note &quot;$1&quot; &#x27;. + [$note]&#x27; &lt;&lt;&lt; &quot;$NOTES&quot;)
+          }
+
+          uri_encode() {
+            jq -rn --arg v &quot;$1&quot; &#x27;$v|@uri&#x27;
+          }
+
+          fail() {
+            err_content=$(cat &quot;$err_file&quot; 2&gt;/dev/null)
+            rm -f &quot;$err_file&quot;
+            jq -n --arg stderr &quot;$1 $err_content&quot; --argjson total &quot;$TOTAL_PROCESSED&quot; --argjson notes &quot;$NOTES&quot; --argjson scope &quot;$SCOPE&quot; \
+              &#x27;{total_items_processed: $total, matches_found: 0, preview: [], stderr: $stderr, scope: $scope, notes: $notes}&#x27;
+            exit 0
+          }
+
+          # The namespace becomes part of the raw API path; see kubernetes_jq_query
+          if [ -n &quot;$SEL_NAMESPACE&quot; ] &amp;&amp; ! [[ &quot;$SEL_NAMESPACE&quot; =~ ^[a-z0-9]([-a-z0-9]{0,61}[a-z0-9])?$ ]]; then
+            fail &quot;Invalid namespace &#x27;${SEL_NAMESPACE}&#x27;: must be a Kubernetes namespace name (lowercase letters, digits and &#x27;-&#x27;).&quot;
+          fi
+
+          # Get the API path for the resource kind
+          # Match the resource name (first column) as an EXACT string, not a
+          # grep regex - otherwise a kind like &#x27;.*&#x27; or &#x27;a|b&#x27; would match the
+          # wrong resource.
+          CANDIDATES=$(kubectl api-resources --no-headers 2&gt;&gt;&quot;$err_file&quot; | awk -v kind=&quot;$KIND&quot; &#x27;$1 == kind&#x27;)
+          API_INFO=$(printf &#x27;%s\n&#x27; &quot;$CANDIDATES&quot; | head -1)
+          # Pick the group `kubectl get` picks when several serve this plural.
+          # See kubernetes_jq_query for why the first api-resources match is wrong.
+          if [ &quot;$(printf &#x27;%s\n&#x27; &quot;$CANDIDATES&quot; | grep -c .)&quot; -gt 1 ] &amp;&amp; [[ &quot;$API_INFO&quot; != *&quot; v1 &quot;* ]]; then
+            API_GROUPS=$(kubectl get --raw /apis 2&gt;/dev/null | jq -r &#x27;.groups[].name&#x27; 2&gt;/dev/null)
+            if [ -z &quot;$API_GROUPS&quot; ]; then
+              add_note &quot;Several API groups serve &#x27;${KIND}&#x27; and server discovery (/apis) failed, so the first group listed by kubectl api-resources was used.&quot;
+            fi
+            for group in $API_GROUPS; do
+              match=$(printf &#x27;%s\n&#x27; &quot;$CANDIDATES&quot; | grep -F &quot; $group/&quot; | head -1)
+              if [ -n &quot;$match&quot; ]; then
+                API_INFO=&quot;$match&quot;
+                break
+              fi
+            done
+          fi
+
+          if [ -z &quot;$API_INFO&quot; ]; then
+            fail &quot;Unable to find resource kind &#x27;${KIND}&#x27;.&quot;
+          fi
+
+          if [[ &quot;$API_INFO&quot; == *&quot; true &quot;* ]]; then
+            NAMESPACED=true
+            PREFIX=$(echo &quot;$API_INFO&quot; | sed &#x27;s/ true .*//&#x27;)
+          elif [[ &quot;$API_INFO&quot; == *&quot; false &quot;* ]]; then
+            NAMESPACED=false
+            PREFIX=$(echo &quot;$API_INFO&quot; | sed &#x27;s/ false .*//&#x27;)
+          else
+            fail &quot;Could not parse API info for &#x27;${KIND}&#x27;.&quot;
+          fi
+
+          PREFIX=$(echo &quot;$PREFIX&quot; | sed &#x27;s/  *$//&#x27; | sed &#x27;s/  */ /g&#x27;)
+
+          IFS=&#x27; &#x27; read -ra PREFIX_FIELDS &lt;&lt;&lt; &quot;$PREFIX&quot;
+          FIELD_COUNT=0
+          for field in &quot;${PREFIX_FIELDS[@]}&quot;; do
+            ((FIELD_COUNT++))
+          done
+          RESOURCE_NAME=&quot;${PREFIX_FIELDS[0]}&quot;
+
+          if [ $FIELD_COUNT -ge 2 ]; then
+            API_VERSION=&quot;${PREFIX_FIELDS[$((FIELD_COUNT - 1))]}&quot;
+          else
+            API_VERSION=&quot;&quot;
+          fi
+
+          if [ -z &quot;$API_VERSION&quot; ] || [ -z &quot;$RESOURCE_NAME&quot; ]; then
+            fail &quot;Unable to parse API info for resource kind &#x27;${KIND}&#x27;.&quot;
+          fi
+
+          # Build API path: namespaced kinds can be listed within one namespace;
+          # cluster-scoped kinds ignore the namespace (as kubectl does)
+          if [[ &quot;$API_VERSION&quot; == &quot;v1&quot; ]]; then
+            API_BASE=&quot;/api/v1&quot;
+          else
+            API_BASE=&quot;/apis/${API_VERSION}&quot;
+          fi
+          if [ -n &quot;$SEL_NAMESPACE&quot; ] &amp;&amp; [ &quot;$NAMESPACED&quot; = &quot;true&quot; ]; then
+            API_PATH=&quot;${API_BASE}/namespaces/${SEL_NAMESPACE}/${RESOURCE_NAME}&quot;
+          else
+            if [ -n &quot;$SEL_NAMESPACE&quot; ]; then
+              add_note &quot;namespace &#x27;${SEL_NAMESPACE}&#x27; ignored: ${RESOURCE_NAME} is cluster-scoped.&quot;
+              SEL_NAMESPACE=&quot;&quot;
+            fi
+            API_PATH=&quot;${API_BASE}/${RESOURCE_NAME}&quot;
+          fi
+
+          SELECTOR_QUERY=&quot;&quot;
+          if [ -n &quot;$SEL_LABELS&quot; ]; then
+            SELECTOR_QUERY=&quot;${SELECTOR_QUERY}&amp;labelSelector=$(uri_encode &quot;$SEL_LABELS&quot;)&quot;
+          fi
+          if [ -n &quot;$SEL_FIELDS&quot; ]; then
+            SELECTOR_QUERY=&quot;${SELECTOR_QUERY}&amp;fieldSelector=$(uri_encode &quot;$SEL_FIELDS&quot;)&quot;
+          fi
+
+          SCOPE=$(jq -nc --arg resource &quot;$RESOURCE_NAME&quot; --arg api_version &quot;$API_VERSION&quot; \
+            --arg namespace &quot;$SEL_NAMESPACE&quot; --arg labels &quot;$SEL_LABELS&quot; --arg fields &quot;$SEL_FIELDS&quot; \
+            &#x27;{resource: $resource, api_version: $api_version,
+              namespace: (if $namespace == &quot;&quot; then null else $namespace end),
+              label_selector: (if $labels == &quot;&quot; then null else $labels end),
+              field_selector: (if $fields == &quot;&quot; then null else $fields end)}&#x27;)
+
+          # Process resources in chunks using API pagination
+          LIMIT=500
+          CONTINUE=&quot;&quot;
+          ALL_MATCHES=&quot;&quot;
+
+          while true; do
+            QUERY=&quot;${API_PATH}?limit=${LIMIT}${SELECTOR_QUERY}&quot;
+            if [ -n &quot;$CONTINUE&quot; ]; then
+              # continue tokens are base64 and may contain &#x27;+&#x27;, &#x27;/&#x27; or &#x27;=&#x27;
+              QUERY=&quot;${QUERY}&amp;continue=$(uri_encode &quot;$CONTINUE&quot;)&quot;
+            fi
+
+            OUTPUT=$(kubectl get --raw &quot;$QUERY&quot; 2&gt;&gt;&quot;$err_file&quot;)
+            exit_code=$?
+
+            if [ $exit_code -ne 0 ]; then
+              fail &quot;kubectl get --raw failed for $QUERY.&quot;
+            fi
+
+            ITEMS_COUNT=$(echo &quot;$OUTPUT&quot; | jq &#x27;.items | length&#x27;)
+            TOTAL_PROCESSED=$((TOTAL_PROCESSED + ITEMS_COUNT))
+
+            BATCH_MATCHES=$(echo &quot;$OUTPUT&quot; | jq -c -r {{ jq_expr }} 2&gt;&gt;&quot;$err_file&quot;)
+            jq_exit=$?
+            if [ $jq_exit -ne 0 ]; then
+              fail &quot;jq expression failed.&quot;
+            fi
+
+            if [ -n &quot;$BATCH_MATCHES&quot; ]; then
+              if [ -z &quot;$ALL_MATCHES&quot; ]; then
+                ALL_MATCHES=&quot;$BATCH_MATCHES&quot;
+              else
+                ALL_MATCHES=&quot;$ALL_MATCHES&quot;$&#x27;\n&#x27;&quot;$BATCH_MATCHES&quot;
+              fi
+            fi
+
+            CONTINUE=$(echo &quot;$OUTPUT&quot; | jq -r &#x27;.metadata.continue // empty&#x27;)
+            if [ -z &quot;$CONTINUE&quot; ]; then
+              break
+            fi
+          done
+
+          err_content=$(cat &quot;$err_file&quot; 2&gt;/dev/null)
+          rm -f &quot;$err_file&quot;
+
+          # Count and preview the collected matches
+          filtered_matches=$(echo &quot;$ALL_MATCHES&quot; | grep -v &#x27;^$&#x27; | grep -v &#x27;^null$&#x27;)
+          if [ -z &quot;$filtered_matches&quot; ]; then
+            MATCHES_FOUND=0
+            PREVIEW=&quot;[]&quot;
+          else
+            MATCHES_FOUND=$(echo &quot;$filtered_matches&quot; | wc -l)
+            PREVIEW=$(echo &quot;$filtered_matches&quot; | head -n 10 | cut -c 1-200 | jq -R . | jq -s &#x27;.&#x27;)
+          fi
+
+          jq -n \
+            --argjson matches_found &quot;$MATCHES_FOUND&quot; \
+            --argjson preview &quot;$PREVIEW&quot; \
+            --argjson total_items_processed &quot;$TOTAL_PROCESSED&quot; \
+            --arg stderr &quot;$err_content&quot; \
+            --argjson scope &quot;$SCOPE&quot; \
+            --argjson notes &quot;$NOTES&quot; \
+            &#x27;{total_items_processed: $total_items_processed, matches_found: $matches_found, preview: $preview, stderr: (if $stderr == &quot;&quot; then null else $stderr end), scope: $scope, notes: $notes}&#x27;</code></pre></details><details class="tool-definition"><summary>kubectl_top_pods</summary><dl class="tool-info"><dt>Toolset</dt><dd>kubernetes/live-metrics</dd><dt>Execution</dt><dd>YAMLTool command → kubectl top pods -A → Kubernetes Metrics API</dd><dt>Returns</dt><dd>Current pod CPU/memory usage</dd></dl><p><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/kubernetes.yaml#L673-L676" target="_blank" rel="noopener noreferrer">kubectl_top_pods</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/kubernetes.yaml:L673-L676</small></p><pre><code>      - name: &quot;kubectl_top_pods&quot;
+        description: &quot;Retrieves real-time CPU and memory usage for each pod in the cluster.&quot;
+        command: &gt;
+          kubectl top pods -A</code></pre></details><details class="tool-definition"><summary>kubectl_top_nodes</summary><dl class="tool-info"><dt>Toolset</dt><dd>kubernetes/live-metrics</dd><dt>Execution</dt><dd>YAMLTool command → kubectl top nodes → Kubernetes Metrics API</dd><dt>Returns</dt><dd>Current node CPU/memory usage</dd></dl><p><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/kubernetes.yaml#L677-L680" target="_blank" rel="noopener noreferrer">kubectl_top_nodes</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/kubernetes.yaml:L677-L680</small></p><pre><code>      - name: &quot;kubectl_top_nodes&quot;
+        description: &quot;Retrieves real-time CPU and memory usage for each node in the cluster.&quot;
+        command: &gt;
+          kubectl top nodes</code></pre></details><details class="tool-definition"><summary>get_prometheus_target</summary><dl class="tool-info"><dt>Toolset</dt><dd>kubernetes/kube-prometheus-stack</dd><dt>Execution</dt><dd>YAMLTool script → kubectl raw GET → Kubernetes service proxy → Prometheus /api/v1/targets → local jq</dd><dt>Returns</dt><dd>Target details or access/error information</dd></dl><p><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/kubernetes.yaml#L689-L700" target="_blank" rel="noopener noreferrer">get_prometheus_target</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/kubernetes.yaml:L689-L700</small></p><pre><code>      - name: &quot;get_prometheus_target&quot;
+        description: &quot;Fetch the definition of a Prometheus target&quot;
+        script: |
+          #!/bin/bash
+          # SECURITY: assign sanitized params to shell variables (unquoted slot),
+          # then reference them only as &quot;$VAR&quot;. Pass target_name into jq via
+          # --arg so it is never interpolated into the jq program text.
+          PROM_NAMESPACE={{ prometheus_namespace }}
+          PROM_SERVICE={{ prometheus_service_name }}
+          TARGET_NAME={{ target_name }}
+          kubectl get --raw &quot;/api/v1/namespaces/${PROM_NAMESPACE}/services/${PROM_SERVICE}:9090/proxy/api/v1/targets&quot; \
+            | jq --arg target &quot;$TARGET_NAME&quot; &#x27;.data.activeTargets[] | select(.labels.job == $target)&#x27;</code></pre></details><h3>Related Sources</h3><ul class="sources"><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/kubernetes.yaml#L17-L261" target="_blank" rel="noopener noreferrer">kubernetes_jq_query</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/kubernetes.yaml:L17-L261</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/kubernetes.yaml#L263-L417" target="_blank" rel="noopener noreferrer">kubernetes_tabular_query</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/kubernetes.yaml:L263-L417</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/kubernetes.yaml#L689-L700" target="_blank" rel="noopener noreferrer">get_prometheus_target</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/kubernetes.yaml:L689-L700</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/core/tools.py#L572-L744" target="_blank" rel="noopener noreferrer">YAMLTool: parameter inference, template rendering and subprocess execution</a><small class="source-path">holmesgpt: holmes/core/tools.py:L572-L744</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/core/tools.py#L392-L437" target="_blank" rel="noopener noreferrer">Tool.invoke</a><small class="source-path">holmesgpt: holmes/core/tools.py:L392-L437</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/core/transformers/llm_summarize.py#L99-L128" target="_blank" rel="noopener noreferrer">LLMSummarizeTransformer.should_apply</a><small class="source-path">holmesgpt: holmes/core/transformers/llm_summarize.py:L99-L128</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/core/transformers/llm_summarize.py#L130-L173" target="_blank" rel="noopener noreferrer">LLMSummarizeTransformer.transform</a><small class="source-path">holmesgpt: holmes/core/transformers/llm_summarize.py:L130-L173</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/core/tools.py#L385-L390" target="_blank" rel="noopener noreferrer">Tool.get_openai_format</a><small class="source-path">holmesgpt: holmes/core/tools.py:L385-L390</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/kubernetes.yaml#L419-L641" target="_blank" rel="noopener noreferrer">kubernetes_count</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/kubernetes.yaml:L419-L641</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/kubernetes.yaml#L673-L676" target="_blank" rel="noopener noreferrer">kubectl_top_pods</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/kubernetes.yaml:L673-L676</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/kubernetes.yaml#L677-L680" target="_blank" rel="noopener noreferrer">kubectl_top_nodes</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/kubernetes.yaml:L677-L680</small></li></ul></div></template>
+<template id="detail-bash" data-title="RunBashCommand"><div class="detail-body"><p class="owner">HOLMESGPT</p><p>Run an allowed shell command.</p><dl><dt>Input</dt><dd><ul><li>bash: command text, suggested command prefixes and an optional timeout.</li></ul></dd><dt>Output</dt><dd><ul><li>Command output, exit status or error.</li><li>Rejection if the command is not allowed.</li></ul></dd><dt>Behavior</dt><dd><ul><li>Check the command against stage-specific allow and deny rules.</li><li>Reject commands that need approval because this deployment has no interactive approval callback.</li><li>Execute allowed commands in a Bash subprocess. Commands using kubectl follow the Kubernetes access proxy.</li><li>Run local pipeline steps, such as jq, inside the agent.</li><li>Run the command in a shell process group. At the timeout, terminate the group and finish collecting output within a bounded interval.</li></ul></dd></dl><h3>Tool definitions</h3><details class="tool-definition"><summary>bash</summary><dl class="tool-info"><dt>Toolset</dt><dd>bash</dd><dt>Execution</dt><dd>RunBashCommand → permission checks → Bash; kubectl uses the Kubernetes access proxy</dd><dt>Returns</dt><dd>Command output/status or rejection/timeout information</dd></dl><p><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/bash/bash_toolset.py#L104-L143" target="_blank" rel="noopener noreferrer">RunBashCommand.__init__</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/bash/bash_toolset.py:L104-L143</small></p><pre><code>    def __init__(self, toolset: &quot;BashExecutorToolset&quot;):
+        super().__init__(
+            name=&quot;bash&quot;,
+            description=(
+                &quot;Executes a bash command and returns its output. &quot;
+                &quot;Supports: single commands, pipes (|), &amp;&amp;, ||, ;, &amp;. &quot;
+                &quot;Also supports (requires user approval): for/while/until loops, if/case statements, &quot;
+                &quot;subshells $() and backticks. &quot;
+                &quot;You must provide suggested_prefixes - one prefix per command segment. &quot;
+                &quot;Example: for &#x27;kubectl get pods | grep error&#x27;, provide &quot;
+                &quot;suggested_prefixes=[&#x27;kubectl get&#x27;, &#x27;grep&#x27;]. &quot;
+                &quot;For scripts with loops/conditionals, provide prefixes for the key operations inside.&quot;
+            ),
+            parameters={
+                &quot;command&quot;: ToolParameter(
+                    description=&quot;The bash command string to execute.&quot;,
+                    type=&quot;string&quot;,
+                    required=True,
+                ),
+                &quot;suggested_prefixes&quot;: ToolParameter(
+                    description=(
+                        &quot;Array of command prefixes, one per command segment. &quot;
+                        &quot;Include command name and subcommand (e.g., &#x27;kubectl get&#x27;, &#x27;grep&#x27;). &quot;
+                        &quot;Do NOT include resource names, namespaces, or flag values.&quot;
+                    ),
+                    type=&quot;array&quot;,
+                    items=ToolParameter(type=&quot;string&quot;),
+                    required=True,
+                ),
+                &quot;timeout&quot;: ToolParameter(
+                    description=(
+                        &quot;Optional timeout in seconds for the command execution. &quot;
+                        &quot;Defaults to 30s.&quot;
+                    ),
+                    type=&quot;integer&quot;,
+                    required=False,
+                ),
+            },
+            toolset=toolset,  # type: ignore[call-arg]
+        )</code></pre></details><h3>Related Sources</h3><ul class="sources"><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/bash/bash_toolset.py#L104-L143" target="_blank" rel="noopener noreferrer">RunBashCommand.__init__</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/bash/bash_toolset.py:L104-L143</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/bash/bash_toolset.py#L145-L162" target="_blank" rel="noopener noreferrer">RunBashCommand._validate_command</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/bash/bash_toolset.py:L145-L162</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/bash/bash_toolset.py#L164-L197" target="_blank" rel="noopener noreferrer">RunBashCommand.requires_approval</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/bash/bash_toolset.py:L164-L197</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/bash/bash_toolset.py#L199-L271" target="_blank" rel="noopener noreferrer">RunBashCommand._invoke</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/bash/bash_toolset.py:L199-L271</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/bash/common/bash.py#L15-L74" target="_blank" rel="noopener noreferrer">run_bash: shell execution and timeout</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/bash/common/bash.py:L15-L74</small></li><li><a href="../../../patches/holmesgpt/shell-timeout.patch" target="_blank" rel="noopener noreferrer">Shell timeout handling</a><small class="source-path">parent: patches/holmesgpt/shell-timeout.patch</small></li></ul></div></template>
+<template id="detail-logs" data-title="Python Tool classes"><div class="detail-body"><p class="owner">HOLMESGPT</p><p>Run log, network, task, skill and image tools.</p><dl><dt>Input</dt><dd><ul><li>fetch_pod_logs: pod, namespace, time range, text filters and output limit.</li><li>fetch_webpage: URL. tcp_check: host, port and optional timeout.</li><li>TodoWrite: complete task list with IDs, descriptions and statuses.</li><li>fetch_skill: skill ID or name. read_image_file: image path in HolmesGPT’s result-storage directory.</li></ul></dd><dt>Output</dt><dd><ul><li>Filtered pod logs, page text/Markdown or TCP connection results.</li><li>Formatted task lists, skill instructions, images and file information.</li><li>Failure or refusal information when a request cannot run.</li></ul></dd><dt>Behavior</dt><dd><ul><li>PodLoggingTool delegates to KubernetesLogsToolset: retrieve current/previous container logs with parallel kubectl processes, then combine, filter and limit them locally.</li><li>FetchWebpage validates each URL and redirect, performs HTTP GET requests and converts HTML to Markdown.</li><li>TcpCheckTool checks the destination and probe budget, then opens a Python socket connection if allowed.</li><li>TodoWriteTool formats the supplied tasks and returns them to the conversation. It records the plan; other tool calls perform the work.</li><li>SkillsFetcher reads the requested skill from the configured catalog and returns its instructions. Remote skill lookup requires a configured data-access layer.</li><li>ReadImageFile reads an allowed image from HolmesGPT’s result-storage directory and returns image data for a vision-capable model.</li><li>Local processing runs inside the agent container. SDK destination rules and SREGym’s network policy determine which network requests can leave it.</li></ul></dd></dl><h3>Tool definitions</h3><details class="tool-definition"><summary>fetch_pod_logs</summary><dl class="tool-info"><dt>Toolset</dt><dd>kubernetes/logs</dd><dt>Execution</dt><dd>PodLoggingTool → KubernetesLogsToolset → parallel kubectl logs → local filtering</dd><dt>Returns</dt><dd>Filtered container log text and errors</dd></dl><p><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/logging_utils/logging_api.py#L21-L28" target="_blank" rel="noopener noreferrer">Log defaults and tool name</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/logging_utils/logging_api.py:L21-L28</small></p><pre><code># Default values for log fetching
+DEFAULT_LOG_LIMIT = 100
+SECONDS_PER_DAY = 24 * 60 * 60
+DEFAULT_TIME_SPAN_SECONDS = 7 * SECONDS_PER_DAY  # 1 week in seconds
+DEFAULT_GRAPH_TIME_SPAN_SECONDS = 1 * 60 * 60  # 1 hour in seconds
+
+POD_LOGGING_TOOL_NAME = &quot;fetch_pod_logs&quot;
+</code></pre><p><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/logging_utils/logging_api.py#L127-L176" target="_blank" rel="noopener noreferrer">PodLoggingTool.__init__</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/logging_utils/logging_api.py:L127-L176</small></p><pre><code>    def __init__(self, toolset: &quot;KubernetesLogsToolset&quot;):
+        toolset_name = toolset.name if toolset.name else &quot;logging backend&quot;
+        description = (
+            f&quot;Fetch logs for a Kubernetes pod from {toolset_name}&quot;
+            &quot; with support for regex filtering and exclusion patterns&quot;
+            f&quot;. Defaults: Fetches last {DEFAULT_TIME_SPAN_SECONDS // SECONDS_PER_DAY} days of logs, limited to {DEFAULT_LOG_LIMIT} most recent entries&quot;
+        )
+
+        parameters = {
+            &quot;pod_name&quot;: ToolParameter(
+                description=&quot;The exact kubernetes pod name&quot;,
+                type=&quot;string&quot;,
+                required=True,
+            ),
+            &quot;namespace&quot;: ToolParameter(
+                description=&quot;Kubernetes namespace&quot;, type=&quot;string&quot;, required=True
+            ),
+            &quot;start_time&quot;: ToolParameter(
+                description=f&quot;RFC3339 datetime (e.g. &#x27;2023-03-01T10:30:00Z&#x27;) or negative number as string for seconds before end_time (e.g. &#x27;-3600&#x27;). Default: -{DEFAULT_TIME_SPAN_SECONDS} (last {DEFAULT_TIME_SPAN_SECONDS // SECONDS_PER_DAY} days)&quot;,
+                type=&quot;string&quot;,
+                required=False,
+            ),
+            &quot;end_time&quot;: ToolParameter(
+                description=&quot;RFC3339 datetime (e.g. &#x27;2023-03-01T12:30:00Z&#x27;). Default: now.&quot;,
+                type=&quot;string&quot;,
+                required=False,
+            ),
+            &quot;limit&quot;: ToolParameter(
+                description=f&quot;Maximum number of logs to return. Default: {DEFAULT_LOG_LIMIT}&quot;,
+                type=&quot;integer&quot;,
+                required=False,
+            ),
+            &quot;filter&quot;: ToolParameter(
+                description=&quot;Optional keyword/phrase or case-insensitive regex to match, e.g. filter=&#x27;err|error|fatal|fail|exception|panic&#x27; for errors. If no results, broaden the pattern or drop the filter.&quot;,
+                type=&quot;string&quot;,
+                required=False,
+            ),
+            &quot;exclude_filter&quot;: ToolParameter(
+                description=&quot;Optional keyword or case-insensitive regex to exclude, e.g. exclude_filter=&#x27;health|metrics|ping&#x27; to cut noise when hitting the log limit.&quot;,
+                type=&quot;string&quot;,
+                required=False,
+            ),
+        }
+
+        super().__init__(
+            name=POD_LOGGING_TOOL_NAME,
+            description=description,
+            parameters=parameters,
+        )
+        self._toolset = toolset</code></pre></details><details class="tool-definition"><summary>TodoWrite</summary><dl class="tool-info"><dt>Toolset</dt><dd>core_investigation</dd><dt>Execution</dt><dd>TodoWriteTool → format the supplied task list in the agent conversation</dd><dt>Returns</dt><dd>Task descriptions and statuses</dd></dl><p><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/investigator/core_investigation.py#L20-L59" target="_blank" rel="noopener noreferrer">TodoWriteTool: name and parameters</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/investigator/core_investigation.py:L20-L59</small></p><pre><code>TODO_WRITE_TOOL_NAME = &quot;TodoWrite&quot;
+
+
+def parse_tasks(todos_data: Any) -&gt; list[Task]:
+    tasks = []
+
+    for todo_item in todos_data:
+        if isinstance(todo_item, dict):
+            task = Task(
+                id=todo_item.get(&quot;id&quot;, str(uuid4())),
+                content=todo_item.get(&quot;content&quot;, &quot;&quot;),
+                status=TaskStatus(todo_item.get(&quot;status&quot;, &quot;pending&quot;)),
+            )
+            tasks.append(task)
+
+    return tasks
+
+
+class TodoWriteTool(Tool):
+    name: str = TODO_WRITE_TOOL_NAME
+    description: str = &quot;Save investigation tasks to break down complex problems into manageable sub-tasks. ALWAYS provide the COMPLETE list of all tasks, not just the ones being updated.&quot;
+    parameters: Dict[str, ToolParameter] = {
+        &quot;todos&quot;: ToolParameter(
+            description=&quot;COMPLETE list of ALL tasks on the task list. Each task should have: id (string), content (string), status (pending/in_progress/completed/failed)&quot;,
+            type=&quot;array&quot;,
+            required=True,
+            items=ToolParameter(
+                type=&quot;object&quot;,
+                properties={
+                    &quot;id&quot;: ToolParameter(type=&quot;string&quot;, required=True),
+                    &quot;content&quot;: ToolParameter(type=&quot;string&quot;, required=True),
+                    &quot;status&quot;: ToolParameter(
+                        type=&quot;string&quot;,
+                        required=True,
+                        enum=[&quot;pending&quot;, &quot;in_progress&quot;, &quot;completed&quot;, &quot;failed&quot;],
+                    ),
+                },
+            ),
+        ),
+    }</code></pre></details><details class="tool-definition"><summary>fetch_webpage</summary><dl class="tool-info"><dt>Toolset</dt><dd>internet</dd><dt>Execution</dt><dd>FetchWebpage → validated HTTP GET → HTML-to-Markdown conversion</dd><dt>Returns</dt><dd>Page text/Markdown or refusal/failure information</dd></dl><p><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/internet/internet.py#L250-L262" target="_blank" rel="noopener noreferrer">FetchWebpage.__init__</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/internet/internet.py:L250-L262</small></p><pre><code>    def __init__(self, toolset: &quot;InternetToolset&quot;):
+        super().__init__(
+            name=&quot;fetch_webpage&quot;,
+            description=&quot;Fetch a webpage. Use this to fetch skills if they are present before starting your investigation (if no other tool like confluence is more appropriate)&quot;,
+            parameters={
+                &quot;url&quot;: ToolParameter(
+                    description=&quot;The URL to fetch&quot;,
+                    type=&quot;string&quot;,
+                    required=True,
+                ),
+            },
+            toolset=toolset,  # type: ignore
+        )</code></pre></details><details class="tool-definition"><summary>tcp_check</summary><dl class="tool-info"><dt>Toolset</dt><dd>connectivity_check</dd><dt>Execution</dt><dd>TcpCheckTool → destination/budget checks → Python socket connection</dd><dt>Returns</dt><dd>Connection success or failure information</dd></dl><p><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/connectivity_check.py#L131-L153" target="_blank" rel="noopener noreferrer">TcpCheckTool.__init__</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/connectivity_check.py:L131-L153</small></p><pre><code>    def __init__(self, toolset: &quot;ConnectivityCheckToolset&quot;):
+        super().__init__(
+            name=&quot;tcp_check&quot;,
+            description=&quot;Check if a TCP socket can be opened to a host and port.&quot;,
+            parameters={
+                &quot;host&quot;: ToolParameter(
+                    description=&quot;The hostname or IP address to connect to&quot;,
+                    type=&quot;string&quot;,
+                    required=True,
+                ),
+                &quot;port&quot;: ToolParameter(
+                    description=&quot;The port to connect to&quot;,
+                    type=&quot;integer&quot;,
+                    required=True,
+                ),
+                &quot;timeout&quot;: ToolParameter(
+                    description=&quot;Timeout in seconds (default: 3.0)&quot;,
+                    type=&quot;number&quot;,
+                    required=False,
+                ),
+            },
+        )
+        self.toolset = toolset</code></pre></details><details class="tool-definition"><summary>read_image_file</summary><dl class="tool-info"><dt>Toolset</dt><dd>bash</dd><dt>Execution</dt><dd>ReadImageFile → read an image in HolmesGPT result storage</dd><dt>Returns</dt><dd>Image data and file information</dd></dl><p><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/bash/bash_toolset.py#L316-L333" target="_blank" rel="noopener noreferrer">ReadImageFile.__init__</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/bash/bash_toolset.py:L316-L333</small></p><pre><code>    def __init__(self, toolset: &quot;BashExecutorToolset&quot;):
+        super().__init__(
+            name=&quot;read_image_file&quot;,
+            description=(
+                &quot;Read an image file from disk and return it for visual analysis. &quot;
+                &quot;Use this when a previous tool result was too large and its images &quot;
+                &quot;were saved to disk. The file path is provided in the spill message. &quot;
+                &quot;Supported formats: PNG, JPEG, GIF, WebP.&quot;
+            ),
+            parameters={
+                &quot;file_path&quot;: ToolParameter(
+                    description=&quot;Absolute path to the image file on disk.&quot;,
+                    type=&quot;string&quot;,
+                    required=True,
+                ),
+            },
+            toolset=toolset,  # type: ignore[call-arg]
+        )</code></pre></details><details class="tool-definition"><summary>fetch_skill</summary><dl class="tool-info"><dt>Toolset</dt><dd>skills</dd><dt>Execution</dt><dd>SkillsFetcher → configured catalog/files → skill content</dd><dt>Returns</dt><dd>Troubleshooting instructions or lookup errors</dd></dl><p><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/skills/skills_fetcher.py#L41-L79" target="_blank" rel="noopener noreferrer">SkillsFetcher.__init__</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/skills/skills_fetcher.py:L41-L79</small></p><pre><code>    def __init__(
+        self,
+        toolset: &quot;SkillsToolset&quot;,
+        skill_catalog: Optional[SkillCatalog] = None,
+        dal: Optional[SupabaseDal] = None,
+        search_paths: Optional[List[str]] = None,
+    ):
+        available_skills: List[str] = []
+        if skill_catalog:
+            available_skills = skill_catalog.list_available_skills()
+
+        # Deliberately advertises NO id list. This toolset is built once and cached across
+        # requests and users, so any list baked in here is wrong in both directions: it omits
+        # the requesting user&#x27;s personal skills, and it still contains skills the per-request
+        # catalog filtered out (hierarchy collision losers, other alerts&#x27; skills). Naming the
+        # authoritative source instead keeps the two from diverging -- an earlier
+        # &quot;Must be one of: &lt;list&gt;&quot; made the model refuse personal skills it could plainly see.
+        skill_id_description = (
+            &quot;The skill_id: either a UUID or a skill name. Use the ids from the Skill Catalog&quot;
+            &quot; section of your instructions -- that catalog is built per request and is the&quot;
+            &quot; authoritative list, including the current user&#x27;s personal skills.&quot;
+        )
+
+        super().__init__(
+            name=&quot;fetch_skill&quot;,
+            description=&quot;Get skill content by skill link. Use this to get troubleshooting steps for incidents&quot;,
+            parameters={
+                &quot;skill_id&quot;: ToolParameter(
+                    description=skill_id_description,
+                    type=&quot;string&quot;,
+                    required=True,
+                ),
+            },
+            toolset=toolset,  # type: ignore[call-arg]
+            available_skills=available_skills,  # type: ignore[call-arg]
+        )
+        self._skill_catalog = skill_catalog
+        self._dal = dal
+        self._search_paths = search_paths</code></pre></details><h3>Related Sources</h3><ul class="sources"><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/logging_utils/logging_api.py#L127-L176" target="_blank" rel="noopener noreferrer">PodLoggingTool.__init__</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/logging_utils/logging_api.py:L127-L176</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/logging_utils/logging_api.py#L178-L202" target="_blank" rel="noopener noreferrer">PodLoggingTool._invoke</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/logging_utils/logging_api.py:L178-L202</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/kubernetes_logs.py#L51-L67" target="_blank" rel="noopener noreferrer">KubernetesLogsToolset.__init__</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/kubernetes_logs.py:L51-L67</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/kubernetes_logs.py#L89-L219" target="_blank" rel="noopener noreferrer">KubernetesLogsToolset.fetch_pod_logs</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/kubernetes_logs.py:L89-L219</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/kubernetes_logs.py#L221-L296" target="_blank" rel="noopener noreferrer">KubernetesLogsToolset._fetch_kubectl_logs</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/kubernetes_logs.py:L221-L296</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/kubernetes_logs.py#L677-L786" target="_blank" rel="noopener noreferrer">filter_logs</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/kubernetes_logs.py:L677-L786</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/logging_utils/logging_api.py#L54-L121" target="_blank" rel="noopener noreferrer">truncate_logs</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/logging_utils/logging_api.py:L54-L121</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/internet/internet.py#L264-L308" target="_blank" rel="noopener noreferrer">FetchWebpage._invoke</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/internet/internet.py:L264-L308</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/internet/internet.py#L102-L193" target="_blank" rel="noopener noreferrer">scrape</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/internet/internet.py:L102-L193</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/internet/internet.py#L213-L231" target="_blank" rel="noopener noreferrer">html_to_markdown</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/internet/internet.py:L213-L231</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/connectivity_check.py#L155-L289" target="_blank" rel="noopener noreferrer">TcpCheckTool._invoke</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/connectivity_check.py:L155-L289</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/connectivity_check.py#L109-L125" target="_blank" rel="noopener noreferrer">tcp_check</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/connectivity_check.py:L109-L125</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/investigator/core_investigation.py#L100-L129" target="_blank" rel="noopener noreferrer">TodoWriteTool._invoke</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/investigator/core_investigation.py:L100-L129</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/bash/bash_toolset.py#L335-L393" target="_blank" rel="noopener noreferrer">ReadImageFile._invoke</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/bash/bash_toolset.py:L335-L393</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/skills/skills_fetcher.py#L81-L156" target="_blank" rel="noopener noreferrer">SkillsFetcher._invoke</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/skills/skills_fetcher.py:L81-L156</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/skills/skills_fetcher.py#L158-L182" target="_blank" rel="noopener noreferrer">SkillsFetcher._find_filesystem_skill</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/skills/skills_fetcher.py:L158-L182</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/skills/skills_fetcher.py#L192-L236" target="_blank" rel="noopener noreferrer">SkillsFetcher._format_skill_result</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/skills/skills_fetcher.py:L192-L236</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/skills/skills_fetcher.py#L270-L310" target="_blank" rel="noopener noreferrer">SkillsFetcher._get_robusta_skill</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/skills/skills_fetcher.py:L270-L310</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/investigator/core_investigation.py#L20-L59" target="_blank" rel="noopener noreferrer">TodoWriteTool: name and parameters</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/investigator/core_investigation.py:L20-L59</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/internet/internet.py#L250-L262" target="_blank" rel="noopener noreferrer">FetchWebpage.__init__</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/internet/internet.py:L250-L262</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/connectivity_check.py#L131-L153" target="_blank" rel="noopener noreferrer">TcpCheckTool.__init__</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/connectivity_check.py:L131-L153</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/bash/bash_toolset.py#L316-L333" target="_blank" rel="noopener noreferrer">ReadImageFile.__init__</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/bash/bash_toolset.py:L316-L333</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/skills/skills_fetcher.py#L41-L79" target="_blank" rel="noopener noreferrer">SkillsFetcher.__init__</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/skills/skills_fetcher.py:L41-L79</small></li></ul></div></template>
+<template id="detail-mcp" data-title="RemoteMCPTool"><div class="detail-body"><p class="owner">HOLMESGPT</p><p>Call tools provided by the SREGym tool servers.</p><dl><dt>Input</dt><dd><ul><li>Selected remote tool name and JSON arguments.</li><li>Replies from the configured tool server.</li></ul></dd><dt>Output</dt><dd><ul><li>MCP requests to the Prometheus or Jaeger tool server.</li><li>Structured tool results containing returned content or errors.</li></ul></dd><dt>Behavior</dt><dd><ul><li>Discover tool definitions through MCP (Model Context Protocol).</li><li>Send the selected name and arguments to the configured server over its SSE connection.</li><li>Serialize calls to the same server through a shared client lock.</li><li>Extract and combine returned content into a HolmesGPT tool result.</li></ul></dd></dl><h3>Related Sources</h3><ul class="sources"><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/mcp/toolset_mcp.py#L982-L993" target="_blank" rel="noopener noreferrer">RemoteMCPToolset._load_remote_tools</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/mcp/toolset_mcp.py:L982-L993</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/mcp/toolset_mcp.py#L685-L700" target="_blank" rel="noopener noreferrer">RemoteMCPTool.create</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/mcp/toolset_mcp.py:L685-L700</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/mcp/toolset_mcp.py#L1355-L1357" target="_blank" rel="noopener noreferrer">RemoteMCPToolset._get_server_tools</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/mcp/toolset_mcp.py:L1355-L1357</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/mcp/toolset_mcp.py#L431-L459" target="_blank" rel="noopener noreferrer">RemoteMCPTool._invoke</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/mcp/toolset_mcp.py:L431-L459</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/mcp/toolset_mcp.py#L613-L683" target="_blank" rel="noopener noreferrer">RemoteMCPTool._invoke_async</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/mcp/toolset_mcp.py:L613-L683</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/mcp/toolset_mcp.py#L273-L337" target="_blank" rel="noopener noreferrer">get_initialized_mcp_session</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/mcp/toolset_mcp.py:L273-L337</small></li></ul></div></template>
+<template id="detail-filter" data-title="KubernetesAPIProxy"><div class="detail-body"><p class="owner">SREGYM</p><p>Forward allowed requests to the Kubernetes API.</p><dl><dt>Input</dt><dd><ul><li>kubectl requests using the agent’s configured Kubernetes credentials.</li><li>Kubernetes API replies.</li></ul></dd><dt>Output</dt><dd><ul><li>Allowed API requests.</li><li>Filtered API replies or access errors.</li></ul></dd><dt>Behavior</dt><dd><ul><li>Apply SREGym access rules to requests and returned resources.</li><li>Hide benchmark internals and selected sensitive resources.</li><li>Forward permitted requests and return access errors for blocked requests. Filtered mode blocks Kubernetes service-proxy requests, including target lookup.</li></ul></dd></dl><h3>Related Sources</h3><ul class="sources"><li><a href="https://github.com/SREGym/SREGym/blob/0d8e7b73214c44e99c97ca1af2934290aa3b826b/sregym/service/k8s_proxy.py#L443-L494" target="_blank" rel="noopener noreferrer">KubernetesAPIProxy: access policy configuration</a><small class="source-path">SREGym: sregym/service/k8s_proxy.py:L443-L494</small></li><li><a href="https://github.com/SREGym/SREGym/blob/0d8e7b73214c44e99c97ca1af2934290aa3b826b/sregym/service/k8s_proxy.py#L629-L1049" target="_blank" rel="noopener noreferrer">FilteringProxyHandler: validate, forward and filter API requests</a><small class="source-path">SREGym: sregym/service/k8s_proxy.py:L629-L1049</small></li><li><a href="https://github.com/SREGym/SREGym/blob/0d8e7b73214c44e99c97ca1af2934290aa3b826b/sregym/service/k8s_proxy.py#L1103-L1167" target="_blank" rel="noopener noreferrer">KubernetesAPIProxy.generate_agent_kubeconfig</a><small class="source-path">SREGym: sregym/service/k8s_proxy.py:L1103-L1167</small></li><li><a href="https://github.com/SREGym/SREGym/blob/0d8e7b73214c44e99c97ca1af2934290aa3b826b/sregym/service/agent_visibility_policy.py#L27-L161" target="_blank" rel="noopener noreferrer">Resource visibility and response filtering</a><small class="source-path">SREGym: sregym/service/agent_visibility_policy.py:L27-L161</small></li><li><a href="https://github.com/SREGym/SREGym/blob/0d8e7b73214c44e99c97ca1af2934290aa3b826b/sregym/service/container_runner.py#L446-L568" target="_blank" rel="noopener noreferrer">Agent credentials and filtered network access</a><small class="source-path">SREGym: sregym/service/container_runner.py:L446-L568</small></li></ul></div></template>
+<template id="detail-endpoints" data-title="HTTP / TCP endpoints"><div class="detail-body"><p class="owner">MODEL / CLUSTER BACKEND</p><p>Receive web requests and TCP connection checks.</p><dl><dt>Input</dt><dd><ul><li>HTTP GET requests from fetch_webpage.</li><li>Socket connection attempts from tcp_check.</li></ul></dd><dt>Output</dt><dd><ul><li>HTTP content, redirects or failures.</li><li>TCP connection acceptance, refusal or timeout.</li></ul></dd><dt>Behavior</dt><dd><ul><li>SREGym’s filtered network allows only the selected model provider and local SREGym services through an HTTP proxy. Arbitrary websites and direct outbound TCP probes are blocked.</li><li>The SDK also checks destinations. With the configured defaults, private/internal targets require explicit permission.</li><li>When access is permitted, FetchWebpage processes the HTTP response in the agent. TcpCheckTool reports the socket connection outcome.</li></ul></dd></dl><h3>Related Sources</h3><p class="source-note">Caller code for these backend requests.</p><ul class="sources"><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/internet/internet.py#L102-L193" target="_blank" rel="noopener noreferrer">scrape</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/internet/internet.py:L102-L193</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/connectivity_check.py#L109-L125" target="_blank" rel="noopener noreferrer">tcp_check</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/connectivity_check.py:L109-L125</small></li><li><a href="https://github.com/SREGym/SREGym/blob/0d8e7b73214c44e99c97ca1af2934290aa3b826b/sregym/service/container_runner.py#L313-L334" target="_blank" rel="noopener noreferrer">Allowed local services and provider endpoints</a><small class="source-path">SREGym: sregym/service/container_runner.py:L313-L334</small></li><li><a href="https://github.com/SREGym/SREGym/blob/0d8e7b73214c44e99c97ca1af2934290aa3b826b/sregym/service/docker_egress.py#L85-L114" target="_blank" rel="noopener noreferrer">Isolated agent network and HTTP proxy settings</a><small class="source-path">SREGym: sregym/service/docker_egress.py:L85-L114</small></li><li><a href="https://github.com/SREGym/SREGym/blob/0d8e7b73214c44e99c97ca1af2934290aa3b826b/sregym/service/docker_egress.py#L194-L201" target="_blank" rel="noopener noreferrer">Create the internal Docker network</a><small class="source-path">SREGym: sregym/service/docker_egress.py:L194-L201</small></li><li><a href="../../../runtime/campaign.py" target="_blank" rel="noopener noreferrer">Filtered campaign settings</a><small class="source-path">parent: runtime/campaign.py</small></li></ul></div></template>
+<template id="detail-prom_handler" data-title="Prometheus MCP server"><div class="detail-body"><p class="owner">SREGYM</p><p>Query metrics and firing alerts.</p><dl><dt>Input</dt><dd><ul><li>get_metrics: a metric query written in PromQL (Prometheus Query Language).</li><li>get_alerts: no arguments.</li></ul></dd><dt>Output</dt><dd><ul><li>HTTP GET /api/v1/query with the supplied expression, or GET /api/v1/alerts.</li><li>Filtered metric or alert data as MCP text, or an error message.</li></ul></dd><dt>Behavior</dt><dd><ul><li>Build the HTTP request with the supplied tool arguments.</li><li>Send it through the shared HTTP client, which retries selected HTTP failures.</li><li>Parse the JSON reply and filter records using SREGym visibility rules. Keep only firing alerts for get_alerts.</li><li>Return text through MCP. Prometheus evaluates the query expression.</li></ul></dd></dl><h3>Tool definitions</h3><details class="tool-definition"><summary>get_metrics</summary><dl class="tool-info"><dt>Toolset</dt><dd>sregym_prometheus</dd><dt>Execution</dt><dd>RemoteMCPTool → SREGym Python handler → Prometheus GET /api/v1/query; Prometheus evaluates PromQL</dd><dt>Returns</dt><dd>Visibility-filtered metric data as text</dd></dl><p><a href="https://github.com/SREGym/SREGym/blob/0d8e7b73214c44e99c97ca1af2934290aa3b826b/mcp_server/prometheus_server.py#L16-L46" target="_blank" rel="noopener noreferrer">get_metrics</a><small class="source-path">SREGym: mcp_server/prometheus_server.py:L16-L46</small></p><pre><code>@mcp.tool(name=&quot;get_metrics&quot;)
+def get_metrics(query: str) -&gt; str:
+    &quot;&quot;&quot;Query real-time metrics data from the Prometheus instance.
+
+    Args:
+        query (str): A Prometheus Query Language (PromQL) expression used to fetch metric values.
+
+    Returns:
+        str: String of metric results, including timestamps, values, and labels or error information.
+    &quot;&quot;&quot;
+
+    logger.info(&quot;[prom_mcp] get_metrics called, getting prometheus metrics&quot;)
+
+    observability_client = ObservabilityClient(PROMETHEUS_URL)
+    try:
+        url = f&quot;{PROMETHEUS_URL}/api/v1/query&quot;
+        param = {&quot;query&quot;: query}
+        response = observability_client.make_request(&quot;GET&quot;, url, params=param)
+        logger.info(f&quot;[prom_mcp] get_metrics status code: {response.status_code}&quot;)
+        logger.info(f&quot;[prom_mcp] get_metrics result: {response}&quot;)
+        data = response.json()[&quot;data&quot;]
+        if isinstance(data.get(&quot;result&quot;), list):
+            data[&quot;result&quot;] = [record for record in data[&quot;result&quot;] if visible_observability_record(record)]
+        metrics = str(data)
+        result = metrics if metrics else &quot;None&quot;
+
+        return result
+    except Exception as e:
+        err_str = f&quot;[prom_mcp] Error querying get_metrics: {str(e)}&quot;
+        logger.error(err_str)
+        return err_str</code></pre></details><details class="tool-definition"><summary>get_alerts</summary><dl class="tool-info"><dt>Toolset</dt><dd>sregym_prometheus</dd><dt>Execution</dt><dd>RemoteMCPTool → SREGym Python handler → Prometheus GET /api/v1/alerts</dd><dt>Returns</dt><dd>Visible firing alerts as text</dd></dl><p><a href="https://github.com/SREGym/SREGym/blob/0d8e7b73214c44e99c97ca1af2934290aa3b826b/mcp_server/prometheus_server.py#L49-L79" target="_blank" rel="noopener noreferrer">get_alerts</a><small class="source-path">SREGym: mcp_server/prometheus_server.py:L49-L79</small></p><pre><code>@mcp.tool(name=&quot;get_alerts&quot;)
+def get_alerts() -&gt; str:
+    &quot;&quot;&quot;Get all currently firing alerts from the Prometheus instance.
+
+    Returns a list of firing alerts with their labels (alertname, severity,
+    namespace, service_name, etc.) and annotations (summary, description).
+
+    Returns:
+        str: String of firing alert data including alert names, labels,
+             and annotations, or &quot;No firing alerts&quot; if none are active.
+    &quot;&quot;&quot;
+
+    logger.info(&quot;[prom_mcp] get_alerts called&quot;)
+
+    observability_client = ObservabilityClient(PROMETHEUS_URL)
+    try:
+        url = f&quot;{PROMETHEUS_URL}/api/v1/alerts&quot;
+        response = observability_client.make_request(&quot;GET&quot;, url)
+        logger.info(f&quot;[prom_mcp] get_alerts status code: {response.status_code}&quot;)
+
+        alerts = response.json().get(&quot;data&quot;, {}).get(&quot;alerts&quot;, [])
+        firing = [a for a in alerts if a.get(&quot;state&quot;) == &quot;firing&quot; and visible_observability_record(a)]
+
+        if not firing:
+            return &quot;No firing alerts&quot;
+
+        return str(firing)
+    except Exception as e:
+        err_str = f&quot;[prom_mcp] Error querying get_alerts: {str(e)}&quot;
+        logger.error(err_str)
+        return err_str</code></pre></details><h3>Related Sources</h3><ul class="sources"><li><a href="https://github.com/SREGym/SREGym/blob/0d8e7b73214c44e99c97ca1af2934290aa3b826b/mcp_server/prometheus_server.py#L16-L46" target="_blank" rel="noopener noreferrer">get_metrics</a><small class="source-path">SREGym: mcp_server/prometheus_server.py:L16-L46</small></li><li><a href="https://github.com/SREGym/SREGym/blob/0d8e7b73214c44e99c97ca1af2934290aa3b826b/mcp_server/prometheus_server.py#L49-L79" target="_blank" rel="noopener noreferrer">get_alerts</a><small class="source-path">SREGym: mcp_server/prometheus_server.py:L49-L79</small></li><li><a href="https://github.com/SREGym/SREGym/blob/0d8e7b73214c44e99c97ca1af2934290aa3b826b/mcp_server/utils.py#L48-L59" target="_blank" rel="noopener noreferrer">ObservabilityClient.create_retrying_session</a><small class="source-path">SREGym: mcp_server/utils.py:L48-L59</small></li><li><a href="https://github.com/SREGym/SREGym/blob/0d8e7b73214c44e99c97ca1af2934290aa3b826b/mcp_server/utils.py#L61-L71" target="_blank" rel="noopener noreferrer">ObservabilityClient.make_request</a><small class="source-path">SREGym: mcp_server/utils.py:L61-L71</small></li><li><a href="https://github.com/SREGym/SREGym/blob/0d8e7b73214c44e99c97ca1af2934290aa3b826b/sregym/service/agent_visibility_policy.py#L168-L178" target="_blank" rel="noopener noreferrer">visible_observability_record</a><small class="source-path">SREGym: sregym/service/agent_visibility_policy.py:L168-L178</small></li></ul></div></template>
+<template id="detail-jaeger_handler" data-title="Jaeger MCP server"><div class="detail-body"><p class="owner">SREGYM</p><p>Search application traces.</p><dl><dt>Input</dt><dd><ul><li>get_operations: service name. get_services: no arguments.</li><li>get_traces: service name and lookback in minutes.</li><li>get_dependency_graph: lookback in minutes.</li></ul></dd><dt>Output</dt><dd><ul><li>HTTP GET requests to /api/services, /api/operations, /api/traces or /api/dependencies.</li><li>Service names, operations, traces or dependencies as MCP text. Errors can return as text or a failed tool call.</li></ul></dd><dt>Behavior</dt><dd><ul><li>Convert service and time arguments into HTTP query parameters.</li><li>Request Jaeger data through the shared HTTP client.</li><li>Convert returned JSON to text for the MCP reply.</li></ul></dd></dl><h3>Tool definitions</h3><details class="tool-definition"><summary>get_services</summary><dl class="tool-info"><dt>Toolset</dt><dd>sregym_jaeger</dd><dt>Execution</dt><dd>RemoteMCPTool → SREGym Python handler → Jaeger GET /api/services</dd><dt>Returns</dt><dd>Application service names as text</dd></dl><p><a href="https://github.com/SREGym/SREGym/blob/0d8e7b73214c44e99c97ca1af2934290aa3b826b/mcp_server/jaeger_server.py#L13-L38" target="_blank" rel="noopener noreferrer">get_services</a><small class="source-path">SREGym: mcp_server/jaeger_server.py:L13-L38</small></p><pre><code>@mcp.tool(name=&quot;get_services&quot;)
+def get_services() -&gt; str:
+    &quot;&quot;&quot;Retrieve the list of service names from the Grafana instance.
+
+    Returns:
+        str: String of a list of service names available in Grafana or error information.
+    &quot;&quot;&quot;
+
+    logger.debug(&quot;[ob_mcp] get_services called, getting jaeger services&quot;)
+
+    jaeger_url = &quot;http://jaeger-out.observe.svc.cluster.local:16686&quot;
+    jaeger_client = ObservabilityClient(jaeger_url)
+    try:
+        url = f&quot;{jaeger_url}/api/services&quot;
+        response = jaeger_client.make_request(&quot;GET&quot;, url)
+        logger.debug(f&quot;[ob_mcp] get_services status code: {response.status_code}&quot;)
+        logger.debug(f&quot;[ob_mcp] get_services result: {response}&quot;)
+        logger.debug(f&quot;[ob_mcp] result: {response.json()}&quot;)
+        services = str(response.json()[&quot;data&quot;])
+        result = services if services else &quot;None&quot;
+
+        return result
+    except Exception as e:
+        err_str = f&quot;[ob_mcp] Error querying get_services: {str(e)}&quot;
+        logger.error(err_str)
+        return err_str</code></pre></details><details class="tool-definition"><summary>get_operations</summary><dl class="tool-info"><dt>Toolset</dt><dd>sregym_jaeger</dd><dt>Execution</dt><dd>RemoteMCPTool → SREGym Python handler → Jaeger GET /api/operations with a service name</dd><dt>Returns</dt><dd>Operation names as text</dd></dl><p><a href="https://github.com/SREGym/SREGym/blob/0d8e7b73214c44e99c97ca1af2934290aa3b826b/mcp_server/jaeger_server.py#L41-L68" target="_blank" rel="noopener noreferrer">get_operations</a><small class="source-path">SREGym: mcp_server/jaeger_server.py:L41-L68</small></p><pre><code>@mcp.tool(name=&quot;get_operations&quot;)
+def get_operations(service: str) -&gt; str:
+    &quot;&quot;&quot;Query available operations for a specific service from the Grafana instance.
+
+    Args:
+        service (str): The name of the service whose operations should be retrieved.
+
+    Returns:
+        str: String of a list of operation names associated with the specified service or error information.
+    &quot;&quot;&quot;
+
+    logger.debug(&quot;[ob_mcp] get_operations called, getting jaeger operations&quot;)
+
+    jaeger_url = &quot;http://jaeger-out.observe.svc.cluster.local:16686&quot;
+    jaeger_client = ObservabilityClient(jaeger_url)
+    try:
+        url = f&quot;{jaeger_url}/api/operations&quot;
+        params = {&quot;service&quot;: service}
+        response = jaeger_client.make_request(&quot;GET&quot;, url, params=params)
+        logger.debug(f&quot;[ob_mcp] get_operations: {response.status_code}&quot;)
+        operations = str(response.json()[&quot;data&quot;])
+        result = operations if operations else &quot;None&quot;
+
+        return result
+    except Exception as e:
+        err_str = f&quot;[ob_mcp] Error querying get_operations: {str(e)}&quot;
+        logger.error(err_str)
+        return err_str</code></pre></details><details class="tool-definition"><summary>get_traces</summary><dl class="tool-info"><dt>Toolset</dt><dd>sregym_jaeger</dd><dt>Execution</dt><dd>RemoteMCPTool → SREGym Python handler → Jaeger GET /api/traces with service/time filters</dd><dt>Returns</dt><dd>Application request traces as text</dd></dl><p><a href="https://github.com/SREGym/SREGym/blob/0d8e7b73214c44e99c97ca1af2934290aa3b826b/mcp_server/jaeger_server.py#L71-L108" target="_blank" rel="noopener noreferrer">get_traces</a><small class="source-path">SREGym: mcp_server/jaeger_server.py:L71-L108</small></p><pre><code>@mcp.tool(name=&quot;get_traces&quot;)
+def get_traces(service: str, last_n_minutes: int) -&gt; str:
+    &quot;&quot;&quot;Get Jaeger traces for a given service in the last n minutes.
+
+    Args:
+        service (str): The name of the service for which to retrieve trace data.
+        last_n_minutes (int): The time range (in minutes) to look back from the current time.
+
+    Returns:
+        str: String of Jaeger traces or error information
+    &quot;&quot;&quot;
+
+    logger.debug(&quot;[ob_mcp] get_traces called, getting jaeger traces&quot;)
+
+    jaeger_url = &quot;http://jaeger-out.observe.svc.cluster.local:16686&quot;
+    jaeger_client = ObservabilityClient(jaeger_url)
+    try:
+        url = f&quot;{jaeger_url}/api/traces&quot;
+        start_time = datetime.now() - timedelta(minutes=last_n_minutes)
+        start_time = int(start_time.timestamp() * 1_000_000)
+        end_time = int(datetime.now().timestamp() * 1_000_000)
+        logger.debug(f&quot;[ob_mcp] get_traces start_time: {start_time}, end_time: {end_time}&quot;)
+        params = {
+            &quot;service&quot;: service,
+            &quot;start&quot;: start_time,
+            &quot;end&quot;: end_time,
+            &quot;limit&quot;: 20,
+        }
+        response = jaeger_client.make_request(&quot;GET&quot;, url, params=params)
+        logger.debug(f&quot;[ob_mcp] get_traces: {response.status_code}&quot;)
+        traces = str(response.json()[&quot;data&quot;])
+        result = traces if traces else &quot;None&quot;
+
+        return result
+    except Exception as e:
+        err_str = f&quot;[ob_mcp] Error querying get_traces: {str(e)}&quot;
+        logger.error(err_str)
+        return err_str</code></pre></details><details class="tool-definition"><summary>get_dependency_graph</summary><dl class="tool-info"><dt>Toolset</dt><dd>sregym_jaeger</dd><dt>Execution</dt><dd>RemoteMCPTool → SREGym Python handler → Jaeger GET /api/dependencies with a time range</dd><dt>Returns</dt><dd>Service dependencies as text</dd></dl><p><a href="https://github.com/SREGym/SREGym/blob/0d8e7b73214c44e99c97ca1af2934290aa3b826b/mcp_server/jaeger_server.py#L111-L132" target="_blank" rel="noopener noreferrer">get_dependency_graph</a><small class="source-path">SREGym: mcp_server/jaeger_server.py:L111-L132</small></p><pre><code>@mcp.tool(name=&quot;get_dependency_graph&quot;)
+def get_dependency_graph(last_n_minutes: int = 30) -&gt; str:
+    &quot;&quot;&quot;
+    Get service dependency graph from Jaeger&#x27;s native dependencies API.
+    Args:
+        last_n_minutes (int): The time range (in minutes) to look back from the current time.
+    Returns:
+        str: JSON object representing the dependency graph.
+    &quot;&quot;&quot;
+
+    jaeger_url = &quot;http://jaeger-out.observe.svc.cluster.local:16686&quot;
+    client = ObservabilityClient(jaeger_url)
+    end_time = int(datetime.now().timestamp() * 1000)
+
+    url = f&quot;{jaeger_url}/api/dependencies&quot;
+    params = {&quot;endTs&quot;: end_time, &quot;lookback&quot;: last_n_minutes * 60 * 1000}
+
+    response = client.make_request(&quot;GET&quot;, url, params=params)
+    logger.info(f&quot;[ob_mcp] get_dependency_graph: {response.status_code}&quot;)
+    result = str(response.json())
+
+    return result</code></pre></details><h3>Related Sources</h3><ul class="sources"><li><a href="https://github.com/SREGym/SREGym/blob/0d8e7b73214c44e99c97ca1af2934290aa3b826b/mcp_server/jaeger_server.py#L13-L38" target="_blank" rel="noopener noreferrer">get_services</a><small class="source-path">SREGym: mcp_server/jaeger_server.py:L13-L38</small></li><li><a href="https://github.com/SREGym/SREGym/blob/0d8e7b73214c44e99c97ca1af2934290aa3b826b/mcp_server/jaeger_server.py#L41-L68" target="_blank" rel="noopener noreferrer">get_operations</a><small class="source-path">SREGym: mcp_server/jaeger_server.py:L41-L68</small></li><li><a href="https://github.com/SREGym/SREGym/blob/0d8e7b73214c44e99c97ca1af2934290aa3b826b/mcp_server/jaeger_server.py#L71-L108" target="_blank" rel="noopener noreferrer">get_traces</a><small class="source-path">SREGym: mcp_server/jaeger_server.py:L71-L108</small></li><li><a href="https://github.com/SREGym/SREGym/blob/0d8e7b73214c44e99c97ca1af2934290aa3b826b/mcp_server/jaeger_server.py#L111-L132" target="_blank" rel="noopener noreferrer">get_dependency_graph</a><small class="source-path">SREGym: mcp_server/jaeger_server.py:L111-L132</small></li><li><a href="https://github.com/SREGym/SREGym/blob/0d8e7b73214c44e99c97ca1af2934290aa3b826b/mcp_server/utils.py#L48-L59" target="_blank" rel="noopener noreferrer">ObservabilityClient.create_retrying_session</a><small class="source-path">SREGym: mcp_server/utils.py:L48-L59</small></li><li><a href="https://github.com/SREGym/SREGym/blob/0d8e7b73214c44e99c97ca1af2934290aa3b826b/mcp_server/utils.py#L61-L71" target="_blank" rel="noopener noreferrer">ObservabilityClient.make_request</a><small class="source-path">SREGym: mcp_server/utils.py:L61-L71</small></li></ul></div></template>
+<template id="detail-kubernetes" data-title="Kubernetes API server"><div class="detail-body"><p class="owner">MODEL / CLUSTER BACKEND</p><p>Serve Kubernetes data and accept permitted resource changes.</p><dl><dt>Input</dt><dd><ul><li>Resource, pod-log, resource-metric and service-proxy requests forwarded by SREGym’s access proxy.</li></ul></dd><dt>Output</dt><dd><ul><li>Resource JSON, pod log text, CPU/memory usage, operation status or errors.</li><li>Prometheus target JSON when service-proxy access is permitted.</li></ul></dd><dt>Behavior</dt><dd><ul><li>Serve object reads and pod-log requests for the test application and its dependencies.</li><li>Serve resource-metric requests used by kubectl top through the Kubernetes Metrics API. Metrics Server supplies the recent CPU/memory measurements.</li><li>Accept permitted resource writes. Kubernetes controllers act on the requested state of the deployed application.</li><li>When access permits target lookup, forward it to Prometheus /api/v1/targets through the service proxy.</li></ul></dd></dl><h3>Related Sources</h3><p class="source-note">Caller code for these backend requests.</p><ul class="sources"><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/kubernetes.yaml#L17-L700" target="_blank" rel="noopener noreferrer">holmes/plugins/toolsets/kubernetes.yaml</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/kubernetes.yaml:L17-L700</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/kubernetes_logs.py#L89-L248" target="_blank" rel="noopener noreferrer">holmes/plugins/toolsets/kubernetes_logs.py</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/kubernetes_logs.py:L89-L248</small></li><li><a href="https://github.com/SREGym/SREGym/blob/0d8e7b73214c44e99c97ca1af2934290aa3b826b/sregym/service/container_runner.py#L446-L568" target="_blank" rel="noopener noreferrer">sregym/service/container_runner.py</a><small class="source-path">SREGym: sregym/service/container_runner.py:L446-L568</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/kubernetes.yaml#L660-L680" target="_blank" rel="noopener noreferrer">CPU/memory snapshot commands</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/kubernetes.yaml:L660-L680</small></li></ul></div></template>
+<template id="detail-prometheus" data-title="Prometheus"><div class="detail-body"><p class="owner">MODEL / CLUSTER BACKEND</p><p>Evaluate metric queries and provide monitoring data.</p><dl><dt>Input</dt><dd><ul><li>Metric queries and alert requests from the SREGym tool server.</li><li>Target lookup requests through the Kubernetes service proxy.</li></ul></dd><dt>Output</dt><dd><ul><li>Metric values, alerts or target details as JSON.</li></ul></dd><dt>Behavior</dt><dd><ul><li>Evaluate PromQL against stored metric samples.</li><li>Serve alert data through /api/v1/alerts and collection-target details through /api/v1/targets.</li><li>Return JSON for the requesting tool server or local script to process.</li></ul></dd></dl><h3>Related Sources</h3><p class="source-note">Caller code for these backend requests.</p><ul class="sources"><li><a href="https://github.com/SREGym/SREGym/blob/0d8e7b73214c44e99c97ca1af2934290aa3b826b/mcp_server/prometheus_server.py#L13-L79" target="_blank" rel="noopener noreferrer">mcp_server/prometheus_server.py</a><small class="source-path">SREGym: mcp_server/prometheus_server.py:L13-L79</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/plugins/toolsets/kubernetes.yaml#L689-L700" target="_blank" rel="noopener noreferrer">holmes/plugins/toolsets/kubernetes.yaml</a><small class="source-path">holmesgpt: holmes/plugins/toolsets/kubernetes.yaml:L689-L700</small></li></ul></div></template>
+<template id="detail-jaeger" data-title="Jaeger"><div class="detail-body"><p class="owner">MODEL / CLUSTER BACKEND</p><p>Find application request traces.</p><dl><dt>Input</dt><dd><ul><li>HTTP requests with service names or time ranges from the Jaeger tool server.</li></ul></dd><dt>Output</dt><dd><ul><li>Service names, operations, request traces or dependencies as JSON.</li></ul></dd><dt>Behavior</dt><dd><ul><li>Search traces: records of request operations across the application’s services.</li><li>Return matching data to the tool server.</li><li>Store application traces, which are separate from the agent conversation saved as a trajectory.</li></ul></dd></dl><h3>Related Sources</h3><p class="source-note">Caller code for these backend requests.</p><ul class="sources"><li><a href="https://github.com/SREGym/SREGym/blob/0d8e7b73214c44e99c97ca1af2934290aa3b826b/mcp_server/jaeger_server.py#L14-L132" target="_blank" rel="noopener noreferrer">mcp_server/jaeger_server.py</a><small class="source-path">SREGym: mcp_server/jaeger_server.py:L14-L132</small></li></ul></div></template>
+<template id="detail-observations" data-title="ToolCallResult"><div class="detail-body"><p class="owner">HOLMESGPT</p><p>Format each tool result for the conversation.</p><dl><dt>Input</dt><dd><ul><li>Tool results after command execution, local processing or MCP reply handling, including images.</li><li>Errors and permission rejections.</li></ul></dd><dt>Output</dt><dd><ul><li>Conversation messages containing formatted tool results, call IDs and supported image content.</li></ul></dd><dt>Behavior</dt><dd><ul><li>Format each result with its effective parameters, output, metadata and any error text. Include returned images when the model supports vision.</li><li>Append messages through ToolCallingLLM as calls finish. Start the next model turn after the batch finishes.</li><li>For oversized results, store text/images in the agent’s result directory and return file paths with a preview. Bash and read_image_file can retrieve needed content.</li><li>The formatted model message can differ from the client result data used by the trajectory exporter.</li></ul></dd></dl><h3>Related Sources</h3><ul class="sources"><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/core/models.py#L19-L46" target="_blank" rel="noopener noreferrer">ToolCallResult.to_llm_message</a><small class="source-path">holmesgpt: holmes/core/models.py:L19-L46</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/core/models.py#L83-L107" target="_blank" rel="noopener noreferrer">format_tool_result_data</a><small class="source-path">holmesgpt: holmes/core/models.py:L83-L107</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/core/tool_calling_llm.py#L1508-L1595" target="_blank" rel="noopener noreferrer">ToolCallingLLM.call_stream: append tool messages and finish the batch</a><small class="source-path">holmesgpt: holmes/core/tool_calling_llm.py:L1508-L1595</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/core/tool_calling_llm.py#L1078-L1113" target="_blank" rel="noopener noreferrer">ToolCallingLLM._invoke_llm_tool_call: limit oversized results</a><small class="source-path">holmesgpt: holmes/core/tool_calling_llm.py:L1078-L1113</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/core/tools_utils/tool_context_window_limiter.py#L33-L144" target="_blank" rel="noopener noreferrer">spill_oversized_tool_result</a><small class="source-path">holmesgpt: holmes/core/tools_utils/tool_context_window_limiter.py:L33-L144</small></li><li><a href="https://github.com/HolmesGPT/holmesgpt/blob/21ca948b8b4935a2ed0aa98dae05449d10953005/holmes/core/tools_utils/filesystem_result_storage.py#L25-L40" target="_blank" rel="noopener noreferrer">tool_result_storage</a><small class="source-path">holmesgpt: holmes/core/tools_utils/filesystem_result_storage.py:L25-L40</small></li></ul></div></template>
+<template id="detail-submit" data-title="Stage adapter (submission)"><div class="detail-body"><p class="owner">OUR INTEGRATION</p><p>Submit the answer for evaluation.</p><dl><dt>Input</dt><dd><ul><li>Final nonempty answer returned by HolmesGPT.</li></ul></dd><dt>Output</dt><dd><ul><li>POST /submit with the exact answer and stage.</li><li>SREGym submission receipt and, after evaluation, the next stage or end of the test case.</li></ul></dd><dt>Behavior</dt><dd><ul><li>Send the answer without rewriting or evaluating it.</li><li>Wait for SREGym’s evaluation and stage transition. The diagnosis judge and mitigation checks belong to SREGym.</li><li>If another stage is enabled, configure HolmesGPT for it with the retained conversation.</li><li>Keep SREGym’s shared 1,800-second deadline across stages. Starting a new agent instance does not extend it.</li><li>While the agent runs, record HolmesGPT events/conversation separately from our added records. Recording preserves return values, adds I/O overhead and reports incomplete capture.</li><li>After collection, convert saved records to trajectory.json offline. Exported client tool results can differ from the formatted messages sent to the model.</li></ul></dd></dl><h3>Related Sources</h3><ul class="sources"><li><a href="../../../runtime/agent.py" target="_blank" rel="noopener noreferrer">runtime/agent.py</a><small class="source-path">parent: runtime/agent.py</small></li><li><a href="https://github.com/SREGym/SREGym/blob/0d8e7b73214c44e99c97ca1af2934290aa3b826b/sregym/conductor/conductor_api.py#L219-L267" target="_blank" rel="noopener noreferrer">sregym/conductor/conductor_api.py</a><small class="source-path">SREGym: sregym/conductor/conductor_api.py:L219-L267</small></li><li><a href="https://github.com/SREGym/SREGym/blob/0d8e7b73214c44e99c97ca1af2934290aa3b826b/sregym/conductor/conductor.py#L652-L817" target="_blank" rel="noopener noreferrer">sregym/conductor/conductor.py</a><small class="source-path">SREGym: sregym/conductor/conductor.py:L652-L817</small></li><li><a href="../../../runtime/recording.py" target="_blank" rel="noopener noreferrer">Incremental recorder</a><small class="source-path">parent: runtime/recording.py</small></li><li><a href="../../../runtime/convert.py" target="_blank" rel="noopener noreferrer">Offline trajectory converter</a><small class="source-path">parent: runtime/convert.py</small></li></ul></div></template>
+<dialog aria-labelledby="card-title"><header class="card-header"><h2 id="card-title"></h2><form method="dialog"><button>Close</button></form></header><div id="card-body"></div></dialog>
+<script>
+const dialog = document.querySelector('dialog');
+let opener;
+document.querySelector('figure').addEventListener('click', event => {
+  const link = event.target.closest('a');
+  const href = link?.getAttribute('href') || link?.getAttributeNS('http://www.w3.org/1999/xlink', 'href');
+  if (!href?.startsWith('#detail-') || !dialog.showModal) return;
+  const detail = document.getElementById(href.slice(1));
+  if (!detail) return;
+  event.preventDefault();
+  opener = link;
+  document.getElementById('card-title').textContent = detail.dataset.title;
+  document.getElementById('card-body').replaceChildren(detail.content.cloneNode(true));
+  dialog.showModal();
+  dialog.scrollTop = 0;
+});
+dialog.addEventListener('close', () => opener?.focus());
+</script></main></body></html>

@@ -62,3 +62,5 @@ To also export graded, fully captured trajectories for sharing:
 ```
 
 Exports go to `trajectories/run-01/<problem>/trajectory.json`, alongside a results CSV and run summary. Review their contents before publishing.
+
+[Runtime diagram](docs/diagrams/runtime-overview/runtime-overview.html) · [Runtime guide](docs/runtime.md) · [Integration changes](patches/README.md)

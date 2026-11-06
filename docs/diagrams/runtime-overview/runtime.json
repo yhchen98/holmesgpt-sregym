@@ -1,0 +1,1661 @@
+{
+  "title": "HolmesGPT / SREGym",
+  "owners": {
+    "ours": {
+      "label": "OUR INTEGRATION",
+      "fill": "#fff3e6",
+      "stroke": "#a6540c"
+    },
+    "holmes": {
+      "label": "HOLMESGPT",
+      "fill": "#edf4ff",
+      "stroke": "#2c5eaa"
+    },
+    "sregym": {
+      "label": "SREGYM",
+      "fill": "#eaf6ee",
+      "stroke": "#28734c"
+    },
+    "external": {
+      "label": "MODEL / CLUSTER BACKEND",
+      "fill": "#f2f4f7",
+      "stroke": "#536071"
+    }
+  },
+  "nodes": [
+    {
+      "id": "stage",
+      "owner": "sregym",
+      "title": "Conductor",
+      "lines": [
+        "Test case setup and stages"
+      ],
+      "purpose": "Prepare a test case and report its current stage.",
+      "input": [
+        "Problem: a SREGym test case, with its deployment, fault and evaluation rules.",
+        "Requests for the current stage and application details."
+      ],
+      "output": [
+        "Current stage: diagnosis (find the cause) or mitigation (repair the failure).",
+        "Application description, relevant namespaces and enabled stages."
+      ],
+      "behavior": [
+        "Deploy the application: the services under test, including any supporting databases.",
+        "Apply the fault: the change that causes the failure being tested.",
+        "Expose stage and application details through GET /status and GET /get_app.",
+        "Evaluate diagnosis with the case’s diagnosis oracle, which can use an LLM judge. Evaluate mitigation against the system/application state, then advance stages or restore the environment."
+      ],
+      "sources": [
+        {
+          "repo": "SREGym",
+          "path": "sregym/conductor/conductor.py",
+          "anchor": "L652-L758",
+          "label": "Conductor.start_problem"
+        },
+        {
+          "repo": "SREGym",
+          "path": "sregym/conductor/conductor.py",
+          "anchor": "L1384-L1513",
+          "label": "Conductor.deploy_app"
+        },
+        {
+          "repo": "SREGym",
+          "path": "sregym/conductor/conductor.py",
+          "anchor": "L320-L345",
+          "label": "Conductor._inject_fault"
+        },
+        {
+          "repo": "SREGym",
+          "path": "sregym/conductor/conductor.py",
+          "anchor": "L420-L473",
+          "label": "Conductor._advance_to_next_stage"
+        },
+        {
+          "repo": "SREGym",
+          "path": "sregym/conductor/conductor_api.py",
+          "anchor": "L233-L248",
+          "label": "get_status"
+        },
+        {
+          "repo": "SREGym",
+          "path": "sregym/conductor/conductor_api.py",
+          "anchor": "L251-L267",
+          "label": "get_app"
+        },
+        {
+          "repo": "SREGym",
+          "path": "sregym/conductor/conductor.py",
+          "anchor": "L760-L882",
+          "label": "Conductor._submit_evaluate_and_advance"
+        },
+        {
+          "repo": "SREGym",
+          "path": "sregym/conductor/conductor.py",
+          "anchor": "L475-L568",
+          "label": "Conductor._cleanup_sync"
+        }
+      ]
+    },
+    {
+      "id": "adapter",
+      "owner": "ours",
+      "title": "Stage adapter (setup)",
+      "lines": [
+        "Stage permissions · history handoff"
+      ],
+      "purpose": "Configure HolmesGPT for the current stage.",
+      "input": [
+        "Current stage and application details from SREGym.",
+        "Conversation from the previous stage, when available."
+      ],
+      "output": [
+        "Initial conversation built with the HolmesGPT prompt builder.",
+        "Configured HolmesGPT agent, started through ai.call(messages)."
+      ],
+      "behavior": [
+        "Load HolmesGPT toolsets tagged CORE or CLI and check their configuration and prerequisites. Configure the Bash policy and SREGym Prometheus/Jaeger MCP servers.",
+        "Use HolmesGPT’s prompt builder for the system and user messages. Add stage-permission guidance and the configured MCP toolset instructions to the system prompt.",
+        "Supply the user task: diagnosis or mitigation, application description, relevant namespaces and investigation scope.",
+        "Keep diagnosis read-only. Permit the selected Kubernetes write commands during mitigation under the Bash allow/deny rules.",
+        "Select the model and allow 100 agent iterations per stage. One iteration can request several tools. For Sonnet 5.5, omit the rejected temperature setting.",
+        "For the next stage, create an agent instance with new system instructions. Retain previous non-system messages and the shared tool-result directory."
+      ],
+      "sources": [
+        {
+          "repo": "parent",
+          "path": "runtime/agent.py",
+          "anchor": ""
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/core/prompt.py",
+          "anchor": "L335-L364"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/core/prompt.py",
+          "anchor": "L206-L254",
+          "label": "build_system_prompt"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/prompts/generic_ask.jinja2",
+          "anchor": "L1-L132",
+          "label": "System prompt template"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/prompts/base_user_prompt.jinja2",
+          "anchor": "L1-L46",
+          "label": "User prompt template"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/config.py",
+          "anchor": "L443-L454",
+          "label": "Toolset tag selection and prerequisite controls"
+        }
+      ]
+    },
+    {
+      "id": "request",
+      "owner": "holmes",
+      "title": "ToolCallingLLM / DefaultLLM",
+      "lines": [
+        "LiteLLM"
+      ],
+      "purpose": "Prepare conversation context and send the model request.",
+      "input": [
+        "Stage instructions, earlier model replies and tool messages.",
+        "Available tool definitions and model settings."
+      ],
+      "output": [
+        "Model request containing the current conversation and callable tools."
+      ],
+      "behavior": [
+        "ToolCallingLLM manages the conversation and context budget. When compaction is needed, summarize older messages through the configured model client.",
+        "DefaultLLM sends a model request through LiteLLM and returns the response to ToolCallingLLM.",
+        "On the last allowed iteration, omit tools to request a final answer. Provider errors or cancellation can end the call earlier."
+      ],
+      "sources": [
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/core/tool_calling_llm.py",
+          "anchor": "L1220-L1308",
+          "label": "ToolCallingLLM.call_stream: prepare context and call the model"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/core/llm.py",
+          "anchor": "L712-L843",
+          "label": "DefaultLLM.completion"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/core/truncation/input_context_window_limiter.py",
+          "anchor": "L82-L205",
+          "label": "compact_if_necessary"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/core/truncation/compaction.py",
+          "anchor": "L352-L517",
+          "label": "compact_conversation_history"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/core/tools_utils/tool_executor.py",
+          "anchor": "L178-L189",
+          "label": "ToolExecutor.get_all_tools_openai_format"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/core/tool_calling_llm.py",
+          "anchor": "L284-L299",
+          "label": "ToolCallingLLM: model-client reference"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/config.py",
+          "anchor": "L754-L769",
+          "label": "Create the model client and agent loop"
+        }
+      ]
+    },
+    {
+      "id": "model",
+      "owner": "external",
+      "title": "LLM",
+      "lines": [],
+      "purpose": "Choose tool calls or return a final answer.",
+      "input": [
+        "Current conversation and available tool definitions."
+      ],
+      "output": [
+        "Model reply, optionally containing several tool calls with names, arguments and call IDs.",
+        "Final answer when the reply contains no tool calls."
+      ],
+      "behavior": [
+        "Use the conversation and tool descriptions to choose actions.",
+        "Supply query expressions or shell commands when the selected tool requires them.",
+        "Return tool calls for HolmesGPT to execute. Text alongside a tool call does not end the agent loop."
+      ],
+      "sources": [
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/core/tool_calling_llm.py",
+          "anchor": "L1295-L1467"
+        }
+      ]
+    },
+    {
+      "id": "dispatch",
+      "owner": "holmes",
+      "title": "ToolCallingLLM / ToolExecutor",
+      "lines": [],
+      "purpose": "Send each requested call to its tool implementation.",
+      "input": [
+        "Tool calls from one model reply, including names, arguments and call IDs."
+      ],
+      "output": [
+        "Calls to the selected tool implementations.",
+        "Error results for invalid calls or denied actions."
+      ],
+      "behavior": [
+        "Append the model reply and its requested calls to the conversation before execution.",
+        "Parse call arguments and resolve each name through ToolExecutor. Apply the SDK’s repeated-call check, parameter conversion and approval rules.",
+        "Execute the requested batch with up to 16 workers. Tool errors and denied actions become results for the model.",
+        "Keep each result associated with its call ID. Calls can finish in a different order from their requests."
+      ],
+      "sources": [
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/core/tool_calling_llm.py",
+          "anchor": "L1405-L1595",
+          "label": "ToolCallingLLM.call_stream: tool batches and results"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/core/tool_calling_llm.py",
+          "anchor": "L987-L1113",
+          "label": "ToolCallingLLM._invoke_llm_tool_call"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/core/tool_calling_llm.py",
+          "anchor": "L864-L924",
+          "label": "ToolCallingLLM._directly_invoke_tool_call"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/core/tools_utils/tool_executor.py",
+          "anchor": "L100-L108",
+          "label": "ToolExecutor.get_tool_by_name"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/core/tools.py",
+          "anchor": "L392-L437",
+          "label": "Tool.invoke"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/core/tools.py",
+          "anchor": "L377-L383",
+          "label": "Tool._coerce_params"
+        }
+      ],
+      "tool_index": true
+    },
+    {
+      "id": "yaml",
+      "owner": "holmes",
+      "title": "YAMLTool",
+      "lines": [
+        "Bash templates · kubectl · jq"
+      ],
+      "purpose": "Run Kubernetes queries, resource counts and usage checks.",
+      "input": [
+        "kubernetes_jq_query and kubernetes_count: resource kind, namespace, selectors and a jq expression (a JSON filter).",
+        "kubernetes_tabular_query: resource kind, namespace, selectors, columns and a row filter.",
+        "kubectl_top_pods and kubectl_top_nodes: no arguments.",
+        "get_prometheus_target: Prometheus service, namespace and target name."
+      ],
+      "output": [
+        "Selected resource JSON, counts/previews, table rows, CPU/memory usage or target details.",
+        "Tool status, the executed command and any errors."
+      ],
+      "behavior": [
+        "Render a fixed command or a parameterized Bash script from the YAML definition. Template variables supply any inferred parameters.",
+        "Run kubectl inside the agent container through SREGym’s Kubernetes access proxy.",
+        "For JSON queries and counts, discover resources and retrieve pages as needed. Run jq locally to select or count the results.",
+        "For table queries, request custom columns and filter rows locally.",
+        "For CPU/memory snapshots, run kubectl top against the Kubernetes Metrics API.",
+        "For target lookup, request Prometheus /api/v1/targets through the Kubernetes service proxy, then select the target locally. Access rules can reject the request.",
+        "Apply configured output summarization when a fast model is available and output exceeds its threshold."
+      ],
+      "sources": [
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/kubernetes.yaml",
+          "anchor": "L17-L261",
+          "label": "kubernetes_jq_query"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/kubernetes.yaml",
+          "anchor": "L263-L417",
+          "label": "kubernetes_tabular_query"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/kubernetes.yaml",
+          "anchor": "L689-L700",
+          "label": "get_prometheus_target"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/core/tools.py",
+          "anchor": "L572-L744",
+          "label": "YAMLTool: parameter inference, template rendering and subprocess execution"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/core/tools.py",
+          "anchor": "L392-L437",
+          "label": "Tool.invoke"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/core/transformers/llm_summarize.py",
+          "anchor": "L99-L128",
+          "label": "LLMSummarizeTransformer.should_apply"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/core/transformers/llm_summarize.py",
+          "anchor": "L130-L173",
+          "label": "LLMSummarizeTransformer.transform"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/core/tools.py",
+          "anchor": "L385-L390",
+          "label": "Tool.get_openai_format"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/kubernetes.yaml",
+          "anchor": "L419-L641",
+          "label": "kubernetes_count"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/kubernetes.yaml",
+          "anchor": "L673-L676",
+          "label": "kubectl_top_pods"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/kubernetes.yaml",
+          "anchor": "L677-L680",
+          "label": "kubectl_top_nodes"
+        }
+      ],
+      "tool_definitions": [
+        {
+          "name": "kubernetes_jq_query",
+          "sources": [
+            {
+              "repo": "holmesgpt",
+              "path": "holmes/plugins/toolsets/kubernetes.yaml",
+              "anchor": "L17-L261",
+              "label": "kubernetes_jq_query"
+            }
+          ],
+          "toolset": "kubernetes/core",
+          "route": "YAMLTool script → kubectl discovery/paginated reads → local jq",
+          "returns": "Selected JSON, scope, counts and errors"
+        },
+        {
+          "name": "kubernetes_tabular_query",
+          "sources": [
+            {
+              "repo": "holmesgpt",
+              "path": "holmes/plugins/toolsets/kubernetes.yaml",
+              "anchor": "L263-L417",
+              "label": "kubernetes_tabular_query"
+            }
+          ],
+          "toolset": "kubernetes/core",
+          "route": "YAMLTool script → kubectl custom columns → local row filtering",
+          "returns": "Table rows, headers, count and errors"
+        },
+        {
+          "name": "kubernetes_count",
+          "sources": [
+            {
+              "repo": "holmesgpt",
+              "path": "holmes/plugins/toolsets/kubernetes.yaml",
+              "anchor": "L419-L641",
+              "label": "kubernetes_count"
+            }
+          ],
+          "toolset": "kubernetes/core",
+          "route": "YAMLTool script → paginated kubectl reads → local jq count",
+          "returns": "Match count, preview, scope and errors"
+        },
+        {
+          "name": "kubectl_top_pods",
+          "sources": [
+            {
+              "repo": "holmesgpt",
+              "path": "holmes/plugins/toolsets/kubernetes.yaml",
+              "anchor": "L673-L676",
+              "label": "kubectl_top_pods"
+            }
+          ],
+          "toolset": "kubernetes/live-metrics",
+          "route": "YAMLTool command → kubectl top pods -A → Kubernetes Metrics API",
+          "returns": "Current pod CPU/memory usage"
+        },
+        {
+          "name": "kubectl_top_nodes",
+          "sources": [
+            {
+              "repo": "holmesgpt",
+              "path": "holmes/plugins/toolsets/kubernetes.yaml",
+              "anchor": "L677-L680",
+              "label": "kubectl_top_nodes"
+            }
+          ],
+          "toolset": "kubernetes/live-metrics",
+          "route": "YAMLTool command → kubectl top nodes → Kubernetes Metrics API",
+          "returns": "Current node CPU/memory usage"
+        },
+        {
+          "name": "get_prometheus_target",
+          "sources": [
+            {
+              "repo": "holmesgpt",
+              "path": "holmes/plugins/toolsets/kubernetes.yaml",
+              "anchor": "L689-L700",
+              "label": "get_prometheus_target"
+            }
+          ],
+          "toolset": "kubernetes/kube-prometheus-stack",
+          "route": "YAMLTool script → kubectl raw GET → Kubernetes service proxy → Prometheus /api/v1/targets → local jq",
+          "returns": "Target details or access/error information"
+        }
+      ],
+      "column": "kubernetes"
+    },
+    {
+      "id": "bash",
+      "owner": "holmes",
+      "title": "RunBashCommand",
+      "lines": [
+        "Bash subprocess"
+      ],
+      "purpose": "Run an allowed shell command.",
+      "input": [
+        "bash: command text, suggested command prefixes and an optional timeout."
+      ],
+      "output": [
+        "Command output, exit status or error.",
+        "Rejection if the command is not allowed."
+      ],
+      "behavior": [
+        "Check the command against stage-specific allow and deny rules.",
+        "Reject commands that need approval because this deployment has no interactive approval callback.",
+        "Execute allowed commands in a Bash subprocess. Commands using kubectl follow the Kubernetes access proxy.",
+        "Run local pipeline steps, such as jq, inside the agent.",
+        "Run the command in a shell process group. At the timeout, terminate the group and finish collecting output within a bounded interval."
+      ],
+      "sources": [
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/bash/bash_toolset.py",
+          "anchor": "L104-L143",
+          "label": "RunBashCommand.__init__"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/bash/bash_toolset.py",
+          "anchor": "L145-L162",
+          "label": "RunBashCommand._validate_command"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/bash/bash_toolset.py",
+          "anchor": "L164-L197",
+          "label": "RunBashCommand.requires_approval"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/bash/bash_toolset.py",
+          "anchor": "L199-L271",
+          "label": "RunBashCommand._invoke"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/bash/common/bash.py",
+          "anchor": "L15-L74",
+          "label": "run_bash: shell execution and timeout"
+        },
+        {
+          "repo": "parent",
+          "path": "patches/holmesgpt/shell-timeout.patch",
+          "anchor": "",
+          "label": "Shell timeout handling"
+        }
+      ],
+      "tool_definitions": [
+        {
+          "name": "bash",
+          "sources": [
+            {
+              "repo": "holmesgpt",
+              "path": "holmes/plugins/toolsets/bash/bash_toolset.py",
+              "anchor": "L104-L143",
+              "label": "RunBashCommand.__init__"
+            }
+          ],
+          "toolset": "bash",
+          "route": "RunBashCommand → permission checks → Bash; kubectl uses the Kubernetes access proxy",
+          "returns": "Command output/status or rejection/timeout information"
+        }
+      ]
+    },
+    {
+      "id": "logs",
+      "owner": "holmes",
+      "title": "Python Tool classes",
+      "lines": [
+        "kubectl logs · HTTP · TCP"
+      ],
+      "purpose": "Run log, network, task, skill and image tools.",
+      "input": [
+        "fetch_pod_logs: pod, namespace, time range, text filters and output limit.",
+        "fetch_webpage: URL. tcp_check: host, port and optional timeout.",
+        "TodoWrite: complete task list with IDs, descriptions and statuses.",
+        "fetch_skill: skill ID or name. read_image_file: image path in HolmesGPT’s result-storage directory."
+      ],
+      "output": [
+        "Filtered pod logs, page text/Markdown or TCP connection results.",
+        "Formatted task lists, skill instructions, images and file information.",
+        "Failure or refusal information when a request cannot run."
+      ],
+      "behavior": [
+        "PodLoggingTool delegates to KubernetesLogsToolset: retrieve current/previous container logs with parallel kubectl processes, then combine, filter and limit them locally.",
+        "FetchWebpage validates each URL and redirect, performs HTTP GET requests and converts HTML to Markdown.",
+        "TcpCheckTool checks the destination and probe budget, then opens a Python socket connection if allowed.",
+        "TodoWriteTool formats the supplied tasks and returns them to the conversation. It records the plan; other tool calls perform the work.",
+        "SkillsFetcher reads the requested skill from the configured catalog and returns its instructions. Remote skill lookup requires a configured data-access layer.",
+        "ReadImageFile reads an allowed image from HolmesGPT’s result-storage directory and returns image data for a vision-capable model.",
+        "Local processing runs inside the agent container. SDK destination rules and SREGym’s network policy determine which network requests can leave it."
+      ],
+      "sources": [
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/logging_utils/logging_api.py",
+          "anchor": "L127-L176",
+          "label": "PodLoggingTool.__init__"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/logging_utils/logging_api.py",
+          "anchor": "L178-L202",
+          "label": "PodLoggingTool._invoke"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/kubernetes_logs.py",
+          "anchor": "L51-L67",
+          "label": "KubernetesLogsToolset.__init__"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/kubernetes_logs.py",
+          "anchor": "L89-L219",
+          "label": "KubernetesLogsToolset.fetch_pod_logs"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/kubernetes_logs.py",
+          "anchor": "L221-L296",
+          "label": "KubernetesLogsToolset._fetch_kubectl_logs"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/kubernetes_logs.py",
+          "anchor": "L677-L786",
+          "label": "filter_logs"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/logging_utils/logging_api.py",
+          "anchor": "L54-L121",
+          "label": "truncate_logs"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/internet/internet.py",
+          "anchor": "L264-L308",
+          "label": "FetchWebpage._invoke"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/internet/internet.py",
+          "anchor": "L102-L193",
+          "label": "scrape"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/internet/internet.py",
+          "anchor": "L213-L231",
+          "label": "html_to_markdown"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/connectivity_check.py",
+          "anchor": "L155-L289",
+          "label": "TcpCheckTool._invoke"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/connectivity_check.py",
+          "anchor": "L109-L125",
+          "label": "tcp_check"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/investigator/core_investigation.py",
+          "anchor": "L100-L129",
+          "label": "TodoWriteTool._invoke"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/bash/bash_toolset.py",
+          "anchor": "L335-L393",
+          "label": "ReadImageFile._invoke"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/skills/skills_fetcher.py",
+          "anchor": "L81-L156",
+          "label": "SkillsFetcher._invoke"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/skills/skills_fetcher.py",
+          "anchor": "L158-L182",
+          "label": "SkillsFetcher._find_filesystem_skill"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/skills/skills_fetcher.py",
+          "anchor": "L192-L236",
+          "label": "SkillsFetcher._format_skill_result"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/skills/skills_fetcher.py",
+          "anchor": "L270-L310",
+          "label": "SkillsFetcher._get_robusta_skill"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/investigator/core_investigation.py",
+          "anchor": "L20-L59",
+          "label": "TodoWriteTool: name and parameters"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/internet/internet.py",
+          "anchor": "L250-L262",
+          "label": "FetchWebpage.__init__"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/connectivity_check.py",
+          "anchor": "L131-L153",
+          "label": "TcpCheckTool.__init__"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/bash/bash_toolset.py",
+          "anchor": "L316-L333",
+          "label": "ReadImageFile.__init__"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/skills/skills_fetcher.py",
+          "anchor": "L41-L79",
+          "label": "SkillsFetcher.__init__"
+        }
+      ],
+      "tool_definitions": [
+        {
+          "name": "fetch_pod_logs",
+          "sources": [
+            {
+              "repo": "holmesgpt",
+              "path": "holmes/plugins/toolsets/logging_utils/logging_api.py",
+              "anchor": "L21-L28",
+              "label": "Log defaults and tool name"
+            },
+            {
+              "repo": "holmesgpt",
+              "path": "holmes/plugins/toolsets/logging_utils/logging_api.py",
+              "anchor": "L127-L176",
+              "label": "PodLoggingTool.__init__"
+            }
+          ],
+          "toolset": "kubernetes/logs",
+          "route": "PodLoggingTool → KubernetesLogsToolset → parallel kubectl logs → local filtering",
+          "returns": "Filtered container log text and errors"
+        },
+        {
+          "name": "TodoWrite",
+          "sources": [
+            {
+              "repo": "holmesgpt",
+              "path": "holmes/plugins/toolsets/investigator/core_investigation.py",
+              "anchor": "L20-L59",
+              "label": "TodoWriteTool: name and parameters"
+            }
+          ],
+          "toolset": "core_investigation",
+          "route": "TodoWriteTool → format the supplied task list in the agent conversation",
+          "returns": "Task descriptions and statuses"
+        },
+        {
+          "name": "fetch_webpage",
+          "sources": [
+            {
+              "repo": "holmesgpt",
+              "path": "holmes/plugins/toolsets/internet/internet.py",
+              "anchor": "L250-L262",
+              "label": "FetchWebpage.__init__"
+            }
+          ],
+          "toolset": "internet",
+          "route": "FetchWebpage → validated HTTP GET → HTML-to-Markdown conversion",
+          "returns": "Page text/Markdown or refusal/failure information"
+        },
+        {
+          "name": "tcp_check",
+          "sources": [
+            {
+              "repo": "holmesgpt",
+              "path": "holmes/plugins/toolsets/connectivity_check.py",
+              "anchor": "L131-L153",
+              "label": "TcpCheckTool.__init__"
+            }
+          ],
+          "toolset": "connectivity_check",
+          "route": "TcpCheckTool → destination/budget checks → Python socket connection",
+          "returns": "Connection success or failure information"
+        },
+        {
+          "name": "read_image_file",
+          "sources": [
+            {
+              "repo": "holmesgpt",
+              "path": "holmes/plugins/toolsets/bash/bash_toolset.py",
+              "anchor": "L316-L333",
+              "label": "ReadImageFile.__init__"
+            }
+          ],
+          "toolset": "bash",
+          "route": "ReadImageFile → read an image in HolmesGPT result storage",
+          "returns": "Image data and file information"
+        },
+        {
+          "name": "fetch_skill",
+          "sources": [
+            {
+              "repo": "holmesgpt",
+              "path": "holmes/plugins/toolsets/skills/skills_fetcher.py",
+              "anchor": "L41-L79",
+              "label": "SkillsFetcher.__init__"
+            }
+          ],
+          "toolset": "skills",
+          "route": "SkillsFetcher → configured catalog/files → skill content",
+          "returns": "Troubleshooting instructions or lookup errors"
+        }
+      ],
+      "column": "python"
+    },
+    {
+      "id": "mcp",
+      "owner": "holmes",
+      "title": "RemoteMCPTool",
+      "lines": [
+        "MCP client"
+      ],
+      "purpose": "Call tools provided by the SREGym tool servers.",
+      "input": [
+        "Selected remote tool name and JSON arguments.",
+        "Replies from the configured tool server."
+      ],
+      "output": [
+        "MCP requests to the Prometheus or Jaeger tool server.",
+        "Structured tool results containing returned content or errors."
+      ],
+      "behavior": [
+        "Discover tool definitions through MCP (Model Context Protocol).",
+        "Send the selected name and arguments to the configured server over its SSE connection.",
+        "Serialize calls to the same server through a shared client lock.",
+        "Extract and combine returned content into a HolmesGPT tool result."
+      ],
+      "sources": [
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/mcp/toolset_mcp.py",
+          "anchor": "L982-L993",
+          "label": "RemoteMCPToolset._load_remote_tools"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/mcp/toolset_mcp.py",
+          "anchor": "L685-L700",
+          "label": "RemoteMCPTool.create"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/mcp/toolset_mcp.py",
+          "anchor": "L1355-L1357",
+          "label": "RemoteMCPToolset._get_server_tools"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/mcp/toolset_mcp.py",
+          "anchor": "L431-L459",
+          "label": "RemoteMCPTool._invoke"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/mcp/toolset_mcp.py",
+          "anchor": "L613-L683",
+          "label": "RemoteMCPTool._invoke_async"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/mcp/toolset_mcp.py",
+          "anchor": "L273-L337",
+          "label": "get_initialized_mcp_session"
+        }
+      ]
+    },
+    {
+      "id": "filter",
+      "owner": "sregym",
+      "title": "KubernetesAPIProxy",
+      "lines": [
+        "Resource filtering"
+      ],
+      "purpose": "Forward allowed requests to the Kubernetes API.",
+      "input": [
+        "kubectl requests using the agent’s configured Kubernetes credentials.",
+        "Kubernetes API replies."
+      ],
+      "output": [
+        "Allowed API requests.",
+        "Filtered API replies or access errors."
+      ],
+      "behavior": [
+        "Apply SREGym access rules to requests and returned resources.",
+        "Hide benchmark internals and selected sensitive resources.",
+        "Forward permitted requests and return access errors for blocked requests. Filtered mode blocks Kubernetes service-proxy requests, including target lookup."
+      ],
+      "sources": [
+        {
+          "repo": "SREGym",
+          "path": "sregym/service/k8s_proxy.py",
+          "anchor": "L443-L494",
+          "label": "KubernetesAPIProxy: access policy configuration"
+        },
+        {
+          "repo": "SREGym",
+          "path": "sregym/service/k8s_proxy.py",
+          "anchor": "L629-L1049",
+          "label": "FilteringProxyHandler: validate, forward and filter API requests"
+        },
+        {
+          "repo": "SREGym",
+          "path": "sregym/service/k8s_proxy.py",
+          "anchor": "L1103-L1167",
+          "label": "KubernetesAPIProxy.generate_agent_kubeconfig"
+        },
+        {
+          "repo": "SREGym",
+          "path": "sregym/service/agent_visibility_policy.py",
+          "anchor": "L27-L161",
+          "label": "Resource visibility and response filtering"
+        },
+        {
+          "repo": "SREGym",
+          "path": "sregym/service/container_runner.py",
+          "anchor": "L446-L568",
+          "label": "Agent credentials and filtered network access"
+        }
+      ],
+      "column": "kubernetes"
+    },
+    {
+      "id": "endpoints",
+      "owner": "external",
+      "title": "HTTP / TCP endpoints",
+      "lines": [
+        "Requested URL or host:port"
+      ],
+      "purpose": "Receive web requests and TCP connection checks.",
+      "input": [
+        "HTTP GET requests from fetch_webpage.",
+        "Socket connection attempts from tcp_check."
+      ],
+      "output": [
+        "HTTP content, redirects or failures.",
+        "TCP connection acceptance, refusal or timeout."
+      ],
+      "behavior": [
+        "SREGym’s filtered network allows only the selected model provider and local SREGym services through an HTTP proxy. Arbitrary websites and direct outbound TCP probes are blocked.",
+        "The SDK also checks destinations. With the configured defaults, private/internal targets require explicit permission.",
+        "When access is permitted, FetchWebpage processes the HTTP response in the agent. TcpCheckTool reports the socket connection outcome."
+      ],
+      "sources": [
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/internet/internet.py",
+          "anchor": "L102-L193",
+          "label": "scrape"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/connectivity_check.py",
+          "anchor": "L109-L125",
+          "label": "tcp_check"
+        },
+        {
+          "repo": "SREGym",
+          "path": "sregym/service/container_runner.py",
+          "anchor": "L313-L334",
+          "label": "Allowed local services and provider endpoints"
+        },
+        {
+          "repo": "SREGym",
+          "path": "sregym/service/docker_egress.py",
+          "anchor": "L85-L114",
+          "label": "Isolated agent network and HTTP proxy settings"
+        },
+        {
+          "repo": "SREGym",
+          "path": "sregym/service/docker_egress.py",
+          "anchor": "L194-L201",
+          "label": "Create the internal Docker network"
+        },
+        {
+          "repo": "parent",
+          "path": "runtime/campaign.py",
+          "anchor": "",
+          "label": "Filtered campaign settings"
+        }
+      ],
+      "column": "python"
+    },
+    {
+      "id": "prom_handler",
+      "owner": "sregym",
+      "title": "Prometheus MCP server",
+      "lines": [
+        "Python handlers"
+      ],
+      "purpose": "Query metrics and firing alerts.",
+      "input": [
+        "get_metrics: a metric query written in PromQL (Prometheus Query Language).",
+        "get_alerts: no arguments."
+      ],
+      "output": [
+        "HTTP GET /api/v1/query with the supplied expression, or GET /api/v1/alerts.",
+        "Filtered metric or alert data as MCP text, or an error message."
+      ],
+      "behavior": [
+        "Build the HTTP request with the supplied tool arguments.",
+        "Send it through the shared HTTP client, which retries selected HTTP failures.",
+        "Parse the JSON reply and filter records using SREGym visibility rules. Keep only firing alerts for get_alerts.",
+        "Return text through MCP. Prometheus evaluates the query expression."
+      ],
+      "sources": [
+        {
+          "repo": "SREGym",
+          "path": "mcp_server/prometheus_server.py",
+          "anchor": "L16-L46",
+          "label": "get_metrics"
+        },
+        {
+          "repo": "SREGym",
+          "path": "mcp_server/prometheus_server.py",
+          "anchor": "L49-L79",
+          "label": "get_alerts"
+        },
+        {
+          "repo": "SREGym",
+          "path": "mcp_server/utils.py",
+          "anchor": "L48-L59",
+          "label": "ObservabilityClient.create_retrying_session"
+        },
+        {
+          "repo": "SREGym",
+          "path": "mcp_server/utils.py",
+          "anchor": "L61-L71",
+          "label": "ObservabilityClient.make_request"
+        },
+        {
+          "repo": "SREGym",
+          "path": "sregym/service/agent_visibility_policy.py",
+          "anchor": "L168-L178",
+          "label": "visible_observability_record"
+        }
+      ],
+      "tool_definitions": [
+        {
+          "name": "get_metrics",
+          "sources": [
+            {
+              "repo": "SREGym",
+              "path": "mcp_server/prometheus_server.py",
+              "anchor": "L16-L46",
+              "label": "get_metrics"
+            }
+          ],
+          "toolset": "sregym_prometheus",
+          "route": "RemoteMCPTool → SREGym Python handler → Prometheus GET /api/v1/query; Prometheus evaluates PromQL",
+          "returns": "Visibility-filtered metric data as text"
+        },
+        {
+          "name": "get_alerts",
+          "sources": [
+            {
+              "repo": "SREGym",
+              "path": "mcp_server/prometheus_server.py",
+              "anchor": "L49-L79",
+              "label": "get_alerts"
+            }
+          ],
+          "toolset": "sregym_prometheus",
+          "route": "RemoteMCPTool → SREGym Python handler → Prometheus GET /api/v1/alerts",
+          "returns": "Visible firing alerts as text"
+        }
+      ],
+      "column": "prometheus"
+    },
+    {
+      "id": "jaeger_handler",
+      "owner": "sregym",
+      "title": "Jaeger MCP server",
+      "lines": [
+        "Python handlers"
+      ],
+      "purpose": "Search application traces.",
+      "input": [
+        "get_operations: service name. get_services: no arguments.",
+        "get_traces: service name and lookback in minutes.",
+        "get_dependency_graph: lookback in minutes."
+      ],
+      "output": [
+        "HTTP GET requests to /api/services, /api/operations, /api/traces or /api/dependencies.",
+        "Service names, operations, traces or dependencies as MCP text. Errors can return as text or a failed tool call."
+      ],
+      "behavior": [
+        "Convert service and time arguments into HTTP query parameters.",
+        "Request Jaeger data through the shared HTTP client.",
+        "Convert returned JSON to text for the MCP reply."
+      ],
+      "sources": [
+        {
+          "repo": "SREGym",
+          "path": "mcp_server/jaeger_server.py",
+          "anchor": "L13-L38",
+          "label": "get_services"
+        },
+        {
+          "repo": "SREGym",
+          "path": "mcp_server/jaeger_server.py",
+          "anchor": "L41-L68",
+          "label": "get_operations"
+        },
+        {
+          "repo": "SREGym",
+          "path": "mcp_server/jaeger_server.py",
+          "anchor": "L71-L108",
+          "label": "get_traces"
+        },
+        {
+          "repo": "SREGym",
+          "path": "mcp_server/jaeger_server.py",
+          "anchor": "L111-L132",
+          "label": "get_dependency_graph"
+        },
+        {
+          "repo": "SREGym",
+          "path": "mcp_server/utils.py",
+          "anchor": "L48-L59",
+          "label": "ObservabilityClient.create_retrying_session"
+        },
+        {
+          "repo": "SREGym",
+          "path": "mcp_server/utils.py",
+          "anchor": "L61-L71",
+          "label": "ObservabilityClient.make_request"
+        }
+      ],
+      "tool_definitions": [
+        {
+          "name": "get_services",
+          "sources": [
+            {
+              "repo": "SREGym",
+              "path": "mcp_server/jaeger_server.py",
+              "anchor": "L13-L38",
+              "label": "get_services"
+            }
+          ],
+          "toolset": "sregym_jaeger",
+          "route": "RemoteMCPTool → SREGym Python handler → Jaeger GET /api/services",
+          "returns": "Application service names as text"
+        },
+        {
+          "name": "get_operations",
+          "sources": [
+            {
+              "repo": "SREGym",
+              "path": "mcp_server/jaeger_server.py",
+              "anchor": "L41-L68",
+              "label": "get_operations"
+            }
+          ],
+          "toolset": "sregym_jaeger",
+          "route": "RemoteMCPTool → SREGym Python handler → Jaeger GET /api/operations with a service name",
+          "returns": "Operation names as text"
+        },
+        {
+          "name": "get_traces",
+          "sources": [
+            {
+              "repo": "SREGym",
+              "path": "mcp_server/jaeger_server.py",
+              "anchor": "L71-L108",
+              "label": "get_traces"
+            }
+          ],
+          "toolset": "sregym_jaeger",
+          "route": "RemoteMCPTool → SREGym Python handler → Jaeger GET /api/traces with service/time filters",
+          "returns": "Application request traces as text"
+        },
+        {
+          "name": "get_dependency_graph",
+          "sources": [
+            {
+              "repo": "SREGym",
+              "path": "mcp_server/jaeger_server.py",
+              "anchor": "L111-L132",
+              "label": "get_dependency_graph"
+            }
+          ],
+          "toolset": "sregym_jaeger",
+          "route": "RemoteMCPTool → SREGym Python handler → Jaeger GET /api/dependencies with a time range",
+          "returns": "Service dependencies as text"
+        }
+      ],
+      "column": "jaeger"
+    },
+    {
+      "id": "kubernetes",
+      "owner": "external",
+      "title": "Kubernetes API server",
+      "lines": [],
+      "purpose": "Serve Kubernetes data and accept permitted resource changes.",
+      "input": [
+        "Resource, pod-log, resource-metric and service-proxy requests forwarded by SREGym’s access proxy."
+      ],
+      "output": [
+        "Resource JSON, pod log text, CPU/memory usage, operation status or errors.",
+        "Prometheus target JSON when service-proxy access is permitted."
+      ],
+      "behavior": [
+        "Serve object reads and pod-log requests for the test application and its dependencies.",
+        "Serve resource-metric requests used by kubectl top through the Kubernetes Metrics API. Metrics Server supplies the recent CPU/memory measurements.",
+        "Accept permitted resource writes. Kubernetes controllers act on the requested state of the deployed application.",
+        "When access permits target lookup, forward it to Prometheus /api/v1/targets through the service proxy."
+      ],
+      "sources": [
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/kubernetes.yaml",
+          "anchor": "L17-L700"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/kubernetes_logs.py",
+          "anchor": "L89-L248"
+        },
+        {
+          "repo": "SREGym",
+          "path": "sregym/service/container_runner.py",
+          "anchor": "L446-L568"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/kubernetes.yaml",
+          "anchor": "L660-L680",
+          "label": "CPU/memory snapshot commands"
+        }
+      ],
+      "column": "kubernetes"
+    },
+    {
+      "id": "prometheus",
+      "owner": "external",
+      "title": "Prometheus",
+      "lines": [
+        "PromQL execution"
+      ],
+      "purpose": "Evaluate metric queries and provide monitoring data.",
+      "input": [
+        "Metric queries and alert requests from the SREGym tool server.",
+        "Target lookup requests through the Kubernetes service proxy."
+      ],
+      "output": [
+        "Metric values, alerts or target details as JSON."
+      ],
+      "behavior": [
+        "Evaluate PromQL against stored metric samples.",
+        "Serve alert data through /api/v1/alerts and collection-target details through /api/v1/targets.",
+        "Return JSON for the requesting tool server or local script to process."
+      ],
+      "sources": [
+        {
+          "repo": "SREGym",
+          "path": "mcp_server/prometheus_server.py",
+          "anchor": "L13-L79"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/plugins/toolsets/kubernetes.yaml",
+          "anchor": "L689-L700"
+        }
+      ],
+      "column": "prometheus"
+    },
+    {
+      "id": "jaeger",
+      "owner": "external",
+      "title": "Jaeger",
+      "lines": [
+        "Application request traces"
+      ],
+      "purpose": "Find application request traces.",
+      "input": [
+        "HTTP requests with service names or time ranges from the Jaeger tool server."
+      ],
+      "output": [
+        "Service names, operations, request traces or dependencies as JSON."
+      ],
+      "behavior": [
+        "Search traces: records of request operations across the application’s services.",
+        "Return matching data to the tool server.",
+        "Store application traces, which are separate from the agent conversation saved as a trajectory."
+      ],
+      "sources": [
+        {
+          "repo": "SREGym",
+          "path": "mcp_server/jaeger_server.py",
+          "anchor": "L14-L132"
+        }
+      ],
+      "column": "jaeger"
+    },
+    {
+      "id": "observations",
+      "owner": "holmes",
+      "title": "ToolCallResult",
+      "lines": [],
+      "purpose": "Format each tool result for the conversation.",
+      "input": [
+        "Tool results after command execution, local processing or MCP reply handling, including images.",
+        "Errors and permission rejections."
+      ],
+      "output": [
+        "Conversation messages containing formatted tool results, call IDs and supported image content."
+      ],
+      "behavior": [
+        "Format each result with its effective parameters, output, metadata and any error text. Include returned images when the model supports vision.",
+        "Append messages through ToolCallingLLM as calls finish. Start the next model turn after the batch finishes.",
+        "For oversized results, store text/images in the agent’s result directory and return file paths with a preview. Bash and read_image_file can retrieve needed content.",
+        "The formatted model message can differ from the client result data used by the trajectory exporter."
+      ],
+      "sources": [
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/core/models.py",
+          "anchor": "L19-L46",
+          "label": "ToolCallResult.to_llm_message"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/core/models.py",
+          "anchor": "L83-L107",
+          "label": "format_tool_result_data"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/core/tool_calling_llm.py",
+          "anchor": "L1508-L1595",
+          "label": "ToolCallingLLM.call_stream: append tool messages and finish the batch"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/core/tool_calling_llm.py",
+          "anchor": "L1078-L1113",
+          "label": "ToolCallingLLM._invoke_llm_tool_call: limit oversized results"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/core/tools_utils/tool_context_window_limiter.py",
+          "anchor": "L33-L144",
+          "label": "spill_oversized_tool_result"
+        },
+        {
+          "repo": "holmesgpt",
+          "path": "holmes/core/tools_utils/filesystem_result_storage.py",
+          "anchor": "L25-L40",
+          "label": "tool_result_storage"
+        }
+      ]
+    },
+    {
+      "id": "submit",
+      "owner": "ours",
+      "title": "Stage adapter (submission)",
+      "lines": [
+        "Submit for SREGym evaluation"
+      ],
+      "purpose": "Submit the answer for evaluation.",
+      "input": [
+        "Final nonempty answer returned by HolmesGPT."
+      ],
+      "output": [
+        "POST /submit with the exact answer and stage.",
+        "SREGym submission receipt and, after evaluation, the next stage or end of the test case."
+      ],
+      "behavior": [
+        "Send the answer without rewriting or evaluating it.",
+        "Wait for SREGym’s evaluation and stage transition. The diagnosis judge and mitigation checks belong to SREGym.",
+        "If another stage is enabled, configure HolmesGPT for it with the retained conversation.",
+        "Keep SREGym’s shared 1,800-second deadline across stages. Starting a new agent instance does not extend it.",
+        "While the agent runs, record HolmesGPT events/conversation separately from our added records. Recording preserves return values, adds I/O overhead and reports incomplete capture.",
+        "After collection, convert saved records to trajectory.json offline. Exported client tool results can differ from the formatted messages sent to the model."
+      ],
+      "sources": [
+        {
+          "repo": "parent",
+          "path": "runtime/agent.py",
+          "anchor": ""
+        },
+        {
+          "repo": "SREGym",
+          "path": "sregym/conductor/conductor_api.py",
+          "anchor": "L219-L267"
+        },
+        {
+          "repo": "SREGym",
+          "path": "sregym/conductor/conductor.py",
+          "anchor": "L652-L817"
+        },
+        {
+          "repo": "parent",
+          "path": "runtime/recording.py",
+          "anchor": "",
+          "label": "Incremental recorder"
+        },
+        {
+          "repo": "parent",
+          "path": "runtime/convert.py",
+          "anchor": "",
+          "label": "Offline trajectory converter"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "stage",
+      "target": "adapter",
+      "label": "Stage + application details",
+      "kind": "flow"
+    },
+    {
+      "source": "adapter",
+      "target": "request",
+      "label": "Stage instructions + tool settings",
+      "kind": "flow"
+    },
+    {
+      "source": "request",
+      "target": "model",
+      "label": "Conversation + tool definitions",
+      "kind": "flow"
+    },
+    {
+      "source": "model",
+      "target": "dispatch",
+      "label": "Tool calls: names + arguments",
+      "kind": "flow"
+    },
+    {
+      "source": "model",
+      "target": "submit",
+      "label": "Final answer (no tool calls)",
+      "kind": "flow",
+      "label_offset": [
+        72,
+        0
+      ]
+    },
+    {
+      "source": "dispatch",
+      "target": "yaml",
+      "label": "Query tool + arguments",
+      "kind": "flow"
+    },
+    {
+      "source": "dispatch",
+      "target": "bash",
+      "label": "Command + timeout",
+      "kind": "flow",
+      "label_offset": [
+        68,
+        8
+      ]
+    },
+    {
+      "source": "dispatch",
+      "target": "logs",
+      "label": "Python tool + arguments",
+      "kind": "flow",
+      "label_offset": [
+        56,
+        0
+      ]
+    },
+    {
+      "source": "dispatch",
+      "target": "mcp",
+      "label": "Remote tool + arguments",
+      "kind": "flow"
+    },
+    {
+      "source": "yaml",
+      "target": "filter",
+      "label": "kubectl query ↔ API data",
+      "kind": "exchange",
+      "label_offset": [
+        22,
+        0
+      ]
+    },
+    {
+      "source": "bash",
+      "target": "filter",
+      "label": "Allowed kubectl ↔ status",
+      "kind": "exchange",
+      "label_offset": [
+        -44,
+        0
+      ]
+    },
+    {
+      "source": "logs",
+      "target": "filter",
+      "label": "Log request ↔ log text",
+      "kind": "exchange",
+      "label_offset": [
+        -34,
+        0
+      ]
+    },
+    {
+      "source": "filter",
+      "target": "kubernetes",
+      "label": "API request ↔ resource data",
+      "kind": "exchange",
+      "label_offset": [
+        10,
+        0
+      ]
+    },
+    {
+      "source": "mcp",
+      "target": "prom_handler",
+      "label": "Metric / alert call ↔ text",
+      "kind": "exchange"
+    },
+    {
+      "source": "mcp",
+      "target": "jaeger_handler",
+      "label": "Trace call ↔ text",
+      "kind": "exchange"
+    },
+    {
+      "source": "prom_handler",
+      "target": "prometheus",
+      "label": "HTTP query / alerts ↔ JSON",
+      "kind": "exchange",
+      "label_offset": [
+        28,
+        0
+      ]
+    },
+    {
+      "source": "jaeger_handler",
+      "target": "jaeger",
+      "label": "HTTP search ↔ JSON",
+      "kind": "exchange"
+    },
+    {
+      "source": "kubernetes",
+      "target": "prometheus",
+      "label": "If allowed: service proxy\n/targets ↔ JSON",
+      "kind": "exchange"
+    },
+    {
+      "source": "yaml",
+      "target": "observations",
+      "label": "Data / counts / usage",
+      "kind": "result",
+      "label_offset": [
+        10,
+        -2
+      ]
+    },
+    {
+      "source": "bash",
+      "target": "observations",
+      "label": "Command result / error",
+      "kind": "result",
+      "label_offset": [
+        0,
+        -4
+      ]
+    },
+    {
+      "source": "logs",
+      "target": "observations",
+      "label": "Text / images / errors",
+      "kind": "result"
+    },
+    {
+      "source": "mcp",
+      "target": "observations",
+      "label": "Remote tool result",
+      "kind": "result"
+    },
+    {
+      "source": "observations",
+      "target": "request",
+      "label": "After all calls: updated conversation",
+      "kind": "feedback"
+    },
+    {
+      "source": "logs",
+      "target": "endpoints",
+      "label": "HTTP GET / TCP connect ↔ reply",
+      "kind": "exchange",
+      "label_offset": [
+        0,
+        16
+      ]
+    }
+  ],
+  "rows": [
+    [
+      "stage"
+    ],
+    [
+      "adapter"
+    ],
+    [
+      "request"
+    ],
+    [
+      "model"
+    ],
+    [
+      "dispatch",
+      "submit"
+    ],
+    [
+      "yaml",
+      "bash",
+      "logs",
+      "mcp"
+    ],
+    [
+      "filter",
+      "endpoints",
+      "prom_handler",
+      "jaeger_handler"
+    ],
+    [
+      "kubernetes",
+      "prometheus",
+      "jaeger"
+    ],
+    [
+      "observations"
+    ]
+  ]
+}
