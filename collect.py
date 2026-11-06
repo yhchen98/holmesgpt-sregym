@@ -134,7 +134,7 @@ def outputs(bundle, run_name):
         end = ends.get(problem, {})
         case = bundle / "cases" / problem
         if (
-            problem in ends
+            (end.get("graded") or end.get("native_result"))
             and not (
                 case / f"results/holmesgpt/{problem}/{problem}_holmesgpt_results.csv"
             ).is_file()

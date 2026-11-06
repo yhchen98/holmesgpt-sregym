@@ -1,8 +1,4 @@
-"""Node0 preparation, invoked by deploy.py after the cluster playbook.
-
-This file can also be sent as a bootstrap tool while the parent repository is
-unpublished. Benchmark/SDK sources always come from the committed parent tree.
-"""
+"""Prepare node0 using the committed sources, patches and dependency locks."""
 
 import argparse
 import io

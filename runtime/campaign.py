@@ -8,7 +8,6 @@ import os
 import re
 import signal
 import subprocess
-import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
@@ -203,6 +202,10 @@ def case_command(config, problem):
         "1",
         "--agent-timeout",
         "1800",
+        "--internet-access",
+        "filtered",
+        "--container-hardening",
+        "on",
     ]
 
 
@@ -340,7 +343,7 @@ def main(run_name):
             )
         if any(not c["recovered"] for c in closed.values()):
             raise RuntimeError(
-                "A prior case has unresolved recovery; inspect it before a new campaign"
+                "A prior case has unresolved recovery; inspect it before resuming this campaign"
             )
         stopped = [False]
         for sig in (signal.SIGINT, signal.SIGTERM):
@@ -350,6 +353,7 @@ def main(run_name):
             raise RuntimeError(
                 "Deployment/configuration changed since campaign creation"
             )
+        checked_image(config)
         if not recovered(config, run, "preflight"):
             journal(run, "halt", reason="Preflight recovery gate failed")
             return
@@ -372,6 +376,23 @@ def valid_run(name):
     return name
 
 
+def checked_image(config):
+    image = json.loads(
+        subprocess.check_output(["docker", "image", "inspect", config["image"]], text=True)
+    )[0]
+    if image["Id"] != config["image_id"]:
+        raise RuntimeError("The configured agent image changed; deploy the reviewed image first")
+    revision = image["Config"]["Labels"]["org.opencontainers.image.revision"]
+    if git(
+        ROOT, "diff", revision, "HEAD", "--",
+        "runtime/__init__.py", "runtime/agent.py", "runtime/recording.py",
+        "images/agent.lock", "images/build.lock", "images/Dockerfile", "images/build.py",
+        "versions.toml", "upstream/holmesgpt", "patches/holmesgpt",
+    ):
+        raise RuntimeError("Agent image inputs changed; deploy this release before running")
+    return image, revision
+
+
 def create(problem=None):
     config = json.loads((ROOT / "private/deployment.json").read_text())
     native = ROOT / ".work/checkouts/SREGym"
@@ -388,6 +409,7 @@ def create(problem=None):
     )
     if problem and problem not in ids:
         raise ValueError(f"Unknown problem {problem}")
+    image, image_revision = checked_image(config)
     RUNS.mkdir(parents=True, exist_ok=True)
     number = 1
     while True:
@@ -397,28 +419,6 @@ def create(problem=None):
             break
         except FileExistsError:
             number += 1
-    image = json.loads(
-        subprocess.check_output(
-            ["docker", "image", "inspect", config["image"]], text=True
-        )
-    )[0]
-    image_revision = image["Config"]["Labels"]["org.opencontainers.image.revision"]
-    if git(
-        ROOT,
-        "diff",
-        image_revision,
-        "HEAD",
-        "--",
-        "runtime/agent.py",
-        "runtime/recording.py",
-        "images/agent.lock",
-        "images/build.lock",
-        "images/Dockerfile",
-        "patches/holmesgpt",
-    ):
-        raise RuntimeError(
-            "Agent image inputs changed; rerun deployment to build the recorded variant"
-        )
     save(
         run / "campaign.json",
         {

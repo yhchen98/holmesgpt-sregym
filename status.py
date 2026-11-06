@@ -2,7 +2,6 @@
 """Read the latest campaign status on node0; never repair or restart anything."""
 
 import argparse
-import json
 import shlex
 from runtime.remote import load_config, ssh
 

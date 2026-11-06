@@ -151,6 +151,8 @@ if root.exists():
  for line in git('submodule','status','--recursive').splitlines():
   if line.startswith(('U','+')):raise RuntimeError('Unexpected submodule state')
  run(['git','-C',str(root),'fetch',str(temporary),'HEAD'])
+ shared=subprocess.run(['git','-C',str(root),'merge-base','HEAD',revision],stdout=subprocess.DEVNULL)
+ if shared.returncode:raise RuntimeError('Destination is an unrelated repository; preserve it and choose a new directory')
  run(['git','-C',str(root),'checkout','--detach',revision])
 else:
  run(['git','clone',str(temporary),str(root)])
@@ -353,18 +355,8 @@ def main():
         if not args.ssh_key.is_file():
             raise ValueError("The selected SSH key file does not exist")
     check_canonical()
-    if git(
-        ROOT,
-        "diff",
-        "HEAD",
-        "--",
-        ".gitmodules",
-        "upstream",
-        "patches",
-        "runtime/agent.py",
-        "runtime/recording.py",
-    ):
-        raise RuntimeError("Commit reviewed source-pin, patch or agent changes before deployment")
+    if git(ROOT, "status", "--porcelain"):
+        raise RuntimeError("Commit reviewed source edits before deploying a release")
     versions = tomllib.loads((ROOT / "versions.toml").read_text())
     version = subprocess.check_output([args.ansible, "--version"], text=True)
     if f"[core {versions['ansible_core']}]" not in version:
@@ -534,29 +526,24 @@ def main():
     )
     acquire(config, log)
     node0 = nodes[0]
-    for name, payload in [
-        ("deployment-input.json", json.dumps(config, indent=2).encode()),
-        ("bootstrap.py", (ROOT / "runtime/install.py").read_bytes()),
-        ("health.py", (ROOT / "runtime/health.py").read_bytes()),
-    ]:
-        destination = remote_root + "/private/" + name
-        code = "from pathlib import Path; import sys; p=Path(sys.argv[1]); p.write_bytes(sys.stdin.buffer.read()); p.chmod(0o600)"
-        ssh(
-            node0["alias"],
-            "python3 -c " + shlex.quote(code) + " " + shlex.quote(destination),
-            data=payload,
-            key=config["ssh_key"],
-            user=node0["user"],
-        )
+    destination = remote_root + "/private/deployment-input.json"
+    code = "from pathlib import Path; import sys; p=Path(sys.argv[1]); p.write_bytes(sys.stdin.buffer.read()); p.chmod(0o600)"
+    ssh(
+        node0["alias"],
+        "python3 -c " + shlex.quote(code) + " " + shlex.quote(destination),
+        data=json.dumps(config, indent=2).encode(),
+        key=config["ssh_key"],
+        user=node0["user"],
+    )
     credentials(config, key)
-    command = f"cd {shlex.quote(remote_root)} && PYTHONPATH={shlex.quote(remote_root)} python3 private/bootstrap.py private/deployment-input.json"
+    command = f"cd {shlex.quote(remote_root)} && python3 -m runtime.install private/deployment-input.json"
     stream(
         [*ssh_command(node0["alias"], config["ssh_key"], node0["user"]), command],
         log,
         "Prepare exact sources, dependencies and agent image",
     )
     worker_access(config)
-    command = f"cd {shlex.quote(remote_root)} && .work/host/bin/python private/health.py private/deployment.json --prepare --network-check"
+    command = f"cd {shlex.quote(remote_root)} && .work/host/bin/python -m runtime.health private/deployment.json --prepare --network-check"
     stream(
         [*ssh_command(node0["alias"], config["ssh_key"], node0["user"]), command],
         log,
